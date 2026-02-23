@@ -1,0 +1,36 @@
+{% set pipeline = resource %}
+
+<table class="ui celled striped table">
+    <tbody>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.workflow'|trans }}</td>
+        <td>
+            <a href="{{ path('akawaka_sylius_etl_plugin_admin_workflow_index', { id: pipeline.workflow.id }) }}">
+                {{ pipeline.workflow.name }}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.status'|trans }}</td>
+        <td>
+            {% include '@AkawakaSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipeline.status } %}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.created_at'|trans }}</td>
+        <td>{{ pipeline.createdAt|date }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.scheduled_at'|trans }}</td>
+        <td>{{ pipeline.scheduledAt ? pipeline.scheduledAt|date : '-' }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.started_at'|trans }}</td>
+        <td>{{ pipeline.startedAt ? pipeline.startedAt|date : '-' }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'akawaka_sylius_etl_plugin.grid.finished_at'|trans }}</td>
+        <td>{{ pipeline.finishedAt ? pipeline.finishedAt|date : '-' }}</td>
+    </tr>
+    </tbody>
+</table>

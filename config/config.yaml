@@ -1,0 +1,7 @@
+# Put your plugin configuration here
+
+imports:
+    - { resource: "sylius_resource.yaml" }
+    - { resource: "doctrine.yaml" }
+    - { resource: "sylius_grid.yaml" }
+    - { resource: "monolog.yaml" }

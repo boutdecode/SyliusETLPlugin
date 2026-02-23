@@ -1,0 +1,5 @@
+akawaka_sylius_etl_admin:
+    resource: "@AkawakaSyliusETLPlugin/config/routes/admin.yaml"
+
+akawaka_sylius_etl_shop:
+    resource: "@AkawakaSyliusETLPlugin/config/routes/shop.yaml"

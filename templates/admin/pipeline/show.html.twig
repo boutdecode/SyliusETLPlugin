@@ -1,0 +1,27 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% set header = configuration.vars.header|default('akawaka_sylius_etl_plugin.ui.show_'~metadata.name) %}
+{% set event_prefix = 'akawaka_sylius_etl_plugin.admin.' ~ metadata.name ~ '.show' %}
+
+{% block title %}{{ header|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% include '@AkawakaSyliusETLPlugin/admin/pipeline/show/_header.html.twig' %}
+
+    <section class="ui segment">
+        {% include '@AkawakaSyliusETLPlugin/admin/pipeline/show/_details.html.twig' %}
+        {% include '@AkawakaSyliusETLPlugin/admin/pipeline/show/_history.html.twig' %}
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ sylius_template_event([event_prefix ~ '.stylesheets', 'sylius.admin.update.stylesheets'], { 'metadata': metadata }) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ sylius_template_event([event_prefix ~ '.javascripts', 'sylius.admin.update.javascripts'], { 'metadata': metadata }) }}
+{% endblock %}

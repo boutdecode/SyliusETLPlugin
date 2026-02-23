@@ -1,0 +1,4 @@
+sylius_grid:
+    templates:
+        action:
+            transitionButton: "@AkawakaSyliusETLPlugin/admin/grid/action/transition-button.html.twig"

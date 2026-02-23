@@ -1,0 +1,8 @@
+monolog:
+    channels:
+        - pipeline
+    handlers:
+        pipeline:
+            type: stream
+            channels: [pipeline]
+            path: "%kernel.logs_dir%/%kernel.environment%_akawaka_sylius_etl_plugin.log"

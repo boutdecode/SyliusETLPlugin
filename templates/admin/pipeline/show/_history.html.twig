@@ -1,0 +1,51 @@
+{% set pipeline = resource %}
+
+<style>
+    pre {
+        display: block;
+        margin-bottom: 1rem;
+        margin-top: 10px;
+        overflow: auto;
+
+        background: #343a40;
+        color: #f6f8fb;
+        border-radius: 5px;
+        padding: 1rem;
+    }
+</style>
+
+<section class="ui segment">
+    <h2 class="ui header">{{ 'akawaka_sylius_etl_plugin.ui.pipeline_history'|trans }}</h2>
+
+    <div class="ui styled fluid accordion">
+        {% for pipelineHistory in pipeline.histories %}
+            <div class="title">
+                <i class="dropdown icon"></i>
+                {% include '@AkawakaSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipelineHistory.status } %}
+                <span style="float: right">{{ pipelineHistory.createdAt|date }}</span>
+            </div>
+
+            <div class="content">
+                <div class="ui relaxed divided list">
+                    {% for stepHistory in pipelineHistory.stepHistories %}
+                        <div class="item">
+                            <header class="header">
+                                {% include '@AkawakaSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: stepHistory.status } %}
+                                <span class="ui right floated">{{ stepHistory.createdAt|date('F j, Y H:i:s') }}</span>
+                            </header>
+
+                            <h5 class="ui header" style="margin-top: 1rem;">{{ 'akawaka_sylius_etl_plugin.ui.step'|trans }} #{{ loop.index }} - {{ stepHistory.step.name }} [{{ stepHistory.step.code }}]</h5>
+                            <pre>{{ stepHistory.step.configuration|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+
+                            <h5 class="ui header">{{ 'akawaka_sylius_etl_plugin.ui.input'|trans }}</h5>
+                            <pre>{{ stepHistory.input|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+
+                            <h5 class="ui header">{{ 'akawaka_sylius_etl_plugin.ui.result'|trans }}</h5>
+                            <pre>{{ stepHistory.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

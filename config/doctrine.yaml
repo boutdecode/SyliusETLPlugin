@@ -1,0 +1,15 @@
+doctrine:
+    orm:
+        mappings:
+            Core:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/../../../src/Core/Infrastructure/Persistence/ORM/Entity'
+                prefix: 'Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity'
+                alias: Core
+            Run:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/../../../src/Run/Infrastructure/Persistence/ORM/Entity'
+                prefix: 'Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity'
+                alias: Run

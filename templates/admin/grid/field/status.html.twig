@@ -1,0 +1,11 @@
+{% set status_value = data.value ?? data %}
+{% set status_classes = {
+    'pending': 'ui grey label',
+    'in_progress': 'ui blue label',
+    'completed': 'ui green label',
+    'failed': 'ui red label'
+} %}
+
+<span class="{{ status_classes[status_value] ?? 'ui label' }}">
+    {{ ('akawaka_sylius_etl_plugin.pipeline.status.' ~ status_value)|trans }}
+</span>
