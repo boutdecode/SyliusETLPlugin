@@ -1,0 +1,2 @@
+bout_de_code_sylius_etl_admin:
+    resource: "@BoutDeCodeSyliusETLPlugin/config/routes/admin.php"

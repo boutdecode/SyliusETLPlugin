@@ -1,0 +1,78 @@
+.configurator-container {
+    max-height: 800px;
+}
+
+.configurator-step-config-container {
+    max-height: 800px;
+}
+
+.configurator-steps-container {
+    max-height: 800px;
+    background: url("../images/dot-grid.png") repeat;
+}
+
+step-configuration.dragging .drop-zone {
+    display: block;
+}
+
+.configuration-override-steps-container {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.drop-zone {
+    display: none;
+    border-style: dashed !important;
+}
+
+.drop-zone svg {
+    stroke: #909294;
+}
+
+.drop-zone.drag-over {
+    background-color: #f8f9fa !important;
+}
+
+.drop-zone.drag-over svg {
+    stroke: #212529;
+    color: #212529 !important;
+}
+
+.drag-item {
+    cursor: grab !important;
+}
+
+.configurator-steps-buttons svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Pipeline Input Selector */
+.pipeline-input-selector {
+    width: 100%;
+    margin: 4px 0;
+}
+
+.pipeline-input-selector .pipeline-input-tabs {
+    margin-bottom: 0 !important;
+}
+
+.pipeline-input-panels .pipeline-input-panel {
+    display: none;
+    padding: 10px 0;
+}
+
+.pipeline-input-panels .pipeline-input-panel.active {
+    display: block;
+}
+
+.pipeline-input-selector textarea {
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.pipeline-input-json-error {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85em;
+}

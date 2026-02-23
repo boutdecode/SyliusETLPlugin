@@ -1,0 +1,16 @@
+<section class="ui segment">
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_configuration'|trans }}</h1>
+
+            <div class="ui two column stackable grid">
+                <div class="column">
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_workflow_configuration.html.twig' %}
+                </div>
+                <div class="column">
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_override_configuration.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

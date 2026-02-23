@@ -1,0 +1,119 @@
+bout_de_code_sylius_etl_plugin:
+  ui:
+    workflow: "Workflow"
+    workflows: "Workflows"
+    pipeline: "Pipeline"
+    pipelines: "Pipelines"
+    pipeline_history: "Historique d'exécution du pipeline"
+    step: "Étape"
+    input: "Input"
+    result: "Résultat"
+    etl: "ETL"
+    show_pipeline: "Détails du pipeline"
+    new_workflow: "Nouveau workflow"
+    new_pipeline: "Nouveau pipeline"
+    edit_workflow: "Modifier le workflow"
+    pipeline_configuration: "Configuration du pipeline"
+    workflow_configuration: "Configuration du workflow"
+    override_configuration: "Surcharge de la configuration"
+  pipeline:
+    status:
+      pending: "En attente"
+      in_progress: "En cours"
+      completed: "Terminé"
+      failed: "Échoué"
+  grid:
+    workflow: "Workflow"
+    status: "Statut"
+    created_at: "Créé le"
+    started_at: "Démarré le"
+    finished_at: "Terminé le"
+    scheduled_at: "Planifié pour le"
+    name: "Nom"
+    description: "Description"
+  filter:
+    status: "Statut"
+    created_at: "Créé le"
+    started_at: "Démarré le"
+    finished_at: "Terminé le"
+    name: "Nom"
+    scheduled_at: "Planifié pour le"
+  action:
+    execute_workflow: "Exécuter le workflow"
+    create_workflow: "Créer un workflow"
+    create_pipeline: "Créer un pipeline"
+    execute: "Exécuter"
+    start: "Démarrer"
+    complete: "Compléter"
+    fail: "Marquer comme échoué"
+    reset: "Remettre à zéro"
+    restart: "Redémarrer"
+    edit: "Modifier"
+    delete: "Supprimer"
+    show: "Afficher"
+  flash:
+    pipeline_execution_started: "L'exécution du pipeline a été lancée."
+    pipeline_execution_failed: "Échec du lancement de l'exécution du pipeline."
+    pipeline_not_found: "Pipeline introuvable."
+    transition_not_allowed: "La transition '%s' n'est pas autorisée depuis l'état '%s'."
+    transition_applied: "La transition '%s' a été appliquée avec succès."
+    transition_failed: "Échec de l'application de la transition '%s': %s"
+  form:
+    name: "Nom"
+    description: "Description"
+    step_configuration: "Configuration des étapes"
+    configuration: "Configuration"
+    override_configuration: "Surcharger de la configuration"
+    input: "Entrée"
+    input_file: "Fichier d'entrée"
+    input_type_text: "Texte"
+    input_type_file: "Fichier"
+    input_type_json: "JSON"
+    workflow: "Workflow"
+    scheduled_at: "Planifié pour le"
+
+  etl:
+    extractor:
+      api:
+        name: "API"
+        description: "Extrait des données à partir d'une API."
+      csv_file:
+        name: "CSV"
+        description: "Extrait des données à partir d'un fichier CSV."
+      xml_file:
+        name: "XML"
+        description: "Extrait des données à partir d'un fichier XML."
+      json_file:
+        name: "JSON"
+        description: "Extrait des données à partir d'un fichier JSON."
+
+    transformer:
+      data_mapping:
+        name: "Mapping de données"
+        description: "Transforme les données en appliquant un mapping défini."
+      filter:
+        name: "Filtre"
+        description: "Filtre les données via une expression."
+      import_product_mapper:
+        name: "Mapper pour import de produits"
+        description: "Transforme les données en mappant les champs d'entrée aux champs de produit Sylius pour l'importation."
+
+    loader:
+      database:
+        name: "Base de données"
+        description: "Charge les données dans une base de données."
+      csv_file:
+        name: "CSV"
+        description: "Charge les données dans un fichier CSV."
+      xml_file:
+        name: "XML"
+        description: "Charge les données dans un fichier XML."
+      json_file:
+        name: "JSON"
+        description: "Charge les données dans un fichier JSON."
+      sylius_product:
+        name: "Produit Sylius"
+        description: "Crée ou met à jour des produits Sylius depuis les données en entrée."
+      workflow:
+        name: "Workflow"
+        description: "Exécute un workflow défini sur les données en entrée."

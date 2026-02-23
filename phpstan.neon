@@ -1,0 +1,17 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src/
+    excludePaths:
+        - src/Migrations/
+        - src/Core/Infrastructure/Persistence/ORM/Entity/
+        - src/Run/Infrastructure/Persistence/ORM/Entity/
+    doctrine:
+        reportDynamicQueryBuilders: false
+        reportUnknownTypes: false
+    ignoreErrors:
+        - '#specifies template type TEntityClass of interface Doctrine\\Persistence\\ObjectRepository#'

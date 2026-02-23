@@ -1,0 +1,11 @@
+{% set pipeline = resource %}
+
+<div class="ui styled fluid accordion">
+    <div class="title">
+        <i class="dropdown icon"></i>
+        {{ 'bout_de_code_sylius_etl_plugin.ui.override_configuration'|trans }}
+    </div>
+    <div class="content">
+        <pre>{{ pipeline.configuration|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </div>
+</div>

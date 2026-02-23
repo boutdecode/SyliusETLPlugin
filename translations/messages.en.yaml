@@ -1,0 +1,119 @@
+bout_de_code_sylius_etl_plugin:
+  ui:
+    workflow: "Workflow"
+    workflows: "Workflows"
+    pipeline: "Pipeline"
+    pipelines: "Pipelines"
+    pipeline_history: "Pipeline History"
+    step: "Step"
+    input: "Input"
+    result: "Result"
+    etl: "ETL"
+    show_pipeline: "Pipeline Details"
+    new_workflow: "New Workflow"
+    new_pipeline: "New Pipeline"
+    edit_workflow: "Edit Workflow"
+    pipeline_configuration: "Pipeline Configuration"
+    workflow_configuration: "Workflow Configuration"
+    override_configuration: "Override Configuration"
+  pipeline:
+    status:
+      pending: "Pending"
+      in_progress: "In Progress"
+      completed: "Completed"
+      failed: "Failed"
+  grid:
+    workflow: "Workflow"
+    status: "Status"
+    created_at: "Created At"
+    started_at: "Started At"
+    finished_at: "Finished At"
+    scheduled_at: "Scheduled At"
+    name: "Name"
+    description: "Description"
+  filter:
+    status: "Status"
+    created_at: "Created At"
+    started_at: "Started At"
+    finished_at: "Finished At"
+    name: "Name"
+    scheduled_at: "Scheduled At"
+  action:
+    execute_workflow: "Execute Workflow"
+    create_workflow: "Create Workflow"
+    create_pipeline: "Create Pipeline"
+    execute: "Execute"
+    start: "Start"
+    complete: "Complete"
+    fail: "Mark as Failed"
+    reset: "Reset"
+    restart: "Restart"
+    edit: "Edit"
+    delete: "Delete"
+    show: "Show"
+  flash:
+    pipeline_execution_started: "Pipeline execution has been started."
+    pipeline_execution_failed: "Failed to start pipeline execution."
+    pipeline_not_found: "Pipeline not found."
+    transition_not_allowed: "Transition '%s' is not allowed from state '%s'."
+    transition_applied: "Transition '%s' has been successfully applied."
+    transition_failed: "Failed to apply transition '%s': %s"
+  form:
+    name: "Name"
+    description: "Description"
+    step_configuration: "Step Configuration"
+    configuration: "Configuration"
+    override_configuration: "Override Configuration"
+    input: "Input"
+    input_file: "Input File"
+    input_type_text: "Text"
+    input_type_file: "File"
+    input_type_json: "JSON"
+    workflow: "Workflow"
+    scheduled_at: "Scheduled At"
+
+  etl:
+    extractor:
+      api:
+        name: "API"
+        description: "Extracts data from an API endpoint."
+      csv_file:
+        name: "CSV"
+        description: "Extracts data from a CSV file."
+      xml_file:
+        name: "XML"
+        description: "Extracts data from an XML file."
+      json_file:
+        name: "JSON"
+        description: "Extracts data from a JSON file."
+
+    transformer:
+      data_mapping:
+        name: "Data Mapping"
+        description: "Transforms data by mapping fields from the input to the output."
+      filter:
+        name: "Filter"
+        description: "Filters data based on specified criteria."
+      import_product_mapper:
+        name: "Import Product Mapper"
+        description: "Transforms input data into a format suitable for Sylius product import."
+
+    loader:
+      database:
+        name: "Database"
+        description: "Loads data into a database."
+      csv_file:
+        name: "CSV"
+        description: "Loads data into a CSV file."
+      xml_file:
+        name: "XML"
+        description: "Loads data into an XML file."
+      json_file:
+        name: "JSON"
+        description: "Loads data into a JSON file."
+      sylius_product:
+        name: "Sylius Product"
+        description: "Creates or updates Sylius products from input data."
+      workflow:
+        name: "Workflow"
+        description: "Executes a defined workflow on the input data."
