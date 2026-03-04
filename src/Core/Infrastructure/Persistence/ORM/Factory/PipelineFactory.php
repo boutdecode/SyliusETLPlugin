@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Data\Provider\WorkflowProvider;
-use Akawaka\ETLCoreBundle\Core\Domain\Factory\PipelineFactory as CorePipelineFactory;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Pipeline as CorePipeline;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Step;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Workflow;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Provider\WorkflowProvider;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\PipelineFactory as CorePipelineFactory;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Pipeline as CorePipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use Webmozart\Assert\Assert;
 
 class PipelineFactory implements CorePipelineFactory

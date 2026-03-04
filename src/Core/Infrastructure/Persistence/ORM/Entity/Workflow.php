@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Model\AbstractWorkflow;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\WorkflowRepository;
-use Akawaka\SyliusETLPlugin\UI\Admin\Form\WorkflowType;
-use Akawaka\SyliusETLPlugin\UI\Admin\Grid\WorkflowGrid;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\AbstractWorkflow;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\WorkflowRepository;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Form\WorkflowType;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Grid\WorkflowGrid;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Resource\Metadata\AsResource;
@@ -17,7 +17,7 @@ use Sylius\Resource\Metadata\Index;
 use Sylius\Resource\Metadata\Update;
 
 #[AsResource(
-    alias: 'akawaka_sylius_etl_plugin.workflow',
+    alias: 'bout_de_code_sylius_etl_plugin.workflow',
     section: 'admin',
     templatesDir: '@SyliusAdmin/Crud',
     routePrefix: '/admin',

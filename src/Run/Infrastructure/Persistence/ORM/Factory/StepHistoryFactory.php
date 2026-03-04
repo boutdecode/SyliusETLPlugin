@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Factory;
+namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Factory;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Step;
-use Akawaka\ETLCoreBundle\Run\Domain\Enum\StepHistoryStatusEnum;
-use Akawaka\ETLCoreBundle\Run\Domain\Factory\StepHistoryFactory as CoreStepHistoryFactory;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\StepHistory;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\StepHistoryStatusEnum;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Factory\StepHistoryFactory as CoreStepHistoryFactory;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\StepHistory;
 
 class StepHistoryFactory implements CoreStepHistoryFactory
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\Grid;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use Sylius\Bundle\GridBundle\Builder\Action\Action;
 use Sylius\Bundle\GridBundle\Builder\Action\ApplyTransitionAction;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
@@ -34,78 +34,78 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
         $gridBuilder
             ->addField(
                 StringField::create('workflow.name')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.workflow')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.workflow')
             )
             ->addField(
-                TwigField::create('status', '@AkawakaSyliusETLPlugin/admin/grid/field/status.html.twig')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.status')
+                TwigField::create('status', '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.status')
                     ->setSortable(true)
             )
             ->addField(
                 DateTimeField::create('createdAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.created_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.created_at')
                     ->setSortable(true)
             )
             ->addField(
                 DateTimeField::create('scheduledAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.scheduled_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.scheduled_at')
                     ->setSortable(true)
             )
             ->addField(
                 DateTimeField::create('startedAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.started_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.started_at')
                     ->setSortable(true)
             )
             ->addField(
                 DateTimeField::create('finishedAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.finished_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.finished_at')
                     ->setSortable(true)
             )
             // Filtres
             ->addFilter(
                 StringFilter::create('status')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.status')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.status')
             )
             ->addFilter(
                 DateFilter::create('createdAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.created_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.created_at')
             )
             ->addFilter(
                 DateFilter::create('scheduledAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.scheduled_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.scheduled_at')
             )
             ->addFilter(
                 DateFilter::create('startedAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.started_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.started_at')
             )
             ->addFilter(
                 DateFilter::create('finishedAt')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.finished_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.finished_at')
             )
             // Actions principales
             ->addActionGroup(
                 MainActionGroup::create(
                     CreateAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.create_pipeline')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_pipeline')
                 )
             )
             // Actions par ligne
             ->addActionGroup(
                 ItemActionGroup::create(
                     Action::create('reset', 'transitionButton')
-                        ->setLabel('akawaka_sylius_etl_plugin.action.execute')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.execute')
                         ->setOptions([
                             'link' => [
-                                'route' => 'akawaka_sylius_etl_plugin_admin_pipeline_reset',
+                                'route' => 'bout_de_code_sylius_etl_plugin_admin_pipeline_reset',
                                 'parameters' => [
                                     'id' => 'resource.id',
                                 ],
                             ],
                         ]),
                     ShowAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.show'),
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.show'),
                     DeleteAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.delete')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete')
                 )
             )
         ;

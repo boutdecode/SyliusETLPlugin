@@ -1,5 +1,5 @@
-akawaka_sylius_etl_admin:
-    resource: "@AkawakaSyliusETLPlugin/config/routes/admin.yaml"
+bout_de_code_sylius_etl_admin:
+    resource: "@BoutDeCodeSyliusETLPlugin/config/routes/admin.yaml"
 
-akawaka_sylius_etl_shop:
-    resource: "@AkawakaSyliusETLPlugin/config/routes/shop.yaml"
+bout_de_code_sylius_etl_shop:
+    resource: "@BoutDeCodeSyliusETLPlugin/config/routes/shop.yaml"

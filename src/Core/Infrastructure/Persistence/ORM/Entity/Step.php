@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Model\AbstractStep;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\StepRepository;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\AbstractStep;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\StepRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StepRepository::class)]

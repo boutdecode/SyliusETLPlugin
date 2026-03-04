@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\Form;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Form;
 
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\ExecutableStep;
+use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\ExtractorStep;
+use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\LoaderStep;
+use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\TransformerStep;
+use BoutDeCode\ETLCoreBundle\ETL\Domain\Resolver\StepResolver;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,14 +19,23 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WorkflowType extends AbstractType
 {
+    public function __construct(
+        private readonly StepResolver $stepResolver,
+        private readonly TranslatorInterface $translator
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $translator = $this->translator;
+
         $builder
             ->add('name', TextType::class, [
-                'label' => 'akawaka_sylius_etl_plugin.form.name',
+                'label' => 'bout_de_code_sylius_etl_plugin.form.name',
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
@@ -29,7 +43,7 @@ class WorkflowType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'akawaka_sylius_etl_plugin.form.description',
+                'label' => 'bout_de_code_sylius_etl_plugin.form.description',
                 'required' => false,
                 'constraints' => [
                     new Length(max: 1000),
@@ -37,13 +51,28 @@ class WorkflowType extends AbstractType
             ])
             ->add('stepConfiguration', TextareaType::class, [
                 'mapped' => false,
-                'label' => 'akawaka_sylius_etl_plugin.form.step_configuration',
+                'label' => 'bout_de_code_sylius_etl_plugin.form.step_configuration',
                 'required' => true,
-            ])
-            ->add('configuration', TextareaType::class, [
-                'mapped' => false,
-                'label' => 'akawaka_sylius_etl_plugin.form.configuration',
-                'required' => false,
+                'attr' => [
+                    'data-controller' => 'step-configurator',
+                    'data-configuration' => json_encode(array_map(
+                        static function (ExecutableStep $step) use ($translator) {
+                            return [
+                                'code' => $step->getCode(),
+                                'name' => $translator->trans('bout_de_code_sylius_etl_plugin.' . $step->getCode() . '.name'),
+                                'description' => $translator->trans('bout_de_code_sylius_etl_plugin.' . $step->getCode() . '.description'),
+                                'category' => match (true) {
+                                    $step instanceof ExtractorStep => 'extractor',
+                                    $step instanceof TransformerStep => 'transformer',
+                                    $step instanceof LoaderStep => 'loader',
+                                    default => 'unknown',
+                                },
+                                'configuration_description' => $step->getConfigurationDescription(),
+                            ];
+                        },
+                        $this->stepResolver->list(),
+                    ))
+                ]
             ])
         ;
 
@@ -54,7 +83,6 @@ class WorkflowType extends AbstractType
             $data = $event->getData();
 
             $form->get('stepConfiguration')->setData(json_encode($data->getStepConfiguration(), JSON_PRETTY_PRINT));
-            $form->get('configuration')->setData(json_encode($data->getConfiguration(), JSON_PRETTY_PRINT));
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($builder) {
@@ -64,7 +92,6 @@ class WorkflowType extends AbstractType
             $data = $event->getData();
 
             $data->setStepConfiguration(json_decode($form->get('stepConfiguration')->getData(), true));
-            $data->setConfiguration(json_decode($form->get('configuration')->getData(), true));
         });
     }
 

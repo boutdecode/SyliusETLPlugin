@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\Grid;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
 use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
@@ -30,43 +30,43 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
         $gridBuilder
             ->addField(
                 StringField::create('name')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.name')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.name')
                     ->setSortable(true)
             )
             ->addField(
                 StringField::create('description')
-                    ->setLabel('akawaka_sylius_etl_plugin.grid.description')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.description')
                     ->setSortable(true)
             )
             // Filtres
             ->addFilter(
                 StringFilter::create('name')
-                    ->setLabel('akawaka_sylius_etl_plugin.filter.name')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.name')
             )
             // Actions principales
             ->addActionGroup(
                 MainActionGroup::create(
                     CreateAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.create_workflow')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_workflow')
                 )
             )
             // Actions par ligne
             ->addActionGroup(
                 ItemActionGroup::create(
                     ShowAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.execute_workflow')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.execute_workflow')
                         ->setOptions([
                             'link' => [
-                                'route' => 'akawaka_sylius_etl_plugin_admin_pipeline_create',
+                                'route' => 'bout_de_code_sylius_etl_plugin_admin_pipeline_create',
                                 'parameters' => [
                                     'workflowId' => 'resource.id',
                                 ],
                             ],
                         ]),
                     UpdateAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.edit'),
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.edit'),
                     DeleteAction::create()
-                        ->setLabel('akawaka_sylius_etl_plugin.action.delete')
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete')
                 )
             )
         ;

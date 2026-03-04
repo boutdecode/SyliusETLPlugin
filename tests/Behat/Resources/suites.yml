@@ -4,7 +4,7 @@ default:
     suites:
         greeting_customer:
             contexts:
-                - akawaka_sylius_etl.context.ui.shop.welcome
+                - bout_de_code_sylius_etl.context.ui.shop.welcome
 
             filters:
                 tags: "@greeting_customer"

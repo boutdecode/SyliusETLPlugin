@@ -12,6 +12,6 @@
     <services>
         <defaults autowire="true" autoconfigure="true" public="false" />
 
-        <prototype namespace="Akawaka\SyliusETLPlugin\" resource="../src/" exclude="../src/{Migrations,DependencyInjection,AkawakaSyliusETLPlugin.php}" />
+        <prototype namespace="BoutDeCode\SyliusETLPlugin\" resource="../src/" exclude="../src/{Migrations,DependencyInjection,BoutDeCodeSyliusETLPlugin.php}" />
     </services>
 </container>

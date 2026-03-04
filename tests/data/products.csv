@@ -1,0 +1,10 @@
+product:code,product:name,product:description,variant:code,variant:name,variant:price,variant:option:color,variant:option:size
+t-shirt-red,T-Shirt,Cotton T-Shirt,t-shirt-red,Red T-Shirt,1999,red,
+t-shirt-blue,T-Shirt,Cotton T-Shirt,t-shirt-bleu,Blue T-Shirt,1999,blue,
+t-shirt-green,T-Shirt,Cotton T-Shirt,t-shirt-green,Green T-Shirt,1999,green,
+jean-regular,Jeans,Denim Jeans,jean-regular,Regular Fit Jeans,4999,,regular
+jean-skinny,Jeans,Denim Jeans,jean-skinny,Skinny Fit Jeans,4999,,skinny
+jean-straight,Jeans,Denim Jeans,jean-straight,Straight Fit Jeans,4999,,straight
+sneaker-white,Sneakers,Running Sneakers,sneaker-white,White Sneakers,8999,white,
+sneaker-black,Sneakers,Running Sneakers,sneaker-black,Black Sneakers,8999,black,
+sneaker-gray,Sneakers,Running Sneakers,sneaker-gray,Gray Sneakers,8999,gray,

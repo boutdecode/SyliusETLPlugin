@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Factory\WorkflowFactory as CoreWorkflowFactory;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Workflow as CoreWorkflow;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\WorkflowFactory as CoreWorkflowFactory;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow as CoreWorkflow;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 
 class WorkflowFactory implements CoreWorkflowFactory
 {

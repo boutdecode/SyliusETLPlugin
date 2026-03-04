@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Akawaka\SyliusETLPlugin\Behat\Page\Shop;
+namespace Tests\BoutDeCode\SyliusETLPlugin\Behat\Page\Shop;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 
@@ -21,7 +21,7 @@ class StaticWelcomePage extends SymfonyPage implements WelcomePageInterface
      */
     public function getRouteName(): string
     {
-        return 'akawaka_sylius_etl_static_welcome';
+        return 'bout_de_code_sylius_etl_static_welcome';
     }
 
     /**

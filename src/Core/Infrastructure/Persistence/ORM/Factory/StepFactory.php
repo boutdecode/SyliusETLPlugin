@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Factory\StepFactory as CoreStepFactory;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Step as CoreStep;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\StepFactory as CoreStepFactory;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step as CoreStep;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
 
 class StepFactory implements CoreStepFactory
 {

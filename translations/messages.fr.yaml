@@ -1,4 +1,4 @@
-akawaka_sylius_etl_plugin:
+bout_de_code_sylius_etl_plugin:
   ui:
     workflow: "Workflow"
     workflows: "Workflows"
@@ -12,6 +12,10 @@ akawaka_sylius_etl_plugin:
     show_pipeline: "Détails du pipeline"
     new_workflow: "Nouveau workflow"
     new_pipeline: "Nouveau pipeline"
+    edit_workflow: "Modifier le workflow"
+    pipeline_configuration: "Configuration du pipeline"
+    workflow_configuration: "Configuration du workflow"
+    override_configuration: "Surcharge de la configuration"
   pipeline:
     status:
       pending: "En attente"
@@ -61,5 +65,52 @@ akawaka_sylius_etl_plugin:
     configuration: "Configuration"
     override_configuration: "Surcharger de la configuration"
     input: "Entrée"
+    input_file: "Fichier d'entrée"
+    input_type_text: "Texte"
+    input_type_file: "Fichier"
+    input_type_json: "JSON"
     workflow: "Workflow"
     scheduled_at: "Planifié pour le"
+
+  etl:
+    extractor:
+      api:
+        name: "API"
+        description: "Extrait des données à partir d'une API."
+      csv_file:
+        name: "CSV"
+        description: "Extrait des données à partir d'un fichier CSV."
+      xml_file:
+        name: "XML"
+        description: "Extrait des données à partir d'un fichier XML."
+
+    transformer:
+      data_mapping:
+        name: "Mapping de données"
+        description: "Transforme les données en appliquant un mapping défini."
+      filter:
+        name: "Filtre"
+        description: "Filtre les données via une expression."
+      import_product_mapper:
+        name: "Mapper pour import de produits"
+        description: "Transforme les données en mappant les champs d'entrée aux champs de produit Sylius pour l'importation."
+
+    loader:
+      database:
+        name: "Base de données"
+        description: "Charge les données dans une base de données."
+      csv_file:
+        name: "CSV"
+        description: "Charge les données dans un fichier CSV."
+      xml_file:
+        name: "XML"
+        description: "Charge les données dans un fichier XML."
+      json_file:
+        name: "JSON"
+        description: "Charge les données dans un fichier JSON."
+      sylius_product:
+        name: "Produit Sylius"
+        description: "Crée ou met à jour des produits Sylius depuis les données en entrée."
+      workflow:
+        name: "Workflow"
+        description: "Exécute un workflow défini sur les données en entrée."

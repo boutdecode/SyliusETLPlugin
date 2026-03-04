@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Data\Persister\PipelinePersister;
-use Akawaka\ETLCoreBundle\Core\Domain\Data\Provider\PipelineProvider;
-use Akawaka\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Pipeline as CorePipeline;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Persister\PipelinePersister;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Provider\PipelineProvider;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Pipeline as CorePipeline;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceRepositoryTrait;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 /**
  * @extends ServiceEntityRepository<Pipeline>
@@ -20,8 +22,10 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Pipeline[]    findAll()
  * @method Pipeline[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
-class PipelineRepository extends ServiceEntityRepository implements PipelinePersister, PipelineProvider
+class PipelineRepository extends ServiceEntityRepository implements PipelinePersister, PipelineProvider, RepositoryInterface
 {
+    use ResourceRepositoryTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Pipeline::class);

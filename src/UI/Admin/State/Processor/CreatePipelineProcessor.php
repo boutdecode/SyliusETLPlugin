@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\State\Processor;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\State\Processor;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Factory\PipelineFactory;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\PipelineFactory;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use Sylius\Resource\Context\Context;
 use Sylius\Resource\Doctrine\Common\State\PersistProcessor;
 use Sylius\Resource\Metadata\Operation;

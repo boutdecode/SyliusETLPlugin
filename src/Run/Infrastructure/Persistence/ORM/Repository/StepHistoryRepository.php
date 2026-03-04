@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository;
+namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository;
 
-use Akawaka\ETLCoreBundle\Run\Domain\Data\Persister\StepHistoryPersister;
-use Akawaka\ETLCoreBundle\Run\Domain\Model\StepHistory as CoreStepHistory;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\StepHistory;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Data\Persister\StepHistoryPersister;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Model\StepHistory as CoreStepHistory;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\StepHistory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

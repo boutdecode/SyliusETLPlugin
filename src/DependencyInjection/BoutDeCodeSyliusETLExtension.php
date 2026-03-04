@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\DependencyInjection;
+namespace BoutDeCode\SyliusETLPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class AkawakaSyliusETLExtension extends AbstractResourceExtension implements PrependExtensionInterface
+final class BoutDeCodeSyliusETLExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
 
@@ -35,7 +35,7 @@ final class AkawakaSyliusETLExtension extends AbstractResourceExtension implemen
 
     protected function getMigrationsDirectory(): string
     {
-        return '@AkawakaSyliusETLPlugin/src/Migrations';
+        return '@BoutDeCodeSyliusETLPlugin/src/Migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array

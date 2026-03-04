@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\Form\Transformer;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 

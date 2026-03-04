@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository;
+namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository;
 
-use Akawaka\ETLCoreBundle\Run\Domain\Data\Persister\PipelineHistoryPersister;
-use Akawaka\ETLCoreBundle\Run\Domain\Model\PipelineHistory as CorePipelineHistory;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Data\Persister\PipelineHistoryPersister;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Model\PipelineHistory as CorePipelineHistory;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

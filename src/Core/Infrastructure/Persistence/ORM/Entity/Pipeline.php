@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
+namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\AbstractPipeline;
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Workflow as CoreWorkflow;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\PipelineRepository;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
-use Akawaka\SyliusETLPlugin\UI\Admin\Form\PipelineType;
-use Akawaka\SyliusETLPlugin\UI\Admin\Grid\PipelineGrid;
-use Akawaka\SyliusETLPlugin\UI\Admin\State\Processor\CreatePipelineProcessor;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\AbstractPipeline;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow as CoreWorkflow;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\PipelineRepository;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Form\PipelineType;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Grid\PipelineGrid;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\State\Processor\CreatePipelineProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +25,7 @@ use Sylius\Resource\Metadata\Show;
 use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[AsResource(
-    alias: 'akawaka_sylius_etl_plugin.pipeline',
+    alias: 'bout_de_code_sylius_etl_plugin.pipeline',
     section: 'admin',
     templatesDir: '@SyliusAdmin/Crud',
     routePrefix: '/admin',
@@ -37,11 +37,11 @@ use Symfony\Component\Serializer\Attribute\Ignore;
         new Create(
             processor: CreatePipelineProcessor::class,
             formType: PipelineType::class,
-            redirectToRoute: 'akawaka_sylius_etl_plugin_admin_pipeline_index'
+            redirectToRoute: 'bout_de_code_sylius_etl_plugin_admin_pipeline_index'
         ),
         new Delete(),
         new Show(
-            template: '@AkawakaSyliusETLPlugin/admin/pipeline/show.html.twig'
+            template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show.html.twig'
         ),
 
         new ApplyStateMachineTransition(

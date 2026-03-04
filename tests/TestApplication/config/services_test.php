@@ -7,6 +7,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $container) {
     if (str_starts_with($container->env(), 'test')) {
         $container->import('../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml');
-        $container->import('@AkawakaSyliusETLPlugin/tests/Behat/Resources/services.xml');
+        $container->import('@BoutDeCodeSyliusETLPlugin/tests/Behat/Resources/services.xml');
     }
 };

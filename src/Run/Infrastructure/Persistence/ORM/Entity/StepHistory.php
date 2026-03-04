@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity;
+namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity;
 
-use Akawaka\ETLCoreBundle\Run\Domain\Enum\StepHistoryStatusEnum;
-use Akawaka\ETLCoreBundle\Run\Domain\Model\AbstractStepHistory;
-use Akawaka\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository\StepHistoryRepository;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\StepHistoryStatusEnum;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Model\AbstractStepHistory;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository\StepHistoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 

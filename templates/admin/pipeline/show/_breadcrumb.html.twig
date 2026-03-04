@@ -6,7 +6,7 @@
     )
 %}
 
-{% set breadcrumb = configuration.vars.breadcrumb|default('akawaka_sylius_etl_plugin.ui.'~metadata.pluralName) %}
+{% set breadcrumb = configuration.vars.breadcrumb|default('bout_de_code_sylius_etl_plugin.ui.'~metadata.pluralName) %}
 
 {% set breadcrumbs = [
         { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },

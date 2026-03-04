@@ -1,7 +1,7 @@
 <div class="ui stackable two column grid">
     <div class="column">
-        {% include '@AkawakaSyliusETLPlugin/admin/pipeline/show/_headerTitle.html.twig' %}
-        {% include '@AkawakaSyliusETLPlugin/admin/pipeline/show/_breadcrumb.html.twig' %}
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_headerTitle.html.twig' %}
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_breadcrumb.html.twig' %}
 
         {{ sylius_template_event([event_prefix ~ '.header', 'sylius.admin.show.header'], {'metadata': metadata, 'resource': resource}) }}
     </div>

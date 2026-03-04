@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\UI\Admin\Menu;
+namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Menu;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -15,23 +15,23 @@ final class AdminMenuListener
         $menu = $event->getMenu();
 
         $subMenu = $menu->addChild('etl')
-            ->setLabel('akawaka_sylius_etl_plugin.ui.etl')
+            ->setLabel('bout_de_code_sylius_etl_plugin.ui.etl')
         ;
 
         $subMenu
             ->addChild('workflow', [
-                'route' => 'akawaka_sylius_etl_plugin_admin_workflow_index',
+                'route' => 'bout_de_code_sylius_etl_plugin_admin_workflow_index',
             ])
             ->setLabelAttribute('icon', 'icon cog')
-            ->setLabel('akawaka_sylius_etl_plugin.ui.workflows')
+            ->setLabel('bout_de_code_sylius_etl_plugin.ui.workflows')
         ;
 
         $subMenu
             ->addChild('pipeline', [
-                'route' => 'akawaka_sylius_etl_plugin_admin_pipeline_index',
+                'route' => 'bout_de_code_sylius_etl_plugin_admin_pipeline_index',
             ])
             ->setLabelAttribute('icon', 'icon ellipsis horizontal')
-            ->setLabel('akawaka_sylius_etl_plugin.ui.pipelines')
+            ->setLabel('bout_de_code_sylius_etl_plugin.ui.pipelines')
         ;
     }
 }

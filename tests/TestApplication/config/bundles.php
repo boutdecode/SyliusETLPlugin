@@ -1,6 +1,6 @@
 <?php
 
 return [
-    Akawaka\ETLCoreBundle\AkawakaETLCoreBundle::class => ['all' => true],
-    Akawaka\SyliusETLPlugin\AkawakaSyliusETLPlugin::class => ['all' => true],
+    BoutDeCode\ETLCoreBundle\BoutDeCodeETLCoreBundle::class => ['all' => true],
+    BoutDeCode\SyliusETLPlugin\BoutDeCodeSyliusETLPlugin::class => ['all' => true],
 ];

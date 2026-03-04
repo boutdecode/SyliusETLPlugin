@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Akawaka\SyliusETLPlugin\Behat\Page\Shop;
+namespace Tests\BoutDeCode\SyliusETLPlugin\Behat\Page\Shop;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 

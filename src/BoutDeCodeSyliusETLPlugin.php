@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin;
+namespace BoutDeCode\SyliusETLPlugin;
 
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class AkawakaSyliusETLPlugin extends Bundle
+final class BoutDeCodeSyliusETLPlugin extends Bundle
 {
     use SyliusPluginTrait;
 

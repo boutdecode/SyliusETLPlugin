@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity;
+namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity;
 
-use Akawaka\ETLCoreBundle\Core\Domain\Model\Pipeline;
-use Akawaka\ETLCoreBundle\Run\Domain\Enum\PipelineHistoryStatusEnum;
-use Akawaka\ETLCoreBundle\Run\Domain\Model\AbstractPipelineHistory;
-use Akawaka\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository\PipelineHistoryRepository;
+use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Pipeline;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\PipelineHistoryStatusEnum;
+use BoutDeCode\ETLCoreBundle\Run\Domain\Model\AbstractPipelineHistory;
+use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Repository\PipelineHistoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 

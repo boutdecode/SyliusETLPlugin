@@ -1,0 +1,99 @@
+import store from './store.js';
+
+import './step-lib.js';
+import './step-configuration.js';
+
+/**
+ * StepConfiguratorContainer — composant orchestrateur (Custom Element).
+ *
+ * Responsabilités (uniquement) :
+ *   - Monter la mise en page deux colonnes
+ *   - Initialiser <step-lib> et <step-configuration>
+ *   - Écouter les events des sous-composants et coordonner les effets de bord :
+ *       • step-lib:dragstart       → signaler à step-configuration d'afficher les drop-zones
+ *       • step-lib:dragend         → signaler à step-configuration de masquer les drop-zones
+ *       • step-configuration:change → calculer les noms déduplicatés, sauvegarder,
+ *                                  émettre « change » vers le Stimulus controller
+ */
+export default class StepConfiguratorContainer extends HTMLElement {
+
+    /** @type {StepConfiguration} */
+    #pipeline = null;
+    #listeners = [];
+
+    connectedCallback() {
+        this.render();
+        this.#pipeline = this.querySelector('step-configuration');
+        this.#bindEvents();
+    }
+
+    disconnectedCallback() {
+        this.#unbindEvents();
+    }
+
+    // ─── Rendu ───────────────────────────────────────────────────────────────
+
+    render() {
+        this.innerHTML = `
+            <section class="configurator-container ui grid">
+                <div class="configurator-step-config-container five wide column" style="overflow-y:auto">
+                    <step-lib></step-lib>
+                </div>
+                <div class="configurator-steps-container eleven wide column" style="overflow-y:auto">
+                    <step-configuration></step-configuration>
+                </div>
+            </section>
+        `;
+    }
+
+    // ─── Orchestration des événements ────────────────────────────────────────
+
+    #bindEvents() {
+        this.#unbindEvents();
+
+        const onDragStart = () => this.#pipeline?.setDragging(true);
+        const onDragEnd   = () => this.#pipeline?.setDragging(false);
+        const onChange    = () => this.#saveChanges();
+
+        this.addEventListener('step-lib:dragstart',        onDragStart);
+        this.addEventListener('step-lib:dragend',          onDragEnd);
+        this.addEventListener('step-configuration:change', onChange);
+
+        this.#listeners.push(
+            { element: this, type: 'step-lib:dragstart',        listener: onDragStart },
+            { element: this, type: 'step-lib:dragend',          listener: onDragEnd   },
+            { element: this, type: 'step-configuration:change', listener: onChange    },
+        );
+    }
+
+    #unbindEvents() {
+        this.#listeners.forEach(({ element, type, listener }) =>
+            element.removeEventListener(type, listener)
+        );
+        this.#listeners = [];
+    }
+
+    // ─── Sauvegarde ──────────────────────────────────────────────────────────
+
+    /**
+     * Déduplication des noms de steps (ex. « csv-extractor » → « csv-extractor-2 »)
+     * puis notification vers le Stimulus controller via un CustomEvent « change ».
+     */
+    #saveChanges() {
+        const counts = {};
+
+        store.steps.forEach(step => {
+            counts[step.code] = (counts[step.code] ?? 0) + 1;
+
+            if (counts[step.code] > 1) {
+                step.name = `${step.code}-${counts[step.code]}`;
+            } else {
+                delete step.name;
+            }
+        });
+
+        this.dispatchEvent(new CustomEvent('change', { bubbles: false }));
+    }
+}
+
+customElements.define('step-configurator-container', StepConfiguratorContainer);
