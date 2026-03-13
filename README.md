@@ -8,122 +8,180 @@
     </a>
 </p>
 
-<h1 align="center">Plugin Skeleton</h1>
+<h1 align="center">BoutDeCode Sylius ETL Plugin</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+<p align="center">Integrate a full ETL (Extract, Transform, Load) pipeline system into the Sylius admin panel.</p>
 
-## Documentation
+<p align="center">
+    <a href="https://packagist.org/packages/boutdecode/sylius-etlplugin" title="License">
+        <img src="https://img.shields.io/packagist/l/boutdecode/sylius-etlplugin.svg" />
+    </a>
+    <a href="https://packagist.org/packages/boutdecode/sylius-etlplugin" title="PHP Version">
+        <img src="https://img.shields.io/packagist/php-v/boutdecode/sylius-etlplugin.svg" />
+    </a>
+</p>
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/plugins-development-guide/how-to-create-a-plugin-for-sylius">Plugin Development Guide</a> - it's a great place to start.
+## Overview
 
-For more information about the **Test Application** included in the skeleton, please refer to the [Sylius documentation](https://docs.sylius.com/plugins-development-guide/test-application).
+This plugin adds a full-featured ETL workflow management system to the Sylius admin panel. It allows store administrators to define reusable **Workflows** (named chains of ordered ETL Steps), and execute them as **Pipelines** — either manually, via file upload, or on a schedule.
 
-## Quickstart Installation
+Built-in step types include product import loaders, data transformers, and support for nested workflow execution.
 
-Run `composer create-project sylius/plugin-skeleton ProjectName`.
+## Features
 
-### Traditional
+- **Workflow management** — create and configure reusable chains of ETL steps from the admin panel
+- **Pipeline execution** — run workflows as pipelines with JSON input, file upload, or scheduled execution
+- **Execution history** — detailed per-step and per-pipeline run history with status tracking
+- **Built-in step types**:
+  - `etl.loader.sylius_product` — create or update Sylius Products and ProductVariants
+  - `etl.loader.workflow` — spawn child pipelines from another workflow (chained ETL)
+  - `etl.transformer.import_product_mapper` — map flat columnar data (e.g. CSV) to nested product/variant schema
+- **State machine** — pipeline lifecycle management with reset/execute transitions
+- **Dedicated logging** — separate `pipeline` log channel for ETL activity
+- **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
 
-1. From the plugin skeleton root directory, run the following commands:
+## Requirements
 
-    ```bash
-    (cd vendor/sylius/test-application && yarn install)
-    (cd vendor/sylius/test-application && yarn build)
-    vendor/bin/console assets:install
-   
-    vendor/bin/console doctrine:database:create
-    vendor/bin/console doctrine:migrations:migrate -n
-    # Optionally load data fixtures
-    vendor/bin/console sylius:fixtures:load -n
-    ```
+- PHP `^8.1`
+- Sylius `^1.14`
+- Symfony `^6.4`
+- Symfony Messenger with an `async` transport
 
-To be able to set up a plugin's database, remember to configure your database credentials in `tests/TestApplication/.env` and `tests/TestApplication/.env.test`.
+## Installation
 
-2. Run your local server:
+### 1. Require the plugin via Composer
 
-      ```bash
-      symfony server:ca:install
-      symfony server:start -d
-      ```
+```bash
+composer require boutdecode/sylius-etl-plugin
+```
 
-3. Open your browser and navigate to `https://localhost:8000`.
+### 2. Enable the plugin
 
-### Docker
+Add the plugin to your `config/bundles.php`:
 
-1. Execute `make init` to initialize the container and install the dependencies.
+```php
+return [
+    // ...
+    BoutDeCode\SyliusETLPlugin\BoutDeCodeSyliusETLPlugin::class => ['all' => true],
+];
+```
 
-2. Execute `make database-init` to create the database and run migrations.
+### 3. Import the plugin configuration
 
-3. (Optional) Execute `make load-fixtures` to load the fixtures.
+Create or update `config/packages/bout_de_code_sylius_etl.yaml`:
 
-4. Your app is available at `http://localhost`.
+```yaml
+imports:
+    - { resource: '@BoutDeCodeSyliusETLPlugin/config/config.yaml' }
+```
+
+### 4. Import the admin routes
+
+Add to `config/routes.yaml` (or `config/routes/sylius_admin.yaml`):
+
+```yaml
+bout_de_code_sylius_etl_admin:
+    resource: '@BoutDeCodeSyliusETLPlugin/config/routes/admin.yaml'
+```
+
+### 5. Configure Symfony Messenger
+
+Ensure an `async` transport is configured in `config/packages/messenger.yaml`:
+
+```yaml
+framework:
+    messenger:
+        transports:
+            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+```
+
+### 6. Run database migrations
+
+```bash
+bin/console doctrine:migrations:migrate
+```
 
 ## Usage
 
-### Running plugin tests
+### Workflows
 
-  - PHPUnit
+Navigate to **Admin > ETL > Workflows** to create a new Workflow. A workflow defines an ordered chain of steps, each with a step type code and a JSON configuration.
 
-    ```bash
-    vendor/bin/phpunit
-    ```
+Available step type codes:
 
-  - Behat (non-JS scenarios)
+| Code | Type | Description |
+|---|---|---|
+| `etl.loader.sylius_product` | Loader | Imports products and variants into Sylius |
+| `etl.loader.workflow` | Loader | Executes another workflow as a sub-pipeline |
+| `etl.transformer.import_product_mapper` | Transformer | Maps flat CSV-style columns to product/variant schema |
 
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
-    ```
+### Pipelines
 
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript,@mink:chromedriver"
-      ```
-    
-  - Static Analysis
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
+Navigate to **Admin > ETL > Pipelines** to create and execute pipelines from existing workflows.
 
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check
-    ```
+When creating a pipeline you can provide:
+- A **JSON input** payload
+- A **file upload** (e.g. a CSV file)
+- A **JSON configuration override** to customize step parameters at runtime
+- A **scheduled date/time** for deferred execution
 
-### Opening Sylius with your plugin
+### Logging
 
-- Using `test` environment:
+Pipeline execution is logged to a dedicated file:
+
+```
+var/log/{env}_bout_de_code_sylius_etl_plugin.log
+```
+
+## Testing
+
+### PHPUnit
+
+```bash
+vendor/bin/phpunit
+```
+
+### Behat (non-JS scenarios)
+
+```bash
+vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
+```
+
+### Behat (JS scenarios)
+
+1. [Install Symfony CLI](https://symfony.com/download).
+
+2. Start Headless Chrome:
 
     ```bash
-    APP_ENV=test vendor/bin/console sylius:fixtures:load -n
-    APP_ENV=test symfony server:start -d
+    google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
     ```
-    
-- Using `dev` environment:
+
+3. Start the test application server:
 
     ```bash
-    vendor/bin/console sylius:fixtures:load -n
-    symfony server:start -d
+    symfony server:ca:install
+    APP_ENV=test symfony server:start --port=8080 --daemon
     ```
+
+4. Run Behat:
+
+    ```bash
+    vendor/bin/behat --strict --tags="@javascript,@mink:chromedriver"
+    ```
+
+### Static Analysis
+
+```bash
+vendor/bin/phpstan analyse -c phpstan.neon -l max src/
+```
+
+### Coding Standards
+
+```bash
+vendor/bin/ecs check
+```
+
+## License
+
+This plugin is released under the [MIT License](LICENSE).

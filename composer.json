@@ -1,5 +1,5 @@
 {
-    "name": "boutdecode/sylius-etlplugin",
+    "name": "boutdecode/sylius-etl-plugin",
     "type": "sylius-plugin",
     "description": "SyliusETL plugin for Sylius",
     "keywords": [
