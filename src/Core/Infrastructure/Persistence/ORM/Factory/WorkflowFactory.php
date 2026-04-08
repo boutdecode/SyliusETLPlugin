@@ -14,9 +14,8 @@ class WorkflowFactory implements CoreWorkflowFactory
         string $name,
         array $configuration = [],
         array $stepConfiguration = [],
-        ?string $description = null
-    ): CoreWorkflow
-    {
+        ?string $description = null,
+    ): CoreWorkflow {
         $workflow = new Workflow();
         $workflow->setName($name);
         $workflow->setConfiguration($configuration);

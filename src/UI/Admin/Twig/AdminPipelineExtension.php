@@ -18,14 +18,24 @@ class AdminPipelineExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getStepConfiguration(Pipeline $pipeline, Step $step): array
     {
         $overrideStepConfiguration = array_find(
             $pipeline->getConfiguration(),
-            fn (array $config) => ($config['name'] ?? $config['code'] ?? 'unknow') === $step->getName()
+            function (mixed $config) use ($step): bool {
+                if (!is_array($config)) {
+                    return false;
+                }
+
+                return ($config['name'] ?? $config['code'] ?? 'unknow') === $step->getName();
+            },
         );
 
-        $overrideStepConfiguration = is_array($overrideStepConfiguration) ? $overrideStepConfiguration['configuration'] ?? [] : [];
+        /** @var array<string, mixed> $overrideStepConfiguration */
+        $overrideStepConfiguration = is_array($overrideStepConfiguration) ? ($overrideStepConfiguration['configuration'] ?? []) : [];
 
         $result = [];
         foreach ($step->getConfiguration() as $key => $value) {

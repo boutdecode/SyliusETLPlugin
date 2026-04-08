@@ -49,14 +49,18 @@ class PipelineRepository extends ServiceEntityRepository implements PipelinePers
         return $this->find($identifier);
     }
 
+    /** @return array<CorePipeline> */
     public function findScheduledPipelines(): array
     {
-        return $this->createQueryBuilder('p')
+        /** @var array<CorePipeline> $result */
+        $result = $this->createQueryBuilder('p')
             ->andWhere('p.scheduledAt <= :now OR p.scheduledAt IS NULL')
             ->andWhere('p.status = :status')
             ->setParameter('now', new \DateTimeImmutable())
             ->setParameter('status', PipelineStatus::PENDING->value)
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }

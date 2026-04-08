@@ -25,7 +25,7 @@ class WorkflowType extends AbstractType
 {
     public function __construct(
         private readonly StepResolver $stepResolver,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -40,14 +40,14 @@ class WorkflowType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length(max: 255),
-                ]
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'bout_de_code_sylius_etl_plugin.form.description',
                 'required' => false,
                 'constraints' => [
                     new Length(max: 1000),
-                ]
+                ],
             ])
             ->add('stepConfiguration', TextareaType::class, [
                 'mapped' => false,
@@ -71,8 +71,8 @@ class WorkflowType extends AbstractType
                             ];
                         },
                         $this->stepResolver->list(),
-                    ))
-                ]
+                    )),
+                ],
             ])
         ;
 
@@ -82,16 +82,17 @@ class WorkflowType extends AbstractType
             /** @var Workflow $data */
             $data = $event->getData();
 
-            $form->get('stepConfiguration')->setData(json_encode($data->getStepConfiguration(), JSON_PRETTY_PRINT));
+            $form->get('stepConfiguration')->setData(json_encode($data->getStepConfiguration(), \JSON_PRETTY_PRINT));
         });
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($builder) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
 
             /** @var Workflow $data */
             $data = $event->getData();
 
-            $data->setStepConfiguration(json_decode($form->get('stepConfiguration')->getData(), true));
+            $rawStepConfig = $form->get('stepConfiguration')->getData();
+            $data->setStepConfiguration(is_string($rawStepConfig) ? (array) json_decode($rawStepConfig, true) : []);
         });
     }
 

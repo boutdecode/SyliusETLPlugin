@@ -18,6 +18,8 @@ export default class StepConfigurationOverride extends HTMLElement {
     refresh() {
         this.render();
         this.#bindEvents();
+
+        $('.ui.accordion').accordion();
     }
 
     setDragging(active) {

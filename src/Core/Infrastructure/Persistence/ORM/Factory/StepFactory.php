@@ -10,14 +10,12 @@ use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
 
 class StepFactory implements CoreStepFactory
 {
-
     public function create(
         string $code,
         ?string $name = null,
         array $configuration = [],
         int $order = 0,
-    ): CoreStep
-    {
+    ): CoreStep {
         $step = new Step();
         $step->setName($name ?? $code);
         $step->setCode($code);

@@ -6,7 +6,6 @@ namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use Sylius\Bundle\GridBundle\Builder\Action\Action;
-use Sylius\Bundle\GridBundle\Builder\Action\ApplyTransitionAction;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
 use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
@@ -23,7 +22,6 @@ use Sylius\Bundle\GridBundle\Grid\ResourceAwareGridInterface;
 
 final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterface
 {
-
     public static function getName(): string
     {
         return 'app_admin_pipeline';
@@ -34,60 +32,60 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
         $gridBuilder
             ->addField(
                 StringField::create('workflow.name')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.workflow')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.workflow'),
             )
             ->addField(
                 TwigField::create('status', '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.status')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             ->addField(
                 DateTimeField::create('createdAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.created_at')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             ->addField(
                 DateTimeField::create('scheduledAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.scheduled_at')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             ->addField(
                 DateTimeField::create('startedAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.started_at')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             ->addField(
                 DateTimeField::create('finishedAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.finished_at')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             // Filtres
             ->addFilter(
                 StringFilter::create('status')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.status')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.status'),
             )
             ->addFilter(
                 DateFilter::create('createdAt')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.created_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.created_at'),
             )
             ->addFilter(
                 DateFilter::create('scheduledAt')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.scheduled_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.scheduled_at'),
             )
             ->addFilter(
                 DateFilter::create('startedAt')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.started_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.started_at'),
             )
             ->addFilter(
                 DateFilter::create('finishedAt')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.finished_at')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.finished_at'),
             )
             // Actions principales
             ->addActionGroup(
                 MainActionGroup::create(
                     CreateAction::create()
-                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_pipeline')
-                )
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_pipeline'),
+                ),
             )
             // Actions par ligne
             ->addActionGroup(
@@ -105,8 +103,8 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
                     ShowAction::create()
                         ->setLabel('bout_de_code_sylius_etl_plugin.action.show'),
                     DeleteAction::create()
-                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete')
-                )
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete'),
+                ),
             )
         ;
     }

@@ -24,16 +24,16 @@ use Sylius\Resource\Metadata\Update;
     name: 'workflow',
     operations: [
         new Index(
-            grid: WorkflowGrid::class
+            grid: WorkflowGrid::class,
         ),
         new Create(
-            formType: WorkflowType::class
+            formType: WorkflowType::class,
         ),
         new Update(
-            formType: WorkflowType::class
+            formType: WorkflowType::class,
         ),
         new Delete(),
-    ]
+    ],
 )]
 #[ORM\Entity(repositoryClass: WorkflowRepository::class)]
 #[ORM\Table(name: 'etl_workflow')]

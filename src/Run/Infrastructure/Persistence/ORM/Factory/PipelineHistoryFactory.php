@@ -16,9 +16,8 @@ class PipelineHistoryFactory implements CorePipelineHistoryFactory
         PipelineHistoryStatusEnum $status,
         array $stepHistories,
         mixed $input,
-        mixed $result
-    ): PipelineHistory
-    {
+        mixed $result,
+    ): PipelineHistory {
         $pipelineHistory = new PipelineHistory();
         $pipelineHistory->setPipeline($pipeline);
         $pipelineHistory->setStatus($status);

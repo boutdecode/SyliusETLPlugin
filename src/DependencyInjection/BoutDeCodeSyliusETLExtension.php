@@ -38,6 +38,7 @@ final class BoutDeCodeSyliusETLExtension extends AbstractResourceExtension imple
         return '@BoutDeCodeSyliusETLPlugin/src/Migrations';
     }
 
+    /** @return array<string> */
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
         return [

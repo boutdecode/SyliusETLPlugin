@@ -13,3 +13,5 @@ parameters:
     doctrine:
         reportDynamicQueryBuilders: false
         reportUnknownTypes: false
+    ignoreErrors:
+        - '#specifies template type TEntityClass of interface Doctrine\\Persistence\\ObjectRepository#'

@@ -6,6 +6,7 @@ namespace BoutDeCode\SyliusETLPlugin\UI\Admin\State\Processor;
 
 use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\PipelineFactory;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use Sylius\Resource\Context\Context;
 use Sylius\Resource\Doctrine\Common\State\PersistProcessor;
 use Sylius\Resource\Metadata\Operation;
@@ -24,8 +25,11 @@ final class CreatePipelineProcessor implements ProcessorInterface
     {
         Assert::isInstanceOf($data, Pipeline::class);
 
+        $workflow = $data->getWorkflow();
+        Assert::isInstanceOf($workflow, Workflow::class);
+
         $pipeline = $this->pipelineFactory->createFromWorkflowId(
-            workflowId: $data->getWorkflow()->getId(),
+            workflowId: $workflow->getId(),
             overrideConfiguration: $data->getConfiguration(),
             input: $data->getInput(),
         );

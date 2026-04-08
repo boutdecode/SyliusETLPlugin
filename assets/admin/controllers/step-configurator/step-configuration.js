@@ -16,6 +16,8 @@ export default class StepConfiguration extends HTMLElement {
     refresh() {
         this.render();
         this.#bindEvents();
+
+        $('.ui.accordion').accordion();
     }
 
     setDragging(active) {

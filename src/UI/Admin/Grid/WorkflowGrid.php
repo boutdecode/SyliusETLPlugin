@@ -19,7 +19,6 @@ use Sylius\Bundle\GridBundle\Grid\ResourceAwareGridInterface;
 
 final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterface
 {
-
     public static function getName(): string
     {
         return 'app_admin_workflow';
@@ -31,24 +30,24 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
             ->addField(
                 StringField::create('name')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.name')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             ->addField(
                 StringField::create('description')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.description')
-                    ->setSortable(true)
+                    ->setSortable(true),
             )
             // Filtres
             ->addFilter(
                 StringFilter::create('name')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.name')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.name'),
             )
             // Actions principales
             ->addActionGroup(
                 MainActionGroup::create(
                     CreateAction::create()
-                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_workflow')
-                )
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.create_workflow'),
+                ),
             )
             // Actions par ligne
             ->addActionGroup(
@@ -66,8 +65,8 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
                     UpdateAction::create()
                         ->setLabel('bout_de_code_sylius_etl_plugin.action.edit'),
                     DeleteAction::create()
-                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete')
-                )
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.delete'),
+                ),
             )
         ;
     }

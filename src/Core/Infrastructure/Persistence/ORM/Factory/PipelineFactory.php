@@ -20,13 +20,16 @@ class PipelineFactory implements CorePipelineFactory
     ) {
     }
 
-    /** @param Step[] $steps */
+    /**
+     * @param Step[] $steps
+     * @param array<string, mixed> $configuration
+     * @param array<string, mixed> $input
+     */
     public function create(
         array $steps = [],
         array $configuration = [],
         array $input = [],
-    ): CorePipeline
-    {
+    ): CorePipeline {
         $pipeline = new Pipeline();
         $pipeline->setSteps($steps);
         $pipeline->setConfiguration($configuration);
@@ -35,31 +38,44 @@ class PipelineFactory implements CorePipelineFactory
         return $pipeline;
     }
 
+    /**
+     * @param array<string, mixed> $overrideConfiguration
+     * @param array<string, mixed> $input
+     */
     public function createFromWorkflowId(
         string $workflowId,
         array $overrideConfiguration = [],
         array $input = [],
-    ): CorePipeline
-    {
+    ): CorePipeline {
         $workflow = $this->workflowProvider->findWorkflowByIdentifier($workflowId);
 
         Assert::isInstanceOf($workflow, Workflow::class);
 
         $steps = [];
         foreach ($workflow->getStepConfiguration() as $index => $stepConfiguration) {
+            Assert::isArray($stepConfiguration);
+            Assert::keyExists($stepConfiguration, 'code');
+            Assert::string($stepConfiguration['code']);
+
+            $code = $stepConfiguration['code'];
+            $name = isset($stepConfiguration['name']) && is_string($stepConfiguration['name']) ? $stepConfiguration['name'] : null;
+            /** @var array<string, mixed> $stepConfig */
+            $stepConfig = isset($stepConfiguration['configuration']) && is_array($stepConfiguration['configuration']) ? $stepConfiguration['configuration'] : [];
             $steps[] = $this->stepFactory->create(
-                code: $stepConfiguration['code'],
-                name: $stepConfiguration['name'] ?? null,
-                configuration: $stepConfiguration['configuration'] ?? [],
-                order: $index,
+                code: $code,
+                name: $name,
+                configuration: $stepConfig,
+                order: (int) $index,
             );
         }
 
         $configuration = array_merge($workflow->getConfiguration(), $overrideConfiguration);
 
-        $step = $this->create($steps, $configuration, $input);
-        $step->setWorkflow($workflow);
+        $pipeline = $this->create($steps, $configuration, $input);
+        Assert::isInstanceOf($pipeline, Pipeline::class);
 
-        return $step;
+        $pipeline->setWorkflow($workflow);
+
+        return $pipeline;
     }
 }

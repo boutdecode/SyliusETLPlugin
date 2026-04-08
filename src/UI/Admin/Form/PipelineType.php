@@ -40,7 +40,7 @@ class PipelineType extends AbstractType
         $request = $this->requestStack->getCurrentRequest();
         $workflowId = $request?->query->get('workflowId');
         $workflow = null;
-        if ($workflowId) {
+        if (is_string($workflowId) && $workflowId !== '') {
             $workflow = $this->workflowProvider->findWorkflowByIdentifier($workflowId);
         }
 
@@ -75,7 +75,7 @@ class PipelineType extends AbstractType
                             ];
                         },
                         $this->stepResolver->list(),
-                    ))
+                    )),
                 ],
                 'data' => json_encode($workflow?->getStepConfiguration() ?? []),
             ])
@@ -103,23 +103,24 @@ class PipelineType extends AbstractType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
             $form = $event->getForm();
 
             /** @var Pipeline $data */
             $data = $event->getData();
 
-            $form->get('configuration')->setData(json_encode($data->getConfiguration(), JSON_PRETTY_PRINT));
-            $form->get('input')->setData(json_encode($data->getInput(), JSON_PRETTY_PRINT));
+            $form->get('configuration')->setData(json_encode($data->getConfiguration(), \JSON_PRETTY_PRINT));
+            $form->get('input')->setData(json_encode($data->getInput(), \JSON_PRETTY_PRINT));
         });
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
 
             /** @var Pipeline $data */
             $data = $event->getData();
 
-            $data->setConfiguration(json_decode($form->get('configuration')->getData(), true));
+            $rawConfiguration = $form->get('configuration')->getData();
+            $data->setConfiguration(is_string($rawConfiguration) ? (array) json_decode($rawConfiguration, true) : []);
 
             /** @var UploadedFile|null $uploadedFile */
             $uploadedFile = $form->get('inputFile')->getData();
@@ -130,7 +131,7 @@ class PipelineType extends AbstractType
 
                 $data->setInput([
                     'type' => 'file',
-                    'source' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . $filename,
+                    'source' => sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $filename,
                     'name' => $uploadedFile->getClientOriginalName(),
                     'mime_type' => $uploadedFile->getClientMimeType(),
                 ]);
@@ -139,8 +140,14 @@ class PipelineType extends AbstractType
             }
 
             $rawInput = $form->get('input')->getData();
+            if (!is_string($rawInput)) {
+                $data->setInput([]);
+
+                return;
+            }
+
             $decoded = json_decode($rawInput, true);
-            $data->setInput($decoded !== null ? $decoded : ['_raw' => $rawInput]);
+            $data->setInput(is_array($decoded) ? $decoded : ['_raw' => $rawInput]);
         });
     }
 
