@@ -3,21 +3,7 @@ import store from './store.js';
 import './step-lib.js';
 import './step-configuration.js';
 
-/**
- * StepConfiguratorContainer — composant orchestrateur (Custom Element).
- *
- * Responsabilités (uniquement) :
- *   - Monter la mise en page deux colonnes
- *   - Initialiser <step-lib> et <step-configuration>
- *   - Écouter les events des sous-composants et coordonner les effets de bord :
- *       • step-lib:dragstart       → signaler à step-configuration d'afficher les drop-zones
- *       • step-lib:dragend         → signaler à step-configuration de masquer les drop-zones
- *       • step-configuration:change → calculer les noms déduplicatés, sauvegarder,
- *                                  émettre « change » vers le Stimulus controller
- */
 export default class StepConfiguratorContainer extends HTMLElement {
-
-    /** @type {StepConfiguration} */
     #pipeline = null;
     #listeners = [];
 
@@ -55,14 +41,14 @@ export default class StepConfiguratorContainer extends HTMLElement {
         const onDragEnd   = () => this.#pipeline?.setDragging(false);
         const onChange    = () => this.#saveChanges();
 
-        this.addEventListener('step-lib:dragstart',        onDragStart);
-        this.addEventListener('step-lib:dragend',          onDragEnd);
+        this.addEventListener('step-lib:dragstart', onDragStart);
+        this.addEventListener('step-lib:dragend', onDragEnd);
         this.addEventListener('step-configuration:change', onChange);
 
         this.#listeners.push(
-            { element: this, type: 'step-lib:dragstart',        listener: onDragStart },
-            { element: this, type: 'step-lib:dragend',          listener: onDragEnd   },
-            { element: this, type: 'step-configuration:change', listener: onChange    },
+            { element: this, type: 'step-lib:dragstart', listener: onDragStart },
+            { element: this, type: 'step-lib:dragend', listener: onDragEnd },
+            { element: this, type: 'step-configuration:change', listener: onChange },
         );
     }
 
@@ -75,10 +61,6 @@ export default class StepConfiguratorContainer extends HTMLElement {
 
     // ─── Sauvegarde ──────────────────────────────────────────────────────────
 
-    /**
-     * Déduplication des noms de steps (ex. « csv-extractor » → « csv-extractor-2 »)
-     * puis notification vers le Stimulus controller via un CustomEvent « change ».
-     */
     #saveChanges() {
         const counts = {};
 

@@ -1,19 +1,5 @@
 import store from './store.js';
 
-/**
- * StepConfiguration — colonne droite du configurateur.
- *
- * Responsabilités :
- *   - Afficher la liste ordonnée des steps ajoutés (cartes Semantic UI)
- *   - Gérer les drop-zones (dragover / dragleave / drop)
- *   - Permettre le réordonnancement (moveUp / moveDown) et la suppression
- *   - Afficher les champs de configuration de chaque step (accordion)
- *   - Émettre un CustomEvent « step-configuration:change » à chaque modification
- *     pour que le container puisse déclencher la sauvegarde
- *
- * Le composant expose une méthode publique `refresh()` appelable
- * de l'extérieur (ex. après un changement de store initié par le container).
- */
 export default class StepConfiguration extends HTMLElement {
 
     #listeners = [];
@@ -27,15 +13,11 @@ export default class StepConfiguration extends HTMLElement {
         this.#unbindEvents();
     }
 
-    // ─── API publique ────────────────────────────────────────────────────────
-
-    /** Re-render + rebind + re-init icons (appelé depuis le container). */
     refresh() {
         this.render();
         this.#bindEvents();
     }
 
-    /** Active/désactive la visibilité des drop-zones pendant un drag. */
     setDragging(active) {
         this.classList.toggle('dragging', active);
     }
@@ -161,14 +143,14 @@ export default class StepConfiguration extends HTMLElement {
                 this.refresh();
             };
 
-            zone.addEventListener('dragover',  onDragOver);
+            zone.addEventListener('dragover', onDragOver);
             zone.addEventListener('dragleave', onDragLeave);
-            zone.addEventListener('drop',      onDrop);
+            zone.addEventListener('drop', onDrop);
 
             this.#listeners.push(
-                { element: zone, type: 'dragover',  listener: onDragOver  },
+                { element: zone, type: 'dragover', listener: onDragOver },
                 { element: zone, type: 'dragleave', listener: onDragLeave },
-                { element: zone, type: 'drop',      listener: onDrop      },
+                { element: zone, type: 'drop', listener: onDrop },
             );
         });
     }

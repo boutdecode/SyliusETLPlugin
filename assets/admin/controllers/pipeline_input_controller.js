@@ -8,19 +8,13 @@ export default class PipelineInputController {
     initialize() {
         const initialType = this.#detectType(this.element.value ?? '');
         const fileWrapper = document.getElementById(this.element.dataset.fileFieldId);
-
-        // Inject the selector tabs right before the textarea's parent .field
         const textareaRow = this.element.closest('.field') ?? this.element.parentElement;
-
         const selector = document.createElement('pipeline-input-selector');
         selector.dataset.initialType  = initialType;
         selector.dataset.textareaId   = this.element.id;
         selector.dataset.fileFieldId  = this.element.dataset.fileFieldId;
-
-        // Insert tabs above the textarea row
         textareaRow.before(selector);
 
-        // Hide the file field initially if not in file mode
         if (fileWrapper && initialType !== 'file') {
             fileWrapper.style.display = 'none';
         }

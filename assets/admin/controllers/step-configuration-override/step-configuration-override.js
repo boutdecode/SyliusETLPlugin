@@ -15,13 +15,11 @@ export default class StepConfigurationOverride extends HTMLElement {
 
     // ─── API publique ────────────────────────────────────────────────────────
 
-    /** Re-render + rebind + re-init icons (appelé depuis le container). */
     refresh() {
         this.render();
         this.#bindEvents();
     }
 
-    /** Active/désactive la visibilité des drop-zones pendant un drag. */
     setDragging(active) {
         this.classList.toggle('dragging', active);
     }

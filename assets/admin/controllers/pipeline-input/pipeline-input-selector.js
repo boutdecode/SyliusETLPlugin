@@ -6,14 +6,6 @@ const LABELS = {
     json: 'JSON',
 };
 
-/**
- * Custom Element <pipeline-input-selector>
- *
- * Attributes (set by the controller before insertion):
- *   data-initial-type   — 'text' | 'file' | 'json'  (detected from existing value)
- *   data-textarea-id    — id of the Symfony textarea field (input)
- *   data-file-field-id  — id of the Symfony file field wrapper (inputFile)
- */
 export default class PipelineInputSelector extends HTMLElement {
     #listeners = [];
     #currentType = 'json';
@@ -50,12 +42,9 @@ export default class PipelineInputSelector extends HTMLElement {
         if (!this.#textarea || !this.#fileWrapper) return;
 
         const isFile = this.#currentType === 'file';
-
-        // Show/hide the Symfony textarea row
         const textareaRow = this.#textarea.closest('.field') ?? this.#textarea.parentElement;
         if (textareaRow) textareaRow.style.display = isFile ? 'none' : '';
 
-        // Show/hide the Symfony file field row
         this.#fileWrapper.style.display = isFile ? '' : 'none';
     }
 

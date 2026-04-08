@@ -1,17 +1,5 @@
 import store from './store.js';
 
-/**
- * StepLib — colonne gauche du configurateur.
- *
- * Responsabilités :
- *   - Afficher les steps disponibles groupés par catégorie (tabs Semantic UI)
- *   - Rendre chaque item draggable (dragstart / dragend)
- *   - Émettre un CustomEvent « step-lib:dragstart » et « step-lib:dragend »
- *     afin que step-configuration puisse réagir (afficher / masquer les drop-zones)
- *
- * Attributs observés :
- *   - (aucun) — les données viennent du store partagé
- */
 export default class StepLib extends HTMLElement {
 
     #categories = ['extractor', 'transformer', 'loader'];
@@ -65,7 +53,6 @@ export default class StepLib extends HTMLElement {
             `).join('')}
         `;
 
-        // Activation des onglets Semantic UI (si jQuery / $.fn.tab est disponible)
         if (typeof $ !== 'undefined' && $.fn.tab) {
             $(this).find('.menu .item').tab();
         }

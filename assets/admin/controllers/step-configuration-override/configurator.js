@@ -32,7 +32,7 @@ export default class StepConfigurationOverrideConfigurator extends HTMLElement {
     #bindEvents() {
         this.#unbindEvents();
 
-        const onChange    = () => this.#saveChanges();
+        const onChange = () => this.#saveChanges();
 
         this.addEventListener('step-configuration-override:change', onChange);
 
