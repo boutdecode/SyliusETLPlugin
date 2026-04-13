@@ -83,6 +83,9 @@ bout_de_code_sylius_etl_plugin:
       xml_file:
         name: "XML"
         description: "Extracts data from an XML file."
+      json_file:
+        name: "JSON"
+        description: "Extracts data from a JSON file."
 
     transformer:
       data_mapping:
