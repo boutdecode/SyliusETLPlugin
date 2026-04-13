@@ -125,7 +125,39 @@ framework:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
 ```
 
-### 6. Run database migrations
+### 6. Import the admin assets
+
+Add a dedicated entry in your `webpack.config.js`:
+
+```js
+const path = require('path');
+
+Encore
+    // ...
+    .addEntry(
+        'boutdecode-etl-plugin-admin-entry',
+        path.resolve(
+            __dirname,
+            'vendor/boutdecode/sylius-etl-plugin/assets/admin/entrypoint.js'
+        )
+    )
+```
+
+Then include the compiled entry in your admin layout (e.g. `templates/bundles/SyliusAdminBundle/layout.html.twig`):
+
+```twig
+{{ encore_entry_script_tags('boutdecode-etl-plugin-admin-entry') }}
+{{ encore_entry_link_tags('boutdecode-etl-plugin-admin-entry') }}
+```
+
+Then install and build the assets:
+
+```bash
+bin/console assets:install
+yarn encore dev
+```
+
+### 7. Run database migrations
 
 ```bash
 bin/console doctrine:migrations:migrate
