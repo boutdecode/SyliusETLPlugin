@@ -1,6 +1,6 @@
 imports:
     - { resource: "@BoutDeCodeETLCoreBundle/Resources/config/config.yaml" }
-    - { resource: "@BoutDeCodeSyliusETLPlugin/config/config.yaml" }
+    - { resource: "@BoutDeCodeSyliusETLPlugin/config/config.php" }
     - { resource: "services_test.php" }
 
 twig:

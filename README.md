@@ -68,20 +68,50 @@ return [
 
 ### 3. Import the plugin configuration
 
-Create or update `config/packages/bout_de_code_sylius_etl.yaml`:
+**PHP** — create or update `config/packages/bout_de_code_sylius_etl.php`:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import('@BoutDeCodeETLCoreBundle/Resources/config/config.yaml');
+    $containerConfigurator->import('@BoutDeCodeSyliusETLPlugin/config/config.php');
+};
+```
+
+**YAML** — create or update `config/packages/bout_de_code_sylius_etl.yaml`:
 
 ```yaml
 imports:
-    - { resource: '@BoutDeCodeSyliusETLPlugin/config/config.yaml' }
+    - { resource: '@BoutDeCodeETLCoreBundle/Resources/config/config.yaml' }
+    - { resource: '@BoutDeCodeSyliusETLPlugin/config/config.php' }
 ```
 
 ### 4. Import the admin routes
 
-Add to `config/routes.yaml` (or `config/routes/sylius_admin.yaml`):
+**PHP** — add to `config/routes.php` (or `config/routes/sylius_admin.php`):
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+return static function (RoutingConfigurator $routingConfigurator): void {
+    $routingConfigurator->import('@BoutDeCodeSyliusETLPlugin/config/routes/admin.php');
+};
+```
+
+**YAML** — add to `config/routes.yaml` (or `config/routes/sylius_admin.yaml`):
 
 ```yaml
 bout_de_code_sylius_etl_admin:
-    resource: '@BoutDeCodeSyliusETLPlugin/config/routes/admin.yaml'
+    resource: '@BoutDeCodeSyliusETLPlugin/config/routes/admin.php'
 ```
 
 ### 5. Configure Symfony Messenger

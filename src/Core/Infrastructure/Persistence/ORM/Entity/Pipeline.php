@@ -32,24 +32,24 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     name: 'pipeline',
     operations: [
         new Index(
-            grid: PipelineGrid::class
+            grid: PipelineGrid::class,
         ),
         new Create(
             processor: CreatePipelineProcessor::class,
             formType: PipelineType::class,
-            redirectToRoute: 'bout_de_code_sylius_etl_plugin_admin_pipeline_index'
+            redirectToRoute: 'bout_de_code_sylius_etl_plugin_admin_pipeline_index',
         ),
         new Delete(),
         new Show(
-            template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show.html.twig'
+            template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show.html.twig',
         ),
 
         new ApplyStateMachineTransition(
             stateMachineComponent: 'symfony',
             stateMachineTransition: 'reset',
-            stateMachineGraph: 'pipeline_lifecycle'
+            stateMachineGraph: 'pipeline_lifecycle',
         ),
-    ]
+    ],
 )]
 #[ORM\Entity(repositoryClass: PipelineRepository::class)]
 #[ORM\Table(name: 'etl_pipeline')]
