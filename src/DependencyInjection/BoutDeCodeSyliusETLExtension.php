@@ -30,7 +30,7 @@ final class BoutDeCodeSyliusETLExtension extends AbstractResourceExtension imple
 
     protected function getMigrationsNamespace(): string
     {
-        return 'DoctrineMigrations';
+        return 'BoutDeCode\\SyliusETLPlugin\\Migrations';
     }
 
     protected function getMigrationsDirectory(): string
