@@ -12,7 +12,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.1",
-        "boutdecode/etl-core-bundle": "dev-main",
+        "boutdecode/etl-core-bundle": "^0.1.1",
         "dragonmantank/cron-expression": "^3.6",
         "sylius/sylius": "^1.14",
         "symfony/uid": "^6.4"
