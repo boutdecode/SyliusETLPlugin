@@ -34,7 +34,7 @@ class StepHistory extends AbstractStepHistory
     protected \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: PipelineHistory::class, inversedBy: 'stepHistories')]
-    protected PipelineHistory $pipelineHistory;
+    protected ?PipelineHistory $pipelineHistory = null;
 
     #[ORM\ManyToOne(targetEntity: Step::class)]
     #[ORM\JoinColumn(name: 'step_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
@@ -46,12 +46,12 @@ class StepHistory extends AbstractStepHistory
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getPipelineHistory(): PipelineHistory
+    public function getPipelineHistory(): ?PipelineHistory
     {
         return $this->pipelineHistory;
     }
 
-    public function setPipelineHistory(PipelineHistory $pipelineHistory): void
+    public function setPipelineHistory(?PipelineHistory $pipelineHistory): void
     {
         $this->pipelineHistory = $pipelineHistory;
     }

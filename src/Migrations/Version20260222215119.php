@@ -14,7 +14,7 @@ final class Version20260222215119 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add ETL pipeline, step and workflow tables, and update messenger_messages indexes and column types';
+        return 'Add ETL pipeline, step and workflow tables';
     }
 
     public function up(Schema $schema): void
@@ -55,16 +55,6 @@ final class Version20260222215119 extends AbstractMigration
             $this->addSql('ALTER TABLE etl_step ADD CONSTRAINT FK_42863395E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipelineHistory_id) REFERENCES etl_pipeline_history (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C3688073B21E9C FOREIGN KEY (step_id) REFERENCES etl_step (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-            $this->addSql('DROP INDEX idx_75ea56e016ba31db');
-            $this->addSql('DROP INDEX idx_75ea56e0e3bd61ce');
-            $this->addSql('DROP INDEX idx_75ea56e0fb7336f0');
-            $this->addSql('ALTER TABLE messenger_messages ALTER created_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('ALTER TABLE messenger_messages ALTER available_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('ALTER TABLE messenger_messages ALTER delivered_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.created_at IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.available_at IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.delivered_at IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0E3BD61CE16BA31DBBF396750 ON messenger_messages (queue_name, available_at, delivered_at, id)');
 
             return;
         }
@@ -107,16 +97,6 @@ final class Version20260222215119 extends AbstractMigration
             $this->addSql('DROP TABLE etl_step');
             $this->addSql('DROP TABLE etl_step_history');
             $this->addSql('DROP TABLE etl_workflow');
-            $this->addSql('DROP INDEX IDX_75EA56E0FB7336F0E3BD61CE16BA31DBBF396750');
-            $this->addSql('ALTER TABLE messenger_messages ALTER created_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('ALTER TABLE messenger_messages ALTER available_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('ALTER TABLE messenger_messages ALTER delivered_at TYPE TIMESTAMP(0) WITHOUT TIME ZONE');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.created_at IS NULL');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.available_at IS NULL');
-            $this->addSql('COMMENT ON COLUMN messenger_messages.delivered_at IS NULL');
-            $this->addSql('CREATE INDEX idx_75ea56e016ba31db ON messenger_messages (delivered_at)');
-            $this->addSql('CREATE INDEX idx_75ea56e0e3bd61ce ON messenger_messages (available_at)');
-            $this->addSql('CREATE INDEX idx_75ea56e0fb7336f0 ON messenger_messages (queue_name)');
 
             return;
         }

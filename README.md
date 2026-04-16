@@ -25,17 +25,14 @@
 
 This plugin adds a full-featured ETL workflow management system to the Sylius admin panel. It allows store administrators to define reusable **Workflows** (named chains of ordered ETL Steps), and execute them as **Pipelines** — either manually, via file upload, or on a schedule.
 
-Built-in step types include product import loaders, data transformers, and support for nested workflow execution.
+The plugin provides the ETL infrastructure (workflow management, pipeline execution, history tracking). Step implementations are defined in your application.
 
 ## Features
 
 - **Workflow management** — create and configure reusable chains of ETL steps from the admin panel
 - **Pipeline execution** — run workflows as pipelines with JSON input, file upload, or scheduled execution
 - **Execution history** — detailed per-step and per-pipeline run history with status tracking
-- **Built-in step types**:
-  - `etl.loader.sylius_product` — create or update Sylius Products and ProductVariants
-  - `etl.loader.workflow` — spawn child pipelines from another workflow (chained ETL)
-  - `etl.transformer.import_product_mapper` — map flat columnar data (e.g. CSV) to nested product/variant schema
+- **Step registry** — register your own step services tagged with `etl.step`
 - **State machine** — pipeline lifecycle management with reset/execute transitions
 - **Dedicated logging** — separate `pipeline` log channel for ETL activity
 - **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
@@ -169,13 +166,7 @@ bin/console doctrine:migrations:migrate
 
 Navigate to **Admin > ETL > Workflows** to create a new Workflow. A workflow defines an ordered chain of steps, each with a step type code and a JSON configuration.
 
-Available step type codes:
-
-| Code | Type | Description |
-|---|---|---|
-| `etl.loader.sylius_product` | Loader | Imports products and variants into Sylius |
-| `etl.loader.workflow` | Loader | Executes another workflow as a sub-pipeline |
-| `etl.transformer.import_product_mapper` | Transformer | Maps flat CSV-style columns to product/variant schema |
+Step type codes correspond to services tagged `etl.step` registered in your application. See the [etl-core documentation](https://github.com/boutdecode/etl-core) for instructions on how to create and register custom steps.
 
 ### Pipelines
 
