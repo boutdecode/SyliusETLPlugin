@@ -9,9 +9,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'channels' => ['pipeline'],
         'handlers' => [
             'pipeline' => [
-                'type' => 'stream',
+                'type' => 'rotating_file',
                 'channels' => ['pipeline'],
                 'path' => '%kernel.logs_dir%/%kernel.environment%_bout_de_code_sylius_etl_plugin.log',
+                'max_files' => 30,
             ],
         ],
     ]);
