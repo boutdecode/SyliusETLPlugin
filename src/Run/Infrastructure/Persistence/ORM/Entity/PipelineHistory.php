@@ -37,7 +37,7 @@ class PipelineHistory extends AbstractPipelineHistory
     #[ORM\OneToMany(targetEntity: StepHistory::class, mappedBy: 'pipelineHistory', cascade: ['persist', 'remove'], orphanRemoval: true)]
     protected iterable $stepHistories = [];
 
-    #[ORM\ManyToOne(targetEntity: Pipeline::class)]
+    #[ORM\ManyToOne(targetEntity: Pipeline::class, inversedBy: 'histories')]
     #[ORM\JoinColumn(name: 'pipeline_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected Pipeline $pipeline;
 
