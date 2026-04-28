@@ -37,6 +37,32 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 - **Dedicated logging** — separate `pipeline` log channel for ETL activity
 - **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
 
+### Screenshots
+
+**Workflow list**
+
+![Workflow list](docs/media/workflow-index.png)
+
+**Workflow editor** — configure ordered steps with their configuration
+
+![Workflow editor](docs/media/workflow-edit.png)
+
+**Pipeline list**
+
+![Pipeline list](docs/media/pipeline-index.png)
+
+**Pipeline detail** — inspect pipeline and configuration
+
+![Pipeline detail](docs/media/pipeline-show.png)
+
+**Execute a pipeline** — provide a file upload, JSON input or a scheduled date; the workflow configuration can also be overridden at runtime per step
+
+![Execute a pipeline](docs/media/workflow-execute.png)
+
+**Pipeline run history** — per-step status and execution timeline
+
+![Pipeline run history](docs/media/pipeline-history.png)
+
 ## Requirements
 
 - PHP `^8.1`
