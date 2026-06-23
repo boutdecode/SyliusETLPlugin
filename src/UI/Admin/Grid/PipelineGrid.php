@@ -31,6 +31,10 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
     {
         $gridBuilder
             ->addField(
+                StringField::create('name')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.name'),
+            )
+            ->addField(
                 StringField::create('workflow.name')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.workflow'),
             )

@@ -28,8 +28,9 @@ final class CreatePipelineProcessor implements ProcessorInterface
         $workflow = $data->getWorkflow();
         Assert::isInstanceOf($workflow, Workflow::class);
 
-        $pipeline = $this->pipelineFactory->createFromWorkflowId(
-            workflowId: $workflow->getId(),
+        $pipeline = $this->pipelineFactory->createFromWorkflow(
+            workflow: $workflow,
+            name: $data->getName(),
             overrideConfiguration: $data->getConfiguration(),
             input: $data->getInput(),
         );

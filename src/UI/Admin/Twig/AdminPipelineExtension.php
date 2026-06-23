@@ -31,6 +31,7 @@ class AdminPipelineExtension extends AbstractExtension
 
             if (($config['name'] ?? $config['code'] ?? 'unknow') === $step->getName()) {
                 $overrideStepConfiguration = $config;
+
                 break;
             }
         }

@@ -2,6 +2,12 @@
 
 <table class="ui celled striped table">
     <tbody>
+    {% if pipeline.name %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</td>
+        <td>{{ pipeline.name }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <td>{{ 'bout_de_code_sylius_etl_plugin.grid.workflow'|trans }}</td>
         <td>

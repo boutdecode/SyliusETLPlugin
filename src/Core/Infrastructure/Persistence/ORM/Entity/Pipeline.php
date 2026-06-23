@@ -61,6 +61,9 @@ class Pipeline extends AbstractPipeline implements ResourceInterface
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
     protected string $id;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    protected ?string $name = null;
+
     /** @var Collection<int, Step> */
     #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'pipeline', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['order' => 'ASC'])]
@@ -164,6 +167,11 @@ class Pipeline extends AbstractPipeline implements ResourceInterface
     public function getHistories(): Collection
     {
         return $this->histories;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 
     public function setScheduledAt(?\DateTimeImmutable $scheduledAt): void

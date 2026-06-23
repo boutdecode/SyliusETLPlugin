@@ -17,6 +17,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -47,6 +48,10 @@ class PipelineType extends AbstractType
         $translator = $this->translator;
 
         $builder
+            ->add('name', TextType::class, [
+                'label' => 'bout_de_code_sylius_etl_plugin.form.name',
+                'required' => false,
+            ])
             ->add('workflow', EntityType::class, [
                 'label' => 'bout_de_code_sylius_etl_plugin.form.workflow',
                 'class' => Workflow::class,

@@ -9,7 +9,6 @@ use Cron\CronExpression;
 
 class CronExpressionScheduler implements ExpressionScheduler
 {
-
     /** @throws \Exception */
     public function getNextScheduleFromExpression(string $expression): \DateTimeImmutable
     {

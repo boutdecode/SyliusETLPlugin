@@ -24,33 +24,43 @@ class PipelineFactory implements CorePipelineFactory
     /**
      * @param Step[] $steps
      * @param array<string, mixed> $configuration
-     * @param array<string, mixed> $input
      */
     public function create(
+        ?string $name = null,
         array $steps = [],
         array $configuration = [],
-        array $input = [],
     ): CorePipeline {
         $pipeline = new Pipeline();
+        $pipeline->setName($name);
         $pipeline->setSteps($steps);
         $pipeline->setConfiguration($configuration);
-        $pipeline->setInput($input);
 
         return $pipeline;
     }
 
-    /**
-     * @param array<string, mixed> $overrideConfiguration
-     * @param array<string, mixed> $input
-     */
+    /** @deprecated Use createFromWorkflow instead */
     public function createFromWorkflowId(
         string $workflowId,
         array $overrideConfiguration = [],
         array $input = [],
     ): CorePipeline {
         $workflow = $this->workflowProvider->findWorkflowByIdentifier($workflowId);
-
         Assert::isInstanceOf($workflow, Workflow::class);
+
+        return $this->createFromWorkflow($workflow, null, $overrideConfiguration, $input);
+    }
+
+    /**
+     * @param array<string, mixed> $overrideConfiguration
+     * @param array<string, mixed> $input
+     */
+    public function createFromWorkflow(
+        Workflow $workflow,
+        ?string $name = null,
+        array $overrideConfiguration = [],
+        array $input = [],
+    ): CorePipeline {
+        Assert::isInstanceOf($workflow, WorkflowEntity::class);
 
         $steps = [];
         foreach ($workflow->getStepConfiguration() as $index => $stepConfiguration) {
@@ -59,35 +69,23 @@ class PipelineFactory implements CorePipelineFactory
             Assert::string($stepConfiguration['code']);
 
             $code = $stepConfiguration['code'];
-            $name = isset($stepConfiguration['name']) && is_string($stepConfiguration['name']) ? $stepConfiguration['name'] : null;
+            $stepName = isset($stepConfiguration['name']) && is_string($stepConfiguration['name']) ? $stepConfiguration['name'] : null;
             /** @var array<string, mixed> $stepConfig */
             $stepConfig = isset($stepConfiguration['configuration']) && is_array($stepConfiguration['configuration']) ? $stepConfiguration['configuration'] : [];
             $steps[] = $this->stepFactory->create(
                 code: $code,
-                name: $name,
+                name: $stepName,
                 configuration: $stepConfig,
                 order: (int) $index,
             );
         }
 
-        $configuration = array_merge($workflow->getConfiguration(), $overrideConfiguration);
-
-        $pipeline = $this->create($steps, $configuration, $input);
+        $pipeline = $this->create($name, $steps, array_merge($workflow->getConfiguration(), $overrideConfiguration));
         Assert::isInstanceOf($pipeline, Pipeline::class);
 
+        $pipeline->setInput($input);
         $pipeline->setWorkflow($workflow);
 
         return $pipeline;
-    }
-
-    public function createFromWorkflow(
-        Workflow $workflow,
-        array $overrideConfiguration = [],
-        array $input = []
-    ): CorePipeline
-    {
-        Assert::isInstanceOf($workflow, WorkflowEntity::class);
-
-        return $this->createFromWorkflowId($workflow->getId(), $overrideConfiguration, $input);
     }
 }

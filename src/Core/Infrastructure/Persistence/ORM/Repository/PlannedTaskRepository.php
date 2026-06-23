@@ -11,6 +11,7 @@ use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Planne
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceRepositoryTrait;
+use Webmozart\Assert\Assert;
 
 /**
  * @extends ServiceEntityRepository<PlannedTask>
@@ -36,6 +37,7 @@ class PlannedTaskRepository extends ServiceEntityRepository implements PlannedTa
 
     public function save(CorePlannedTask $plannedTask): PlannedTask
     {
+        Assert::isInstanceOf($plannedTask, PlannedTask::class);
         $this->getEntityManager()->persist($plannedTask);
         $this->getEntityManager()->flush();
 
