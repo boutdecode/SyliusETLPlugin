@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
+use BoutDeCode\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use Sylius\Bundle\GridBundle\Builder\Action\Action;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
@@ -15,6 +17,8 @@ use Sylius\Bundle\GridBundle\Builder\Field\DateTimeField;
 use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Field\TwigField;
 use Sylius\Bundle\GridBundle\Builder\Filter\DateFilter;
+use Sylius\Bundle\GridBundle\Builder\Filter\EntityFilter;
+use Sylius\Bundle\GridBundle\Builder\Filter\SelectFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\StringFilter;
 use Sylius\Bundle\GridBundle\Builder\GridBuilderInterface;
 use Sylius\Bundle\GridBundle\Grid\AbstractGrid;
@@ -40,32 +44,45 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
             )
             ->addField(
                 TwigField::create('status', '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.status')
-                    ->setSortable(true),
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.status'),
             )
             ->addField(
                 DateTimeField::create('createdAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.created_at')
-                    ->setSortable(true),
+                    ->setSortable(true, 'createdAt'),
             )
             ->addField(
                 DateTimeField::create('scheduledAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.scheduled_at')
-                    ->setSortable(true),
+                    ->setSortable(true, 'scheduledAt'),
             )
             ->addField(
                 DateTimeField::create('startedAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.started_at')
-                    ->setSortable(true),
+                    ->setSortable(true, 'startedAt'),
             )
             ->addField(
                 DateTimeField::create('finishedAt')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.finished_at')
-                    ->setSortable(true),
+                    ->setSortable(true, 'finishedAt'),
             )
             // Filtres
             ->addFilter(
-                StringFilter::create('status')
+                StringFilter::create('name')
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.name'),
+            )
+            ->addFilter(
+                EntityFilter::create('workflow', Workflow::class)
+                    ->setLabel('bout_de_code_sylius_etl_plugin.filter.workflow'),
+            )
+            ->addFilter(
+                SelectFilter::create('status', array_combine(
+                    array_map(
+                        fn (PipelineStatus $s) => 'bout_de_code_sylius_etl_plugin.pipeline.status.' . $s->value,
+                        PipelineStatus::cases(),
+                    ),
+                    array_column(PipelineStatus::cases(), 'value'),
+                ))->addFormOption('choice_translation_domain', 'messages')
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.status'),
             )
             ->addFilter(

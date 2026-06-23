@@ -94,4 +94,9 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     {
         return $this->id;
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

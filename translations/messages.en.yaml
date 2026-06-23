@@ -42,7 +42,9 @@ bout_de_code_sylius_etl_plugin:
     enabled: "Enabled"
     schedule: "Schedule"
   filter:
+    workflow: "Workflow"
     status: "Status"
+    enabled: "Enabled"
     created_at: "Created At"
     started_at: "Started At"
     finished_at: "Finished At"
