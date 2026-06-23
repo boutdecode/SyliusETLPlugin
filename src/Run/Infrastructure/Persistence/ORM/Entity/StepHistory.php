@@ -34,6 +34,7 @@ class StepHistory extends AbstractStepHistory
     protected \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: PipelineHistory::class, inversedBy: 'stepHistories')]
+    #[ORM\JoinColumn(name: 'pipeline_history_id', onDelete: 'CASCADE')]
     protected ?PipelineHistory $pipelineHistory = null;
 
     #[ORM\ManyToOne(targetEntity: Step::class)]

@@ -53,7 +53,7 @@ final class Version20260222215119 extends AbstractMigration
             $this->addSql('ALTER TABLE etl_pipeline ADD CONSTRAINT FK_FB3190EF2C7C2CBA FOREIGN KEY (workflow_id) REFERENCES etl_workflow (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_pipeline_history ADD CONSTRAINT FK_16086583E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step ADD CONSTRAINT FK_42863395E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C3688073B21E9C FOREIGN KEY (step_id) REFERENCES etl_step (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
 
             return;
@@ -73,7 +73,7 @@ final class Version20260222215119 extends AbstractMigration
             $this->addSql('ALTER TABLE etl_pipeline ADD CONSTRAINT FK_FB3190EF2C7C2CBA FOREIGN KEY (workflow_id) REFERENCES etl_workflow (id)');
             $this->addSql('ALTER TABLE etl_pipeline_history ADD CONSTRAINT FK_16086583E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) ON DELETE CASCADE');
             $this->addSql('ALTER TABLE etl_step ADD CONSTRAINT FK_42863395E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id)');
-            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id)');
+            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id) ON DELETE CASCADE');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C3688073B21E9C FOREIGN KEY (step_id) REFERENCES etl_step (id) ON DELETE CASCADE');
 
             return;
