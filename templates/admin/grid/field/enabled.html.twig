@@ -1,0 +1,14 @@
+{% if data == true %}
+    {% set value = 'true' %}
+{% else %}
+    {% set value = 'false' %}
+{% endif %}
+
+{% set status_classes = {
+    'true': 'ui green label',
+    'false': 'ui grey label',
+} %}
+
+<span class="{{ status_classes[value] ?? 'ui label' }}">
+    {{ ('bout_de_code_sylius_etl_plugin.ui.enabled.' ~ value)|trans }}
+</span>

@@ -34,6 +34,7 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 - **Execution history** — detailed per-step and per-pipeline run history with status tracking
 - **Step registry** — register your own step services tagged with `etl.step`
 - **State machine** — pipeline lifecycle management with reset/execute transitions
+- **Planned tasks** — define recurring ETL jobs by binding a workflow to a cron expression; a new pipeline is created and dispatched automatically on each occurrence
 - **Dedicated logging** — separate `pipeline` log channel for ETL activity
 - **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
 
@@ -186,6 +187,16 @@ yarn encore dev
 bin/console doctrine:migrations:migrate
 ```
 
+### 8. Start the Messenger worker
+
+Pipeline execution and planned task scheduling are processed asynchronously via Symfony Messenger. Start the worker with both the `async` and `scheduler_etl` transports:
+
+```bash
+bin/console messenger:consume async scheduler_etl
+```
+
+In production, use a process manager (Supervisor, `systemd`, etc.) to keep the worker running continuously.
+
 ## Usage
 
 ### Workflows
@@ -203,6 +214,28 @@ When creating a pipeline you can provide:
 - A **file upload** (e.g. a CSV file)
 - A **JSON configuration override** to customize step parameters at runtime
 - A **scheduled date/time** for deferred execution
+- A **cron expression** for recurring scheduled execution
+
+### Planned tasks
+
+Navigate to **Admin > ETL > Planned tasks** to create recurring ETL jobs.
+
+A planned task binds a **Workflow** to a **cron expression** (e.g. `0 2 * * *` for every day at 2 AM). Every minute the built-in Symfony Scheduler fires, picks up all enabled planned tasks, and dispatches an execution command for each one. The runner then:
+
+1. Creates a new `Pipeline` from the task's workflow, applying any per-task configuration and input overrides.
+2. Computes the next scheduled run date from the cron expression.
+3. Persists the pipeline and links it back to the planned task.
+
+**Available fields when creating a planned task:**
+
+| Field | Description |
+|---|---|
+| Name | Human-readable label |
+| Workflow | The workflow to execute |
+| Schedule | Cron expression (e.g. `*/5 * * * *`) |
+| Enabled | Toggle to activate/deactivate without deleting |
+| Configuration | JSON override merged on top of the workflow's step configuration |
+| Input | Inline JSON payload or a file upload used as pipeline input |
 
 ### Logging
 

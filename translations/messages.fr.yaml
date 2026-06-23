@@ -16,6 +16,14 @@ bout_de_code_sylius_etl_plugin:
     pipeline_configuration: "Configuration du pipeline"
     workflow_configuration: "Configuration du workflow"
     override_configuration: "Surcharge de la configuration"
+    planned_tasks: "Tâches planifiées"
+    new_planned_task: "Nouvelle tâche planifiée"
+    edit_planned_task: "Modifier la tâche planifiée"
+    show_planned_task: "Détails de la tâche planifiée"
+    planned_task_configuration: "Configuration de la tâche planifiée"
+    enabled:
+      "true": "Oui"
+      "false": "Non"
   pipeline:
     status:
       pending: "En attente"
@@ -31,6 +39,8 @@ bout_de_code_sylius_etl_plugin:
     scheduled_at: "Planifié pour le"
     name: "Nom"
     description: "Description"
+    enabled: "Activé"
+    schedule: "Planification"
   filter:
     status: "Statut"
     created_at: "Créé le"
@@ -42,6 +52,7 @@ bout_de_code_sylius_etl_plugin:
     execute_workflow: "Exécuter le workflow"
     create_workflow: "Créer un workflow"
     create_pipeline: "Créer un pipeline"
+    create_planned_task: "Créer une tâche planifiée"
     execute: "Exécuter"
     start: "Démarrer"
     complete: "Compléter"
@@ -71,7 +82,9 @@ bout_de_code_sylius_etl_plugin:
     input_type_json: "JSON"
     workflow: "Workflow"
     scheduled_at: "Planifié pour le"
-
+    enabled: "Activé"
+    schedule: "Planification"
+    schedule_help: "Utilisez une expression cron pour définir la planification de la tâche. Par exemple, '0 0 * * *' pour exécuter tous les jours à minuit."
   etl:
     extractor:
       api:
@@ -86,7 +99,6 @@ bout_de_code_sylius_etl_plugin:
       json_file:
         name: "JSON"
         description: "Extrait des données à partir d'un fichier JSON."
-
     transformer:
       data_mapping:
         name: "Mapping de données"
@@ -97,7 +109,6 @@ bout_de_code_sylius_etl_plugin:
       import_product_mapper:
         name: "Mapper pour import de produits"
         description: "Transforme les données en mappant les champs d'entrée aux champs de produit Sylius pour l'importation."
-
     loader:
       database:
         name: "Base de données"

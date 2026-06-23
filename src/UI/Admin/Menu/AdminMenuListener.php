@@ -19,6 +19,14 @@ final class AdminMenuListener
         ;
 
         $subMenu
+            ->addChild('planned_task', [
+                'route' => 'bout_de_code_sylius_etl_plugin_admin_planned_task_index',
+            ])
+            ->setLabelAttribute('icon', 'icon calendar')
+            ->setLabel('bout_de_code_sylius_etl_plugin.ui.planned_tasks')
+        ;
+
+        $subMenu
             ->addChild('workflow', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_workflow_index',
             ])

@@ -10,6 +10,7 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Pipeline as CorePipeline;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow as WorkflowEntity;
 use Webmozart\Assert\Assert;
 
 class PipelineFactory implements CorePipelineFactory
@@ -77,5 +78,16 @@ class PipelineFactory implements CorePipelineFactory
         $pipeline->setWorkflow($workflow);
 
         return $pipeline;
+    }
+
+    public function createFromWorkflow(
+        Workflow $workflow,
+        array $overrideConfiguration = [],
+        array $input = []
+    ): CorePipeline
+    {
+        Assert::isInstanceOf($workflow, WorkflowEntity::class);
+
+        return $this->createFromWorkflowId($workflow->getId(), $overrideConfiguration, $input);
     }
 }

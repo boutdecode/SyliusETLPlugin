@@ -16,6 +16,14 @@ bout_de_code_sylius_etl_plugin:
     pipeline_configuration: "Pipeline Configuration"
     workflow_configuration: "Workflow Configuration"
     override_configuration: "Override Configuration"
+    planned_tasks: "Planned Tasks"
+    new_planned_task: "New Planned Task"
+    edit_planned_task: "Edit Planned Task"
+    show_planned_task: "Planned Task Details"
+    planned_task_configuration: "Planned Task Configuration"
+    enabled:
+      "true": "Yes"
+      "false": "No"
   pipeline:
     status:
       pending: "Pending"
@@ -31,6 +39,8 @@ bout_de_code_sylius_etl_plugin:
     scheduled_at: "Scheduled At"
     name: "Name"
     description: "Description"
+    enabled: "Enabled"
+    schedule: "Schedule"
   filter:
     status: "Status"
     created_at: "Created At"
@@ -42,6 +52,7 @@ bout_de_code_sylius_etl_plugin:
     execute_workflow: "Execute Workflow"
     create_workflow: "Create Workflow"
     create_pipeline: "Create Pipeline"
+    create_planned_task: "Create Planned Task"
     execute: "Execute"
     start: "Start"
     complete: "Complete"
@@ -71,7 +82,9 @@ bout_de_code_sylius_etl_plugin:
     input_type_json: "JSON"
     workflow: "Workflow"
     scheduled_at: "Scheduled At"
-
+    enabled: "Enabled"
+    schedule: "Schedule"
+    schedule_help: "Use cron syntax to define the schedule (e.g., '0 0 * * *' for daily at midnight)."
   etl:
     extractor:
       api:
@@ -86,7 +99,6 @@ bout_de_code_sylius_etl_plugin:
       json_file:
         name: "JSON"
         description: "Extracts data from a JSON file."
-
     transformer:
       data_mapping:
         name: "Data Mapping"
@@ -97,7 +109,6 @@ bout_de_code_sylius_etl_plugin:
       import_product_mapper:
         name: "Import Product Mapper"
         description: "Transforms input data into a format suitable for Sylius product import."
-
     loader:
       database:
         name: "Database"

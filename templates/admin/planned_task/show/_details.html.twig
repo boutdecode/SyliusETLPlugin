@@ -1,0 +1,22 @@
+{% set plannedTask = resource %}
+
+<table class="ui celled striped table">
+    <tbody>
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.workflow'|trans }}</td>
+        <td>
+            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_index', { id: plannedTask.workflow.id }) }}">
+                {{ plannedTask.workflow.name }}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</td>
+        <td>{{ plannedTask.createdAt|date }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.schedule'|trans }}</td>
+        <td>{{ plannedTask.schedule }}</td>
+    </tr>
+    </tbody>
+</table>
