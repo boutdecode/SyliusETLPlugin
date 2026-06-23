@@ -22,58 +22,58 @@ final class Version20260222215119 extends AbstractMigration
         $platform = $this->connection->getDatabasePlatform();
 
         if ($platform instanceof PostgreSQLPlatform) {
-            $this->addSql('CREATE TABLE etl_pipeline (id UUID NOT NULL, workflow_id UUID DEFAULT NULL, createdAt TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, scheduledAt TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, startedAt TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, finishedAt TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, status VARCHAR(20) NOT NULL, configuration JSON NOT NULL, input JSON NOT NULL, PRIMARY KEY(id))');
+            $this->addSql('CREATE TABLE etl_pipeline (id UUID NOT NULL, workflow_id UUID DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, scheduled_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, started_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, finished_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, status VARCHAR(20) NOT NULL, configuration JSON NOT NULL, input JSON NOT NULL, PRIMARY KEY(id))');
             $this->addSql('CREATE INDEX IDX_FB3190EF2C7C2CBA ON etl_pipeline (workflow_id)');
             $this->addSql('COMMENT ON COLUMN etl_pipeline.id IS \'(DC2Type:uuid)\'');
             $this->addSql('COMMENT ON COLUMN etl_pipeline.workflow_id IS \'(DC2Type:uuid)\'');
-            $this->addSql('COMMENT ON COLUMN etl_pipeline.createdAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN etl_pipeline.scheduledAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN etl_pipeline.startedAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN etl_pipeline.finishedAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('CREATE TABLE etl_pipeline_history (id UUID NOT NULL, pipeline_id UUID NOT NULL, status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, createdAt TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+            $this->addSql('COMMENT ON COLUMN etl_pipeline.created_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_pipeline.scheduled_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_pipeline.started_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_pipeline.finished_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('CREATE TABLE etl_pipeline_history (id UUID NOT NULL, pipeline_id UUID NOT NULL, status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
             $this->addSql('CREATE INDEX IDX_16086583E80B93 ON etl_pipeline_history (pipeline_id)');
             $this->addSql('COMMENT ON COLUMN etl_pipeline_history.id IS \'(DC2Type:uuid)\'');
             $this->addSql('COMMENT ON COLUMN etl_pipeline_history.pipeline_id IS \'(DC2Type:uuid)\'');
-            $this->addSql('COMMENT ON COLUMN etl_pipeline_history.createdAt IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_pipeline_history.created_at IS \'(DC2Type:datetime_immutable)\'');
             $this->addSql('CREATE TABLE etl_step (id UUID NOT NULL, pipeline_id UUID NOT NULL, code VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, configuration JSON NOT NULL, "order" INT NOT NULL, PRIMARY KEY(id))');
             $this->addSql('CREATE INDEX IDX_42863395E80B93 ON etl_step (pipeline_id)');
             $this->addSql('COMMENT ON COLUMN etl_step.id IS \'(DC2Type:uuid)\'');
             $this->addSql('COMMENT ON COLUMN etl_step.pipeline_id IS \'(DC2Type:uuid)\'');
-            $this->addSql('CREATE TABLE etl_step_history (id UUID NOT NULL, step_id UUID NOT NULL, status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, createdAt TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, pipelineHistory_id UUID DEFAULT NULL, PRIMARY KEY(id))');
-            $this->addSql('CREATE INDEX IDX_47C368806F83648D ON etl_step_history (pipelineHistory_id)');
+            $this->addSql('CREATE TABLE etl_step_history (id UUID NOT NULL, step_id UUID NOT NULL, pipeline_history_id UUID DEFAULT NULL, status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+            $this->addSql('CREATE INDEX IDX_47C368806F83648D ON etl_step_history (pipeline_history_id)');
             $this->addSql('CREATE INDEX IDX_47C3688073B21E9C ON etl_step_history (step_id)');
             $this->addSql('COMMENT ON COLUMN etl_step_history.id IS \'(DC2Type:uuid)\'');
             $this->addSql('COMMENT ON COLUMN etl_step_history.step_id IS \'(DC2Type:uuid)\'');
-            $this->addSql('COMMENT ON COLUMN etl_step_history.createdAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN etl_step_history.pipelineHistory_id IS \'(DC2Type:uuid)\'');
-            $this->addSql('CREATE TABLE etl_workflow (id UUID NOT NULL, name VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, configuration JSON NOT NULL, stepConfiguration JSON NOT NULL, createdAt TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updatedAt TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+            $this->addSql('COMMENT ON COLUMN etl_step_history.created_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_step_history.pipeline_history_id IS \'(DC2Type:uuid)\'');
+            $this->addSql('CREATE TABLE etl_workflow (id UUID NOT NULL, name VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, configuration JSON NOT NULL, step_configuration JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
             $this->addSql('COMMENT ON COLUMN etl_workflow.id IS \'(DC2Type:uuid)\'');
-            $this->addSql('COMMENT ON COLUMN etl_workflow.createdAt IS \'(DC2Type:datetime_immutable)\'');
-            $this->addSql('COMMENT ON COLUMN etl_workflow.updatedAt IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_workflow.created_at IS \'(DC2Type:datetime_immutable)\'');
+            $this->addSql('COMMENT ON COLUMN etl_workflow.updated_at IS \'(DC2Type:datetime_immutable)\'');
             $this->addSql('ALTER TABLE etl_pipeline ADD CONSTRAINT FK_FB3190EF2C7C2CBA FOREIGN KEY (workflow_id) REFERENCES etl_workflow (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_pipeline_history ADD CONSTRAINT FK_16086583E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step ADD CONSTRAINT FK_42863395E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipelineHistory_id) REFERENCES etl_pipeline_history (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C3688073B21E9C FOREIGN KEY (step_id) REFERENCES etl_step (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
 
             return;
         }
 
         if ($platform instanceof MySQLPlatform || $platform instanceof MariaDBPlatform) {
-            $this->addSql('CREATE TABLE etl_pipeline (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', workflow_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid)\', createdAt DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', scheduledAt DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', startedAt DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', finishedAt DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', status VARCHAR(20) NOT NULL, configuration JSON NOT NULL, input JSON NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+            $this->addSql('CREATE TABLE etl_pipeline (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', workflow_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid)\', created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', scheduled_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', started_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', finished_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', status VARCHAR(20) NOT NULL, configuration JSON NOT NULL, input JSON NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('CREATE INDEX IDX_FB3190EF2C7C2CBA ON etl_pipeline (workflow_id)');
-            $this->addSql('CREATE TABLE etl_pipeline_history (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', pipeline_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, createdAt DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+            $this->addSql('CREATE TABLE etl_pipeline_history (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', pipeline_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('CREATE INDEX IDX_16086583E80B93 ON etl_pipeline_history (pipeline_id)');
             $this->addSql('CREATE TABLE etl_step (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', pipeline_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', code VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, configuration JSON NOT NULL, `order` INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('CREATE INDEX IDX_42863395E80B93 ON etl_step (pipeline_id)');
-            $this->addSql('CREATE TABLE etl_step_history (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', step_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', pipelineHistory_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid)\', status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, createdAt DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-            $this->addSql('CREATE INDEX IDX_47C368806F83648D ON etl_step_history (pipelineHistory_id)');
+            $this->addSql('CREATE TABLE etl_step_history (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', step_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', pipeline_history_id BINARY(16) DEFAULT NULL COMMENT \'(DC2Type:uuid)\', status VARCHAR(255) NOT NULL, input JSON DEFAULT NULL, result JSON DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+            $this->addSql('CREATE INDEX IDX_47C368806F83648D ON etl_step_history (pipeline_history_id)');
             $this->addSql('CREATE INDEX IDX_47C3688073B21E9C ON etl_step_history (step_id)');
-            $this->addSql('CREATE TABLE etl_workflow (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, configuration JSON NOT NULL, stepConfiguration JSON NOT NULL, createdAt DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updatedAt DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+            $this->addSql('CREATE TABLE etl_workflow (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, configuration JSON NOT NULL, step_configuration JSON NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('ALTER TABLE etl_pipeline ADD CONSTRAINT FK_FB3190EF2C7C2CBA FOREIGN KEY (workflow_id) REFERENCES etl_workflow (id)');
             $this->addSql('ALTER TABLE etl_pipeline_history ADD CONSTRAINT FK_16086583E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id) ON DELETE CASCADE');
             $this->addSql('ALTER TABLE etl_step ADD CONSTRAINT FK_42863395E80B93 FOREIGN KEY (pipeline_id) REFERENCES etl_pipeline (id)');
-            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipelineHistory_id) REFERENCES etl_pipeline_history (id)');
+            $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C368806F83648D FOREIGN KEY (pipeline_history_id) REFERENCES etl_pipeline_history (id)');
             $this->addSql('ALTER TABLE etl_step_history ADD CONSTRAINT FK_47C3688073B21E9C FOREIGN KEY (step_id) REFERENCES etl_step (id) ON DELETE CASCADE');
 
             return;
