@@ -27,6 +27,7 @@ bout_de_code_sylius_etl_plugin:
   pipeline:
     status:
       pending: "En attente"
+      scheduled: "Planifié"
       in_progress: "En cours"
       completed: "Terminé"
       failed: "Échoué"
