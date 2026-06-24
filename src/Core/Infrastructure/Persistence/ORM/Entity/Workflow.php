@@ -18,6 +18,7 @@ use Sylius\Resource\Metadata\Delete;
 use Sylius\Resource\Metadata\Index;
 use Sylius\Resource\Metadata\Show;
 use Sylius\Resource\Metadata\Update;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[AsResource(
     alias: 'bout_de_code_sylius_etl_plugin.workflow',
@@ -83,6 +84,7 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     }
 
     /** @return Collection<int, Pipeline> */
+    #[Ignore]
     public function getPipelines(): Collection
     {
         return $this->pipelines;
