@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use Sylius\Bundle\GridBundle\Builder\Action\Action;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
 use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
@@ -29,13 +30,11 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
         $gridBuilder
             ->addField(
                 StringField::create('name')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.name')
-                    ->setSortable(true),
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.name'),
             )
             ->addField(
                 StringField::create('description')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.description')
-                    ->setSortable(true),
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.description'),
             )
             // Filtres
             ->addFilter(
@@ -52,7 +51,7 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
             // Actions par ligne
             ->addActionGroup(
                 ItemActionGroup::create(
-                    ShowAction::create()
+                    Action::create('execute', 'create')
                         ->setLabel('bout_de_code_sylius_etl_plugin.action.execute_workflow')
                         ->setOptions([
                             'link' => [
@@ -62,6 +61,8 @@ final class WorkflowGrid extends AbstractGrid implements ResourceAwareGridInterf
                                 ],
                             ],
                         ]),
+                    ShowAction::create()
+                        ->setLabel('bout_de_code_sylius_etl_plugin.action.show'),
                     UpdateAction::create()
                         ->setLabel('bout_de_code_sylius_etl_plugin.action.edit'),
                     DeleteAction::create()

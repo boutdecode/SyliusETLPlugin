@@ -51,13 +51,11 @@ final class PlannedTaskGrid extends AbstractGrid implements ResourceAwareGridInt
             )
             ->addField(
                 DateTimeField::create('createdAt')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.created_at')
-                    ->setSortable(true),
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.created_at'),
             )
             ->addField(
                 TwigField::create('pipeline', '@BoutDeCodeSyliusETLPlugin/admin/grid/field/next_schedule.html.twig')
-                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.scheduled_at')
-                    ->setSortable(true),
+                    ->setLabel('bout_de_code_sylius_etl_plugin.grid.scheduled_at'),
             )
 
             // Filtres
@@ -74,7 +72,7 @@ final class PlannedTaskGrid extends AbstractGrid implements ResourceAwareGridInt
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.enabled'),
             )
             ->addFilter(
-                DateFilter::create('createdAt')
+                DateFilter::create('created_at')
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.created_at'),
             )
 

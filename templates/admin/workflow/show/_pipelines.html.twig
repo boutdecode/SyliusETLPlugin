@@ -1,0 +1,40 @@
+{% set workflow = resource %}
+
+<section class="ui segment">
+    <h2 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.pipelines'|trans }}</h2>
+
+    {% if workflow.pipelines is empty %}
+        <p>{{ 'bout_de_code_sylius_etl_plugin.ui.no_pipelines'|trans }}</p>
+    {% else %}
+        <table class="ui celled striped table">
+            <thead>
+                <tr>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.status'|trans }}</th>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.scheduled_at'|trans }}</th>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.started_at'|trans }}</th>
+                    <th>{{ 'bout_de_code_sylius_etl_plugin.grid.finished_at'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pipeline in workflow.pipelines %}
+                    <tr>
+                        <td>{{ pipeline.name ?? '-' }}</td>
+                        <td>{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipeline.status } %}</td>
+                        <td>{{ pipeline.createdAt|date }}</td>
+                        <td>{{ pipeline.scheduledAt ? pipeline.scheduledAt|date : '-' }}</td>
+                        <td>{{ pipeline.startedAt ? pipeline.startedAt|date : '-' }}</td>
+                        <td>{{ pipeline.finishedAt ? pipeline.finishedAt|date : '-' }}</td>
+                        <td>
+                            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_show', { id: pipeline.id }) }}" class="ui tiny primary button">
+                                {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</section>

@@ -34,6 +34,8 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
     public function buildGrid(GridBuilderInterface $gridBuilder): void
     {
         $gridBuilder
+            ->setLimits([10, 50, 100])
+            ->orderBy('createdAt', 'desc')
             ->addField(
                 StringField::create('name')
                     ->setLabel('bout_de_code_sylius_etl_plugin.grid.name'),
@@ -86,7 +88,7 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.status'),
             )
             ->addFilter(
-                DateFilter::create('createdAt')
+                DateFilter::create('created_at')
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.created_at'),
             )
             ->addFilter(

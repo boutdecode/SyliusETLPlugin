@@ -8,12 +8,15 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\AbstractWorkflow;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\WorkflowRepository;
 use BoutDeCode\SyliusETLPlugin\UI\Admin\Form\WorkflowType;
 use BoutDeCode\SyliusETLPlugin\UI\Admin\Grid\WorkflowGrid;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Resource\Metadata\AsResource;
 use Sylius\Resource\Metadata\Create;
 use Sylius\Resource\Metadata\Delete;
 use Sylius\Resource\Metadata\Index;
+use Sylius\Resource\Metadata\Show;
 use Sylius\Resource\Metadata\Update;
 
 #[AsResource(
@@ -31,6 +34,9 @@ use Sylius\Resource\Metadata\Update;
         ),
         new Update(
             formType: WorkflowType::class,
+        ),
+        new Show(
+            template: '@BoutDeCodeSyliusETLPlugin/admin/workflow/show.html.twig',
         ),
         new Delete(),
     ],
@@ -56,18 +62,30 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     protected array $configuration = [];
 
     /** @var array<int, mixed> */
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: 'json', name: 'step_configuration')]
     protected array $stepConfiguration = [];
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     protected \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'updated_at')]
     protected ?\DateTimeImmutable $updatedAt = null;
+
+    /** @var Collection<int, Pipeline> */
+    #[ORM\OneToMany(targetEntity: Pipeline::class, mappedBy: 'workflow')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    protected Collection $pipelines;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->pipelines = new ArrayCollection();
+    }
+
+    /** @return Collection<int, Pipeline> */
+    public function getPipelines(): Collection
+    {
+        return $this->pipelines;
     }
 
     public function setName(string $name): void

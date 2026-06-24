@@ -1,0 +1,25 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% set header = configuration.vars.header|default('bout_de_code_sylius_etl_plugin.ui.show_workflow') %}
+{% set event_prefix = 'bout_de_code_sylius_etl_plugin.admin.workflow.show' %}
+
+{% block title %}{{ header|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% include '@BoutDeCodeSyliusETLPlugin/admin/workflow/show/_header.html.twig' %}
+
+    <section class="ui segment">
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/workflow/show/_details.html.twig' %}
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/workflow/show/_pipelines.html.twig' %}
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ sylius_template_event([event_prefix ~ '.stylesheets', 'sylius.admin.show.stylesheets'], { 'metadata': metadata }) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ sylius_template_event([event_prefix ~ '.javascripts', 'sylius.admin.show.javascripts'], { 'metadata': metadata }) }}
+{% endblock %}

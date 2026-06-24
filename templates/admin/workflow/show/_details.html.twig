@@ -1,0 +1,26 @@
+{% set workflow = resource %}
+
+<table class="ui celled striped table">
+    <tbody>
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</td>
+        <td>{{ workflow.name }}</td>
+    </tr>
+    {% if workflow.description %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.description'|trans }}</td>
+        <td>{{ workflow.description }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</td>
+        <td>{{ workflow.createdAt|date }}</td>
+    </tr>
+    {% if workflow.updatedAt %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.updated_at'|trans }}</td>
+        <td>{{ workflow.updatedAt|date }}</td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>

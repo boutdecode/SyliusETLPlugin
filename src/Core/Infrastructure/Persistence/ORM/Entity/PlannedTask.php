@@ -77,10 +77,10 @@ class PlannedTask extends AbstractPlannedTask implements ResourceInterface
     #[ORM\Column(type: 'json')]
     protected array $input = [];
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     protected \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'updated_at')]
     protected ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()

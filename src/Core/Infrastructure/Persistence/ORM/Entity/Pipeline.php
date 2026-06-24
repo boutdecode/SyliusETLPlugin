@@ -69,22 +69,22 @@ class Pipeline extends AbstractPipeline implements ResourceInterface
     #[ORM\OrderBy(['order' => 'ASC'])]
     protected iterable $steps;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     protected \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'scheduled_at')]
     protected ?\DateTimeImmutable $scheduledAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'started_at')]
     protected ?\DateTimeImmutable $startedAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'finished_at')]
     protected ?\DateTimeImmutable $finishedAt = null;
 
     #[ORM\Column(type: 'string', length: 20, enumType: PipelineStatus::class)]
     protected PipelineStatus $status = PipelineStatus::PENDING;
 
-    #[ORM\ManyToOne(targetEntity: Workflow::class)]
+    #[ORM\ManyToOne(targetEntity: Workflow::class, inversedBy: 'pipelines')]
     #[ORM\JoinColumn(name: 'workflow_id', referencedColumnName: 'id')]
     protected CoreWorkflow $workflow;
 

@@ -30,7 +30,7 @@ class StepHistory extends AbstractStepHistory
     #[ORM\Column(type: 'json', nullable: true)]
     protected mixed $result = [];
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', name: 'created_at')]
     protected \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: PipelineHistory::class, inversedBy: 'stepHistories')]
