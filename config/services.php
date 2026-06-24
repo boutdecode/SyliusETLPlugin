@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use BoutDeCode\ETLCoreBundle\Run\Infrastructure\Instrumentation\Logger;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -20,4 +21,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Logger::class)
         ->arg('$logger', service('monolog.logger.pipeline'));
+
+    $services->alias(Application::class, 'console.messenger.application');
 };

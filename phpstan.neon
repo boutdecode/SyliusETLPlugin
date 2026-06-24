@@ -10,6 +10,8 @@ parameters:
         - src/Migrations/
         - src/Core/Infrastructure/Persistence/ORM/Entity/
         - src/Run/Infrastructure/Persistence/ORM/Entity/
+        - src/Statistics/Infrastructure/Persistence/ORM/Entity/
+
     doctrine:
         reportDynamicQueryBuilders: false
         reportUnknownTypes: false

@@ -19,6 +19,14 @@ final class AdminMenuListener
         ;
 
         $subMenu
+            ->addChild('dashboard', [
+                'route' => 'bout_de_code_sylius_etl_plugin_admin_dashboard',
+            ])
+            ->setLabelAttribute('icon', 'icon chart bar')
+            ->setLabel('bout_de_code_sylius_etl_plugin.ui.dashboard')
+        ;
+
+        $subMenu
             ->addChild('planned_task', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_planned_task_index',
             ])
@@ -30,7 +38,7 @@ final class AdminMenuListener
             ->addChild('workflow', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_workflow_index',
             ])
-            ->setLabelAttribute('icon', 'icon cog')
+            ->setLabelAttribute('icon', 'icon sitemap')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.workflows')
         ;
 
@@ -38,7 +46,7 @@ final class AdminMenuListener
             ->addChild('pipeline', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_pipeline_index',
             ])
-            ->setLabelAttribute('icon', 'icon ellipsis horizontal')
+            ->setLabelAttribute('icon', 'icon tasks')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.pipelines')
         ;
     }
