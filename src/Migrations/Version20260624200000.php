@@ -64,8 +64,8 @@ final class Version20260624200000 extends AbstractMigration
 
         if ($platform instanceof MySQLPlatform || $platform instanceof MariaDBPlatform) {
             $this->addSql('CREATE TABLE etl_workflow_statistic (
-                id CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\',
-                workflow_id CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\',
+                id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\',
+                workflow_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\',
                 total_count INT NOT NULL DEFAULT 0,
                 success_count INT NOT NULL DEFAULT 0,
                 failure_count INT NOT NULL DEFAULT 0,
@@ -81,8 +81,8 @@ final class Version20260624200000 extends AbstractMigration
             ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
 
             $this->addSql('CREATE TABLE etl_workflow_execution_statistic (
-                id CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\',
-                workflow_id CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\',
+                id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\',
+                workflow_id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\',
                 status VARCHAR(20) NOT NULL,
                 started_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\',
                 finished_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\',
