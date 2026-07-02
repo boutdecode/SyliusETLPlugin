@@ -15,12 +15,18 @@ class WorkflowFactory implements CoreWorkflowFactory
         array $configuration = [],
         array $stepConfiguration = [],
         ?string $description = null,
+        bool $notifyOnSuccess = false,
+        bool $notifyOnFailure = false,
+        ?array $notificationProviders = null,
     ): CoreWorkflow {
         $workflow = new Workflow();
         $workflow->setName($name);
         $workflow->setConfiguration($configuration);
         $workflow->setStepConfiguration($stepConfiguration);
         $workflow->setDescription($description);
+        $workflow->setNotifyOnSuccess($notifyOnSuccess);
+        $workflow->setNotifyOnFailure($notifyOnFailure);
+        $workflow->setNotificationProviders($notificationProviders);
 
         return $workflow;
     }

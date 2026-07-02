@@ -22,5 +22,19 @@
         <td>{{ workflow.updatedAt|date }}</td>
     </tr>
     {% endif %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.notify_on_success'|trans }}</td>
+        <td>{{ ('bout_de_code_sylius_etl_plugin.ui.enabled.' ~ (workflow.notifyOnSuccess ? 'true' : 'false'))|trans }}</td>
+    </tr>
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.notify_on_failure'|trans }}</td>
+        <td>{{ ('bout_de_code_sylius_etl_plugin.ui.enabled.' ~ (workflow.notifyOnFailure ? 'true' : 'false'))|trans }}</td>
+    </tr>
+    {% if workflow.notificationProviders %}
+    <tr>
+        <td>{{ 'bout_de_code_sylius_etl_plugin.grid.notification_providers'|trans }}</td>
+        <td>{{ workflow.notificationProviders|join(', ') }}</td>
+    </tr>
+    {% endif %}
     </tbody>
 </table>

@@ -36,6 +36,7 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 - **State machine** — pipeline lifecycle management with reset/execute transitions
 - **Planned tasks** — define recurring ETL jobs by binding a workflow to a cron expression; a new pipeline is created and dispatched automatically on each occurrence
 - **Dedicated logging** — separate `pipeline` log channel for ETL activity
+- **Notifications** — notify on pipeline success and/or failure per workflow, through pluggable providers (built-in email support)
 - **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
 
 ### Screenshots
@@ -204,6 +205,22 @@ In production, use a process manager (Supervisor, `systemd`, etc.) to keep the w
 Navigate to **Admin > ETL > Workflows** to create a new Workflow. A workflow defines an ordered chain of steps, each with a step type code and a JSON configuration.
 
 Step type codes correspond to services tagged `etl.step` registered in your application. See the [etl-core documentation](https://github.com/boutdecode/etl-core) for instructions on how to create and register custom steps.
+
+#### Notifications
+
+Each workflow can be configured to notify on success and/or on failure, and to restrict which providers are used (leave empty to notify through every registered provider). The built-in `email` provider is configured globally in your application, not per workflow:
+
+```yaml
+# config/packages/boutdecode_etl_core.yaml
+boutdecode_etl_core:
+    notifications:
+        email:
+            from: 'noreply@example.com'
+            to: ['ops@example.com']
+            subject_prefix: '[ETL]'
+```
+
+See the [etl-core documentation](https://github.com/boutdecode/etl-core#notifications) for how to implement a custom notification provider (e.g. Slack).
 
 ### Pipelines
 

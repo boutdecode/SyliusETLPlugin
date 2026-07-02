@@ -66,6 +66,9 @@ bout_de_code_sylius_etl_plugin:
     description: "Description"
     enabled: "Activé"
     schedule: "Planification"
+    notify_on_success: "Notifier en cas de succès"
+    notify_on_failure: "Notifier en cas d'échec"
+    notification_providers: "Canaux de notification"
   filter:
     workflow: "Workflow"
     status: "Statut"
@@ -112,6 +115,10 @@ bout_de_code_sylius_etl_plugin:
     enabled: "Activé"
     schedule: "Planification"
     schedule_help: "Utilisez une expression cron pour définir la planification de la tâche. Par exemple, '0 0 * * *' pour exécuter tous les jours à minuit."
+    notify_on_success: "Notifier en cas de succès"
+    notify_on_failure: "Notifier en cas d'échec"
+    notification_providers: "Canaux de notification"
+    notification_providers_help: "Laisser vide pour notifier via tous les canaux enregistrés."
   etl:
     extractor:
       api:

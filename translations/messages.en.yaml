@@ -66,6 +66,9 @@ bout_de_code_sylius_etl_plugin:
     description: "Description"
     enabled: "Enabled"
     schedule: "Schedule"
+    notify_on_success: "Notify on success"
+    notify_on_failure: "Notify on failure"
+    notification_providers: "Notification providers"
   filter:
     workflow: "Workflow"
     status: "Status"
@@ -112,6 +115,10 @@ bout_de_code_sylius_etl_plugin:
     enabled: "Enabled"
     schedule: "Schedule"
     schedule_help: "Use cron syntax to define the schedule (e.g., '0 0 * * *' for daily at midnight)."
+    notify_on_success: "Notify on success"
+    notify_on_failure: "Notify on failure"
+    notification_providers: "Notification providers"
+    notification_providers_help: "Leave empty to notify through every registered provider."
   etl:
     extractor:
       api:

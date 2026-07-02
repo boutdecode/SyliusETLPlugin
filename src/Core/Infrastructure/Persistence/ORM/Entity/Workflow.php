@@ -72,6 +72,16 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     #[ORM\Column(type: 'datetime_immutable', nullable: true, name: 'updated_at')]
     protected ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(type: 'boolean', name: 'notify_on_success')]
+    protected bool $notifyOnSuccess = false;
+
+    #[ORM\Column(type: 'boolean', name: 'notify_on_failure')]
+    protected bool $notifyOnFailure = false;
+
+    /** @var string[]|null */
+    #[ORM\Column(type: 'json', name: 'notification_providers', nullable: true)]
+    protected ?array $notificationProviders = null;
+
     /** @var Collection<int, Pipeline> */
     #[ORM\OneToMany(targetEntity: Pipeline::class, mappedBy: 'workflow')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
@@ -108,6 +118,22 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     public function setStepConfiguration(array $stepConfiguration): void
     {
         $this->stepConfiguration = $stepConfiguration;
+    }
+
+    public function setNotifyOnSuccess(bool $notifyOnSuccess): void
+    {
+        $this->notifyOnSuccess = $notifyOnSuccess;
+    }
+
+    public function setNotifyOnFailure(bool $notifyOnFailure): void
+    {
+        $this->notifyOnFailure = $notifyOnFailure;
+    }
+
+    /** @param string[]|null $notificationProviders */
+    public function setNotificationProviders(?array $notificationProviders): void
+    {
+        $this->notificationProviders = $notificationProviders;
     }
 
     public function getId(): string

@@ -9,8 +9,12 @@ use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\ExtractorStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\LoaderStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\TransformerStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Resolver\StepResolver;
+use BoutDeCode\ETLCoreBundle\Notifications\Domain\Model\NotificationProvider;
+use BoutDeCode\ETLCoreBundle\Notifications\Domain\Resolver\NotificationProviderResolver;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +29,7 @@ class WorkflowType extends AbstractType
 {
     public function __construct(
         private readonly StepResolver $stepResolver,
+        private readonly NotificationProviderResolver $notificationProviderResolver,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -74,6 +79,25 @@ class WorkflowType extends AbstractType
                     )),
                 ],
             ])
+            ->add('notifyOnSuccess', CheckboxType::class, [
+                'label' => 'bout_de_code_sylius_etl_plugin.form.notify_on_success',
+                'required' => false,
+            ])
+            ->add('notifyOnFailure', CheckboxType::class, [
+                'label' => 'bout_de_code_sylius_etl_plugin.form.notify_on_failure',
+                'required' => false,
+            ])
+            ->add('notificationProviders', ChoiceType::class, [
+                'mapped' => false,
+                'multiple' => true,
+                'required' => false,
+                'label' => 'bout_de_code_sylius_etl_plugin.form.notification_providers',
+                'help' => 'bout_de_code_sylius_etl_plugin.form.notification_providers_help',
+                'choices' => array_combine(
+                    array_map(static fn (NotificationProvider $provider) => $provider->getCode(), $this->notificationProviderResolver->list()),
+                    array_map(static fn (NotificationProvider $provider) => $provider->getCode(), $this->notificationProviderResolver->list()),
+                ),
+            ])
         ;
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
@@ -83,6 +107,7 @@ class WorkflowType extends AbstractType
             $data = $event->getData();
 
             $form->get('stepConfiguration')->setData(json_encode($data->getStepConfiguration(), \JSON_PRETTY_PRINT));
+            $form->get('notificationProviders')->setData($data->getNotificationProviders() ?? []);
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
@@ -93,6 +118,12 @@ class WorkflowType extends AbstractType
 
             $rawStepConfig = $form->get('stepConfiguration')->getData();
             $data->setStepConfiguration(is_string($rawStepConfig) ? (array) json_decode($rawStepConfig, true) : []);
+
+            $rawNotificationProviders = $form->get('notificationProviders')->getData();
+            $notificationProviders = is_array($rawNotificationProviders)
+                ? array_values(array_filter($rawNotificationProviders, 'is_string'))
+                : [];
+            $data->setNotificationProviders($notificationProviders !== [] ? $notificationProviders : null);
         });
     }
 
