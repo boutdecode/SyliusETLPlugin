@@ -37,6 +37,7 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 - **Planned tasks** — define recurring ETL jobs by binding a workflow to a cron expression; a new pipeline is created and dispatched automatically on each occurrence
 - **Dedicated logging** — separate `pipeline` log channel for ETL activity
 - **Notifications** — notify on pipeline success and/or failure per workflow, through pluggable providers (built-in email support)
+- **Pipeline purge** — opt-in scheduled cleanup of old completed/failed pipelines and their history, to keep storage bounded
 - **Sylius admin integration** — ETL section added to the admin sidebar with grid views for Workflows and Pipelines
 
 ### Screenshots
@@ -232,6 +233,21 @@ When creating a pipeline you can provide:
 - A **JSON configuration override** to customize step parameters at runtime
 - A **scheduled date/time** for deferred execution
 - A **cron expression** for recurring scheduled execution
+
+### Purging old Pipelines
+
+The bundle can automatically delete old pipeline runs so that storage doesn't grow unbounded. This is handled by a scheduled job (disabled by default) that removes pipelines in a terminal state (`completed` or `failed`) whose finish date is older than a configurable retention window, together with their `PipelineHistory` and `StepHistory` records. `WorkflowStatistic` and `WorkflowExecutionStatistic` records are left untouched, so aggregated reporting survives pipeline purges.
+
+```yaml
+# config/packages/boutdecode_etl_core.yaml
+boutdecode_etl_core:
+    purge:
+        enabled: true                  # default: false
+        retention_days: 30             # default: 30 — minimum: 1
+        cron_expression: '0 3 * * *'   # default: '0 3 * * *' — any valid cron expression
+```
+
+See the [etl-core documentation](https://github.com/boutdecode/etl-core#purging-old-pipelines) for details.
 
 ### Planned tasks
 

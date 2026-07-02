@@ -49,6 +49,12 @@ class PipelineRepository extends ServiceEntityRepository implements PipelinePers
         return $this->find($identifier);
     }
 
+    public function delete(CorePipeline $pipeline): void
+    {
+        $this->getEntityManager()->remove($pipeline);
+        $this->getEntityManager()->flush();
+    }
+
     /** @return array<CorePipeline> */
     public function findScheduledPipelines(): array
     {
@@ -58,6 +64,21 @@ class PipelineRepository extends ServiceEntityRepository implements PipelinePers
             ->andWhere('p.status = :status')
             ->setParameter('now', new \DateTimeImmutable())
             ->setParameter('status', PipelineStatus::PENDING->value)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
+    /** @return array<CorePipeline> */
+    public function findPurgeablePipelines(\DateTimeImmutable $before): array
+    {
+        /** @var array<CorePipeline> $result */
+        $result = $this->createQueryBuilder('p')
+            ->andWhere('p.status IN (:statuses)')
+            ->andWhere('p.finishedAt < :before')
+            ->setParameter('statuses', [PipelineStatus::COMPLETED->value, PipelineStatus::FAILED->value])
+            ->setParameter('before', $before)
             ->getQuery()
             ->getResult();
 

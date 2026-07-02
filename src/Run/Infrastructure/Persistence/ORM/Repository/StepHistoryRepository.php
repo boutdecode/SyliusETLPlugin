@@ -32,4 +32,10 @@ class StepHistoryRepository extends ServiceEntityRepository implements StepHisto
 
         return $stepHistory;
     }
+
+    public function delete(CoreStepHistory $stepHistory): void
+    {
+        $this->getEntityManager()->remove($stepHistory);
+        $this->getEntityManager()->flush();
+    }
 }

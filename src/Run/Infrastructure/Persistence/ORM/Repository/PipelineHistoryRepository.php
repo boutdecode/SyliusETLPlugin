@@ -35,6 +35,12 @@ class PipelineHistoryRepository extends ServiceEntityRepository implements Pipel
         return $pipelineHistory;
     }
 
+    public function delete(CorePipelineHistory $pipelineHistory): void
+    {
+        $this->getEntityManager()->remove($pipelineHistory);
+        $this->getEntityManager()->flush();
+    }
+
     public function findByPipeline(Pipeline $pipeline, int $limit = 100): iterable
     {
         return $this->findBy(['pipeline' => $pipeline], ['createdAt' => 'DESC'], $limit);
