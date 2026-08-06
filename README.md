@@ -153,6 +153,14 @@ framework:
 
 ### 6. Import the admin assets
 
+The admin UI components are built with React (no JSX — plain `.js` files using
+[`htm`](https://github.com/developit/htm) tagged templates instead). Install the JS
+dependencies:
+
+```bash
+yarn add react react-dom htm
+```
+
 Add a dedicated entry in your `webpack.config.js`:
 
 ```js

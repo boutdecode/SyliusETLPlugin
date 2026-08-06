@@ -11,7 +11,7 @@
     background: url("../images/dot-grid.png") repeat;
 }
 
-step-configuration.dragging .drop-zone {
+.step-configuration-steps.dragging .drop-zone {
     display: block;
 }
 
