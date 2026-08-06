@@ -27,11 +27,18 @@ export default function StepConfigurationOverrideConfigurator({ steps, stepConfi
                 configuration: {},
             };
 
+            const configuration = { ...entry.configuration };
+            if (value === undefined) {
+                delete configuration[key];
+            } else {
+                configuration[key] = value;
+            }
+
             return {
                 ...prev,
                 [index]: {
                     ...entry,
-                    configuration: { ...entry.configuration, [key]: value },
+                    configuration,
                 },
             };
         });

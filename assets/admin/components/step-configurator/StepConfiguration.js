@@ -1,16 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
-
-function getStepFieldConfigs(step, stepConfiguration) {
-    const stepConfig = stepConfiguration.find((c) => c.code === step.code);
-    if (!stepConfig) return [];
-
-    return Object.entries(stepConfig.configuration_description ?? {}).map(([key, help]) => ({
-        key,
-        value: step.configuration[key] ?? '',
-        help: help ?? '',
-    }));
-}
+import { getStepFields, SchemaField } from './schema-fields.js';
 
 function DropZone({ order, onDrop }) {
     const [dragOver, setDragOver] = React.useState(false);
@@ -36,7 +26,7 @@ function DropZone({ order, onDrop }) {
 
 function StepCard({ step, index, stepsCount, stepConfiguration, onMoveUp, onMoveDown, onRemove, onConfigChange }) {
     const [open, setOpen] = React.useState(false);
-    const configs = getStepFieldConfigs(step, stepConfiguration);
+    const fields = getStepFields(step, stepConfiguration);
 
     return html`
         <div className="ui card fluid">
@@ -83,18 +73,13 @@ function StepCard({ step, index, stepsCount, stepConfiguration, onMoveUp, onMove
                         <small>Configuration</small>
                     </div>
                     <div className="content step-configuration-inputs${open ? ' active' : ''}" style=${{ display: open ? 'block' : 'none' }}>
-                        ${configs.map((field) => html`
-                            <div key=${field.key} className="ui field" style=${{ marginBottom: '0.5em' }}>
-                                <label htmlFor="field-${index}-${field.key}">${field.key}</label>
-                                <input
-                                    type="text"
-                                    name=${field.key}
-                                    defaultValue=${field.value}
-                                    id="field-${index}-${field.key}"
-                                    onBlur=${(e) => onConfigChange(index, field.key, e.target.value)}
-                                />
-                                ${field.help ? html`<small className="ui pointing label">${field.help}</small>` : ''}
-                            </div>
+                        ${fields.map((field) => html`
+                            <${SchemaField}
+                                key=${field.key}
+                                idPrefix="field-${index}-${field.key}"
+                                field=${field}
+                                onChange=${(value) => onConfigChange(index, field.key, value)}
+                            />
                         `)}
                     </div>
                 </div>

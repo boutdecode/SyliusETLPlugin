@@ -76,3 +76,45 @@
     margin-top: 4px;
     font-size: 0.85em;
 }
+
+/* Step configuration field help */
+.field-help-icon {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.4em;
+    color: rgba(0, 0, 0, 0.4);
+    cursor: help;
+}
+
+.field-help-icon:hover {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.field-help-popover {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    background: #1b1c1d;
+    color: #fff;
+    padding: 0.5em 0.75em;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: normal;
+    line-height: 1.3;
+    text-align: left;
+    white-space: normal;
+    width: max-content;
+    max-width: 260px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+.field-help-popover::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 8px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1b1c1d transparent transparent transparent;
+}

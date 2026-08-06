@@ -67,7 +67,7 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
         const step = nextSteps[index];
         const configuration = Array.isArray(step.configuration) ? {} : { ...step.configuration };
 
-        if (value === '') {
+        if (value === undefined) {
             delete configuration[key];
         } else {
             configuration[key] = value;

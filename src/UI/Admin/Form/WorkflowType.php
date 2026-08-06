@@ -73,6 +73,7 @@ class WorkflowType extends AbstractType
                                     default => 'unknown',
                                 },
                                 'configuration_description' => $step->getConfigurationDescription(),
+                                'configuration_schema' => $step->getConfigurationSchema(),
                             ];
                         },
                         $this->stepResolver->list(),
