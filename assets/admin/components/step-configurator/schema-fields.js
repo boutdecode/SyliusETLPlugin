@@ -94,6 +94,27 @@ function BooleanField({ id, field, onChange }) {
     `;
 }
 
+function EnumField({ id, field, enumValues, onChange }) {
+    const current = field.value;
+
+    return html`
+        <select
+            name=${field.key}
+            id=${id}
+            defaultValue=${current === undefined ? '' : String(current)}
+            onChange=${(e) => {
+                const raw = e.target.value;
+                if (raw === '') { onChange(undefined); return; }
+                const match = enumValues.find((v) => String(v) === raw);
+                onChange(match !== undefined ? match : raw);
+            }}
+        >
+            <option value="">--</option>
+            ${enumValues.map((v) => html`<option key=${String(v)} value=${String(v)}>${String(v)}</option>`)}
+        </select>
+    `;
+}
+
 function JsonField({ id, field, onChange }) {
     const initial = field.value === undefined ? '' : JSON.stringify(field.value, null, 2);
     const [text, setText] = React.useState(initial);
@@ -203,9 +224,12 @@ export function SchemaField({ idPrefix, field, onChange }) {
     const types = normalizeTypes(fieldSchema);
     const required = fieldSchema?.required === true;
     const isCheckbox = types.includes('boolean') || types.includes('bool');
+    const enumValues = Array.isArray(fieldSchema?.enum) && fieldSchema.enum.length > 0 ? fieldSchema.enum : null;
 
     let control;
-    if (!fieldSchema || types.length === 0) {
+    if (enumValues) {
+        control = html`<${EnumField} id=${idPrefix} field=${field} enumValues=${enumValues} onChange=${onChange} />`;
+    } else if (!fieldSchema || types.length === 0) {
         control = html`<${TextField} id=${idPrefix} field=${field} onChange=${onChange} />`;
     } else if (isCheckbox) {
         control = html`<${BooleanField} id=${idPrefix} field=${field} onChange=${onChange} />`;
