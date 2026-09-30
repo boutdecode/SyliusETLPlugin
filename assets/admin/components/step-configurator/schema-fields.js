@@ -54,6 +54,7 @@ function TextField({ id, field, onChange }) {
     return html`
         <input
             type="text"
+            form="none"
             name=${field.key}
             defaultValue=${field.value ?? ''}
             id=${id}
@@ -66,6 +67,7 @@ function NumberField({ id, field, integer, onChange }) {
     return html`
         <input
             type="number"
+            form="none"
             step=${integer ? '1' : 'any'}
             name=${field.key}
             defaultValue=${field.value ?? ''}
@@ -84,6 +86,7 @@ function BooleanField({ id, field, onChange }) {
         <div className="ui checkbox">
             <input
                 type="checkbox"
+                form="none"
                 name=${field.key}
                 defaultChecked=${field.value === true}
                 id=${id}
@@ -100,6 +103,7 @@ function EnumField({ id, field, enumValues, onChange }) {
     return html`
         <select
             name=${field.key}
+            form="none"
             id=${id}
             defaultValue=${current === undefined ? '' : String(current)}
             onChange=${(e) => {
@@ -123,6 +127,7 @@ function JsonField({ id, field, onChange }) {
     return html`
         <textarea
             name=${field.key}
+            form="none"
             id=${id}
             rows="4"
             defaultValue=${initial}
