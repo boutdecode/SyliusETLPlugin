@@ -3,9 +3,15 @@
 <section class="ui segment">
     <h2 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.pipelines'|trans }}</h2>
 
-    {% if workflow.pipelines is empty %}
+    {% set pipelines = workflow.latestPipelines %}
+
+    {% if pipelines is empty %}
         <p>{{ 'bout_de_code_sylius_etl_plugin.ui.no_pipelines'|trans }}</p>
     {% else %}
+        {% if workflow.pipelines|length > pipelines|length %}
+            <p>{{ 'bout_de_code_sylius_etl_plugin.ui.latest_pipelines_only'|trans({ '%count%': pipelines|length }) }}</p>
+        {% endif %}
+
         <table class="ui celled striped table">
             <thead>
                 <tr>
@@ -19,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for pipeline in workflow.pipelines %}
+                {% for pipeline in pipelines %}
                     <tr>
                         <td>{{ pipeline.name ?? '-' }}</td>
                         <td>{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipeline.status } %}</td>

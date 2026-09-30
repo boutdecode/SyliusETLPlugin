@@ -33,6 +33,7 @@ bout_de_code_sylius_etl_plugin:
     no_results: "No results."
     show_workflow: "Workflow Details"
     no_pipelines: "No pipelines for this workflow."
+    latest_pipelines_only: "Only the %count% latest pipelines are displayed."
     new_workflow: "New Workflow"
     new_pipeline: "New Pipeline"
     edit_workflow: "Edit Workflow"

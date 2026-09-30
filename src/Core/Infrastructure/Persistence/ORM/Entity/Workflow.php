@@ -83,7 +83,7 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     protected ?array $notificationProviders = null;
 
     /** @var Collection<int, Pipeline> */
-    #[ORM\OneToMany(targetEntity: Pipeline::class, mappedBy: 'workflow')]
+    #[ORM\OneToMany(targetEntity: Pipeline::class, mappedBy: 'workflow', fetch: 'EXTRA_LAZY')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     protected Collection $pipelines;
 
@@ -98,6 +98,13 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     public function getPipelines(): Collection
     {
         return $this->pipelines;
+    }
+
+    /** @return array<int, Pipeline> */
+    #[Ignore]
+    public function getLatestPipelines(int $limit = 100): array
+    {
+        return $this->pipelines->slice(0, $limit);
     }
 
     public function setName(string $name): void
