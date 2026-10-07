@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import { HelpIcon as HelpGlyph, TrashIcon, PlusIcon } from '../../icons.js';
 
 function normalizeTypes(fieldSchema) {
     if (!fieldSchema || typeof fieldSchema.type !== 'string') return [];
@@ -33,7 +34,7 @@ function HelpIcon({ text }) {
             onMouseEnter=${() => setVisible(true)}
             onMouseLeave=${() => setVisible(false)}
         >
-            <i className="question circle outline icon"></i>
+            <${HelpGlyph} />
             ${visible ? html`<span className="field-help-popover">${text}</span>` : ''}
         </span>
     `;
@@ -41,8 +42,8 @@ function HelpIcon({ text }) {
 
 function FieldLabel({ id, text, help, required }) {
     return html`
-        <div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <label htmlFor=${id} style=${{ fontWeight: 'bold' }}>
+        <div className="d-flex align-items-center justify-content-between">
+            <label htmlFor=${id} className="form-label fw-bold mb-1">
                 ${text}${required ? ' *' : ''}
             </label>
             <${HelpIcon} text=${help} />
@@ -54,6 +55,7 @@ function TextField({ id, field, onChange }) {
     return html`
         <input
             type="text"
+            className="form-control"
             form="none"
             name=${field.key}
             defaultValue=${field.value ?? ''}
@@ -67,6 +69,7 @@ function NumberField({ id, field, integer, onChange }) {
     return html`
         <input
             type="number"
+            className="form-control"
             form="none"
             step=${integer ? '1' : 'any'}
             name=${field.key}
@@ -83,16 +86,17 @@ function NumberField({ id, field, integer, onChange }) {
 
 function BooleanField({ id, field, onChange }) {
     return html`
-        <div className="ui checkbox">
+        <div className="form-check">
             <input
                 type="checkbox"
+                className="form-check-input"
                 form="none"
                 name=${field.key}
                 defaultChecked=${field.value === true}
                 id=${id}
                 onChange=${(e) => onChange(e.target.checked)}
             />
-            <label htmlFor=${id}></label>
+            <label htmlFor=${id} className="form-check-label"></label>
         </div>
     `;
 }
@@ -102,6 +106,7 @@ function EnumField({ id, field, enumValues, onChange }) {
 
     return html`
         <select
+            className="form-select"
             name=${field.key}
             form="none"
             id=${id}
@@ -125,7 +130,9 @@ function JsonField({ id, field, onChange }) {
     const [error, setError] = React.useState(null);
 
     return html`
+        <div>
         <textarea
+            className="form-control"
             name=${field.key}
             form="none"
             id=${id}
@@ -143,7 +150,8 @@ function JsonField({ id, field, onChange }) {
                 }
             }}
         ></textarea>
-        ${error ? html`<small className="ui red pointing label">${error}</small>` : ''}
+        ${error ? html`<small className="text-danger">${error}</small>` : ''}
+        </div>
     `;
 }
 
@@ -162,7 +170,7 @@ function NestedObjectField({ idPrefix, field, onChange }) {
     };
 
     return html`
-        <div className="nested-schema-fields" style=${{ paddingLeft: '1em', borderLeft: '2px solid rgba(0,0,0,0.1)' }}>
+        <div className="nested-schema-fields ps-3 border-start">
             ${Object.entries(schema).map(([key, childSchema]) => html`
                 <${SchemaField}
                     key=${key}
@@ -194,14 +202,14 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
     return html`
         <div className="repeatable-schema-fields">
             ${items.map((item, index) => html`
-                <div key=${index} className="ui segment" style=${{ position: 'relative' }}>
+                <div key=${index} className="border rounded p-2 mb-2" style=${{ position: 'relative' }}>
                     <button
                         type="button"
-                        className="ui mini red icon button"
+                        className="btn btn-sm btn-icon btn-outline-danger"
                         style=${{ position: 'absolute', top: '0.5em', right: '0.5em' }}
                         onClick=${() => removeItem(index)}
                     >
-                        <i className="icon trash alternate"></i>
+                        <${TrashIcon} />
                     </button>
                     ${Object.entries(properties).map(([key, childSchema]) => html`
                         <${SchemaField}
@@ -217,8 +225,8 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
                     `)}
                 </div>
             `)}
-            <button type="button" className="ui mini button" onClick=${() => onChange([...items, {}])}>
-                <i className="icon plus"></i> Ajouter
+            <button type="button" className="btn btn-sm" onClick=${() => onChange([...items, {}])}>
+                <${PlusIcon} /> Ajouter
             </button>
         </div>
     `;
@@ -255,7 +263,7 @@ export function SchemaField({ idPrefix, field, onChange }) {
     }
 
     return html`
-        <div className="ui field" style=${{ marginBottom: '0.5em' }}>
+        <div className="mb-2">
             <${FieldLabel} id=${idPrefix} text=${field.key} help=${field.help} required=${required} />
             ${control}
         </div>
