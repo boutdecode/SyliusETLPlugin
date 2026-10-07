@@ -11,9 +11,18 @@ parameters:
         - src/Core/Infrastructure/Persistence/ORM/Entity/
         - src/Run/Infrastructure/Persistence/ORM/Entity/
         - src/Statistics/Infrastructure/Persistence/ORM/Entity/
+        # Sylius Grid 1.16 deprecates Sylius\Bundle\GridBundle\Builder\GridBuilderInterface in favour of
+        # Sylius\Component\Grid\Builder\GridBuilderInterface (aliased at runtime), which makes PHPStan report a
+        # non-ignorable contravariance error on buildGrid(). The component interface does not exist before 1.16, which
+        # Sylius 2.0 to 2.2 still allow, so the bundle one is kept and the grid definitions are excluded from analysis.
+        - src/UI/Admin/Grid/
 
     doctrine:
         reportDynamicQueryBuilders: false
         reportUnknownTypes: false
     ignoreErrors:
-        - '#specifies template type TEntityClass of interface Doctrine\\Persistence\\ObjectRepository#'
+        # Sylius' RepositoryInterface and Doctrine's EntityRepository declare incompatible templates on
+        # ObjectRepository (template named TEntityClass before doctrine/persistence 4, T since).
+        -
+            message: '#specifies template type (T|TEntityClass) of interface Doctrine\\Persistence\\ObjectRepository#'
+            reportUnmatched: false
