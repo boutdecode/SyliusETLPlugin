@@ -1,37 +1,34 @@
 {% set pipeline = resource %}
 
-<section class="ui segment">
-    <h2 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_history'|trans }}</h2>
-
-    <div class="ui styled fluid accordion">
+<div class="card">
+    <div class="card-header"><h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_history'|trans }}</h3></div>
+    <div class="card-body d-flex flex-column gap-2">
         {% for pipelineHistory in pipeline.histories %}
-            <div class="title">
-                <i class="dropdown icon"></i>
-                {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipelineHistory.status } %}
-                <span style="float: right">{{ pipelineHistory.createdAt|date }}</span>
-            </div>
-
-            <div class="content">
-                <div class="ui relaxed divided list">
+            <details class="card">
+                <summary class="card-header d-flex justify-content-between align-items-center">
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipelineHistory.status } %}
+                    <span class="text-muted">{{ pipelineHistory.createdAt|date }}</span>
+                </summary>
+                <div class="list-group list-group-flush">
                     {% for stepHistory in pipelineHistory.stepHistories %}
-                        <div class="item">
-                            <header class="header">
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
                                 {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: stepHistory.status } %}
-                                <span class="ui right floated">{{ stepHistory.createdAt|date('F j, Y H:i:s') }}</span>
-                            </header>
+                                <span class="text-muted">{{ stepHistory.createdAt|date('F j, Y H:i:s') }}</span>
+                            </div>
 
-                            <h5 class="ui header" style="margin-top: 1rem;">{{ 'bout_de_code_sylius_etl_plugin.ui.step'|trans }} #{{ loop.index }} - {{ stepHistory.step.name }} [{{ stepHistory.step.code }}]</h5>
-                            <pre>{{ step_configuration(pipeline, stepHistory.step)|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                            <h5>{{ 'bout_de_code_sylius_etl_plugin.ui.step'|trans }} #{{ loop.index }} - {{ stepHistory.step.name }} [{{ stepHistory.step.code }}]</h5>
+                            {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: step_configuration(pipeline, stepHistory.step) } %}
 
-                            <h5 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.input'|trans }}</h5>
-                            <pre>{{ stepHistory.input|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                            <h5 class="mt-3">{{ 'bout_de_code_sylius_etl_plugin.ui.input'|trans }}</h5>
+                            {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: stepHistory.input } %}
 
-                            <h5 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.result'|trans }}</h5>
-                            <pre>{{ stepHistory.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                            <h5 class="mt-3">{{ 'bout_de_code_sylius_etl_plugin.ui.result'|trans }}</h5>
+                            {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: stepHistory.result } %}
                         </div>
                     {% endfor %}
                 </div>
-            </div>
+            </details>
         {% endfor %}
     </div>
-</section>
+</div>

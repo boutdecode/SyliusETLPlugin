@@ -9,8 +9,10 @@
 {% set disabled = path is empty %}
 
 <form action="{{ path }}" method="POST">
-    <button title="details" type="submit" class="ui labeled icon button {% if disabled %}disabled{% endif %}"  {{ sylius_test_html_attribute('show-action', message|trans ) }}>
-        <i class="icon play"></i>
-        {{ message|trans }}
+    {% if sylius_csrf_protection_enabled() %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token(data.id) }}">
+    {% endif %}
+    <button type="submit" class="btn btn-icon {% if disabled %}disabled{% endif %}" data-bs-toggle="tooltip" data-bs-title="{{ message|trans }}" {{ sylius_test_html_attribute('show-action', message|trans) }}>
+        {{ ux_icon('tabler:send') }}
     </button>
 </form>

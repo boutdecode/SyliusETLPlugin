@@ -1,16 +1,13 @@
-<section class="ui segment">
-    <div class="ui grid">
-        <div class="sixteen wide column">
-            <h1 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_configuration'|trans }}</h1>
-
-            <div class="ui two column stackable grid">
-                <div class="column">
-                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_workflow_configuration.html.twig' %}
-                </div>
-                <div class="column">
-                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_override_configuration.html.twig' %}
-                </div>
+<div class="card">
+    <div class="card-header"><h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_configuration'|trans }}</h3></div>
+    <div class="card-body">
+        <div class="row row-cards">
+            <div class="col-12 col-lg-6">
+                {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_workflow_configuration.html.twig' %}
+            </div>
+            <div class="col-12 col-lg-6">
+                {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_override_configuration.html.twig' %}
             </div>
         </div>
     </div>
-</section>
+</div>
