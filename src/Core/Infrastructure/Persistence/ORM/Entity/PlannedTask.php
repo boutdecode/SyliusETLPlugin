@@ -22,7 +22,7 @@ use Sylius\Resource\Metadata\Update;
 #[AsResource(
     alias: 'bout_de_code_sylius_etl_plugin.planned_task',
     section: 'admin',
-    templatesDir: '@SyliusAdmin/Crud',
+    templatesDir: '@SyliusAdmin/shared/crud',
     routePrefix: '/admin',
     name: 'planned_task',
     operations: [
@@ -50,7 +50,7 @@ class PlannedTask extends AbstractPlannedTask implements ResourceInterface
     #[ORM\Column(type: 'uuid')]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    protected string $id;
+    protected string $id = '';
 
     #[ORM\Column(type: 'boolean')]
     protected bool $enabled;
@@ -64,7 +64,7 @@ class PlannedTask extends AbstractPlannedTask implements ResourceInterface
     protected CorePipeline|null $pipeline = null;
 
     #[ORM\Column(type: 'string')]
-    protected string $name;
+    protected string $name = '';
 
     #[ORM\Column(type: 'string')]
     protected string $schedule;
