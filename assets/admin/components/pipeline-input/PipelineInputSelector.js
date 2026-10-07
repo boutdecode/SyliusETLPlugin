@@ -25,16 +25,18 @@ export default function PipelineInputSelector({ initialType, textareaId, fileFie
     }, [currentType, textareaId, fileFieldId]);
 
     return html`
-        <div className="ui secondary pointing menu pipeline-input-tabs">
+        <ul className="nav nav-pills pipeline-input-tabs mb-2">
             ${INPUT_TYPES.map((type) => html`
-                <a
-                    key=${type}
-                    className="item${currentType === type ? ' active' : ''}"
-                    onClick=${() => setCurrentType(type)}
-                >
-                    ${LABELS[type]}
-                </a>
+                <li key=${type} className="nav-item">
+                    <a
+                        href="#"
+                        className="nav-link${currentType === type ? ' active' : ''}"
+                        onClick=${(e) => { e.preventDefault(); setCurrentType(type); }}
+                    >
+                        ${LABELS[type]}
+                    </a>
+                </li>
             `)}
-        </div>
+        </ul>
     `;
 }

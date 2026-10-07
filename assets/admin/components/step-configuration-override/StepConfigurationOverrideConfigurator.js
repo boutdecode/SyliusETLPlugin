@@ -45,7 +45,7 @@ export default function StepConfigurationOverrideConfigurator({ steps, stepConfi
     };
 
     return html`
-        <section className="configuration-override-container ui grid">
+        <section className="configuration-override-container">
             <div className="configuration-override-steps-container">
                 <${StepConfigurationOverride}
                     steps=${steps}
