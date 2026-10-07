@@ -160,7 +160,7 @@ bout_de_code_sylius_etl_plugin:
         description: "Charge les données dans un fichier JSON."
       sylius_product:
         name: "Produit Sylius"
-        description: "Crée ou met à jour des données Sylius depuis les données en entrée."
+        description: "Crée ou met à jour des produits Sylius depuis les données en entrée."
       workflow:
         name: "Workflow"
         description: "Exécute un workflow défini sur les données en entrée."

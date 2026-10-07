@@ -68,10 +68,12 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 
 ## Requirements
 
-- PHP `^8.1`
-- Sylius `^1.14`
-- Symfony `^6.4`
+- PHP `^8.3`
+- Sylius `^2.0`
+- Symfony `^6.4 || ^7.0`
 - Symfony Messenger with an `async` transport
+
+> This branch (`2.x`) targets **Sylius 2**. For Sylius `^1.14` use the `1.x` releases of the plugin.
 
 ## Installation
 
@@ -161,35 +163,25 @@ dependencies:
 yarn add react react-dom htm
 ```
 
-Add a dedicated entry in your `webpack.config.js`:
+Sylius 2 already builds and loads an application admin entry (`app-admin-entry`,
+see `webpack.config.mjs` and `templates/admin/javascripts.html.twig` in Sylius Standard),
+so the plugin only has to be imported from your `assets/admin/entrypoint.js`:
 
 ```js
-const path = require('path');
-
-Encore
-    // ...
-    .addEntry(
-        'boutdecode-etl-plugin-admin-entry',
-        path.resolve(
-            __dirname,
-            'vendor/boutdecode/sylius-etl-plugin/assets/admin/entrypoint.js'
-        )
-    )
+import '@vendor/boutdecode/sylius-etl-plugin/assets/admin/entrypoint';
 ```
 
-Then include the compiled entry in your admin layout (e.g. `templates/bundles/SyliusAdminBundle/layout.html.twig`):
-
-```twig
-{{ encore_entry_script_tags('boutdecode-etl-plugin-admin-entry') }}
-{{ encore_entry_link_tags('boutdecode-etl-plugin-admin-entry') }}
-```
-
-Then install and build the assets:
+(`@vendor` is the alias to your `vendor/` directory defined in the Sylius Standard
+`webpack.config.mjs`.) Then install and build the assets:
 
 ```bash
 bin/console assets:install
-yarn encore dev
+yarn build
 ```
+
+The plugin admin pages (dashboard, `show` pages) use the Sylius 2 admin layout
+through the `bout_de_code_etl.page` Twig hook and the Tabler/Bootstrap theme; grids and
+forms rely on the `@SyliusAdmin/shared/crud` templates.
 
 ### 7. Run database migrations
 
