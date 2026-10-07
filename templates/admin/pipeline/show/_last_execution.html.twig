@@ -2,33 +2,33 @@
 {% set lastHistory = pipeline.histories|first %}
 
 {% if lastHistory %}
-<section class="ui segment">
-    <h2 class="ui header">{{ 'bout_de_code_sylius_etl_plugin.ui.last_execution'|trans }}</h2>
-
-    {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: lastHistory.status } %}
-    <span style="margin-left: 0.5rem;">{{ lastHistory.createdAt|date }}</span>
-
-    <div class="ui styled fluid accordion" style="margin-top: 1rem;">
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.last_execution'|trans }}</h3>
+        <div class="card-actions d-flex align-items-center gap-2">
+            {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: lastHistory.status } %}
+            <span class="text-muted">{{ lastHistory.createdAt|date }}</span>
+        </div>
+    </div>
+    <div class="card-body d-flex flex-column gap-2">
         {% if lastHistory.result %}
-        <div class="title">
-            <i class="dropdown icon"></i>
-            {{ 'bout_de_code_sylius_etl_plugin.ui.result'|trans }}
-        </div>
-        <div class="content">
-            <pre>{{ lastHistory.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-        </div>
+<details class="card">
+    <summary class="card-header"><h4 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.result'|trans }}</h4></summary>
+    <div class="card-body">
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: lastHistory.result } %}
+    </div>
+</details>
         {% endif %}
 
         {% set failedStep = lastHistory.stepHistories|filter(s => s.status.value == 'failed')|first %}
         {% if failedStep %}
-        <div class="title">
-            <i class="dropdown icon"></i>
-            {{ 'bout_de_code_sylius_etl_plugin.ui.error'|trans }}
-        </div>
-        <div class="content">
-            <pre>{{ failedStep.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-        </div>
+<details class="card" open>
+    <summary class="card-header"><h4 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.error'|trans }}</h4></summary>
+    <div class="card-body">
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: failedStep.result } %}
+    </div>
+</details>
         {% endif %}
     </div>
-</section>
+</div>
 {% endif %}

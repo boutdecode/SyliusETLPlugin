@@ -42,7 +42,7 @@ class WorkflowStatisticRepository extends ServiceEntityRepository implements Wor
         return $this->findOneBy(['workflow' => $workflow]);
     }
 
-    public function findAll(): iterable
+    public function findAll(): array
     {
         return parent::findAll();
     }

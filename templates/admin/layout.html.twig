@@ -1,0 +1,47 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% from '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' import breadcrumbs %}
+{% import '@SyliusAdmin/shared/helper/header.html.twig' as header_helper %}
+
+{#
+    Layout des pages propres au plugin (show, dashboard).
+    Variables attendues : page_title (clé de traduction), page_icon (optionnel),
+    page_subtitle (optionnel), crumbs (liste de {name, url}).
+#}
+
+{% block title %}{{ page_title|trans }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'bout_de_code_etl.page' %}
+
+    <div class="page-wrapper">
+        {% include '@SyliusAdmin/shared/crud/common/content/flashes.html.twig' %}
+
+        <div class="page-header">
+            <div class="container-xl">
+                <div class="row mt-3 row-gap-2 align-items-center">
+                    <div class="col-12 col-md">
+                        {% set items = [{ name: 'sylius.ui.dashboard', url: path('sylius_admin_dashboard') }] %}
+                        {% for crumb in crumbs|default([]) %}
+                            {% set items = items|merge([crumb]) %}
+                        {% endfor %}
+                        {% set items = items|merge([{ name: page_title, active: true }]) %}
+                        {{ breadcrumbs(items) }}
+                        {{ header_helper.h1(page_title|trans, page_icon|default(null), page_subtitle is defined ? page_subtitle|trans : null) }}
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        {% block actions %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-body">
+            <div class="container-xl">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        {% include '@SyliusAdmin/shared/crud/common/content/footer.html.twig' %}
+    </div>
+{% endblock %}

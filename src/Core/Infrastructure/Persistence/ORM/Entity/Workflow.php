@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 #[AsResource(
     alias: 'bout_de_code_sylius_etl_plugin.workflow',
     section: 'admin',
-    templatesDir: '@SyliusAdmin/Crud',
+    templatesDir: '@SyliusAdmin/shared/crud',
     routePrefix: '/admin',
     name: 'workflow',
     operations: [
@@ -50,10 +50,10 @@ class Workflow extends AbstractWorkflow implements ResourceInterface
     #[ORM\Column(type: 'uuid')]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
-    protected string $id;
+    protected string $id = '';
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected string $name;
+    protected string $name = '';
 
     #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $description = null;

@@ -1,11 +1,8 @@
 {% set plannedTask = resource %}
 
-<div class="ui styled fluid accordion">
-    <div class="title">
-        <i class="dropdown icon"></i>
-        {{ 'bout_de_code_sylius_etl_plugin.ui.override_configuration'|trans }}
+<details class="card">
+    <summary class="card-header"><h4 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.override_configuration'|trans }}</h4></summary>
+    <div class="card-body">
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/_pre.html.twig' with { data: plannedTask.configuration } %}
     </div>
-    <div class="content">
-        <pre>{{ plannedTask.configuration|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-    </div>
-</div>
+</details>

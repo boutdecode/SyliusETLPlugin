@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import { ChevronDownIcon, ChevronRightIcon } from '../../icons.js';
 import { getStepFields, SchemaField } from '../step-configurator/schema-fields.js';
 
 function StepCard({ step, index, stepConfiguration, onFieldChange }) {
@@ -7,18 +8,18 @@ function StepCard({ step, index, stepConfiguration, onFieldChange }) {
     const fields = getStepFields(step, stepConfiguration);
 
     return html`
-        <div className="ui card fluid">
-            <div className="content">
-                <header className="ui">
+        <div className="card mb-2">
+            <div className="card-body">
+                <header>
                     #${index + 1} - <strong>${step.name ?? step.code}</strong>
                 </header>
 
-                <div className="ui accordion">
-                    <div className="title${open ? ' active' : ''}" onClick=${() => setOpen(!open)}>
-                        <i className="dropdown icon"></i>
+                <div className="mt-2">
+                    <div className="d-flex align-items-center gap-1 text-muted" style=${{ cursor: 'pointer' }} onClick=${() => setOpen(!open)}>
+                        ${open ? html`<${ChevronDownIcon} />` : html`<${ChevronRightIcon} />`}
                         <small>Configuration</small>
                     </div>
-                    <div className="step-configuration-override-inputs content" style=${{ display: open ? 'block' : 'none' }}>
+                    <div className="step-configuration-override-inputs mt-2" style=${{ display: open ? 'block' : 'none' }}>
                         ${fields.map((field) => html`
                             <${SchemaField}
                                 key=${field.key}

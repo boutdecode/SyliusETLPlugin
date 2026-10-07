@@ -8,5 +8,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import('sylius_resource.php');
     $containerConfigurator->import('doctrine.php');
     $containerConfigurator->import('sylius_grid.php');
+    $containerConfigurator->import('twig_hooks.php');
     $containerConfigurator->import('monolog.php');
 };

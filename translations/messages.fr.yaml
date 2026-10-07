@@ -80,6 +80,7 @@ bout_de_code_sylius_etl_plugin:
     name: "Nom"
     scheduled_at: "Planifié pour le"
   action:
+    back: "Retour"
     execute_workflow: "Exécuter le workflow"
     create_workflow: "Créer un workflow"
     create_pipeline: "Créer un pipeline"
