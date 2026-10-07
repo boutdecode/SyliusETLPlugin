@@ -1,213 +1,178 @@
-{% extends '@SyliusAdmin/layout.html.twig' %}
+{% extends '@BoutDeCodeSyliusETLPlugin/admin/layout.html.twig' %}
 
-{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
-
-{% block title %}{{ 'bout_de_code_sylius_etl_plugin.ui.dashboard'|trans }} {{ parent() }}{% endblock %}
+{% set page_title = 'bout_de_code_sylius_etl_plugin.ui.dashboard' %}
+{% set page_icon = 'tabler:dashboard' %}
+{% set page_subtitle = 'bout_de_code_sylius_etl_plugin.ui.dashboard_subtitle' %}
 
 {% block content %}
 {% set totalCount = totalSuccess + totalFailure %}
 
-<div class="ui stackable grid">
-    <div class="sixteen wide column">
-        {{ headers.default(
-            'bout_de_code_sylius_etl_plugin.ui.dashboard'|trans,
-            'chart bar',
-            'bout_de_code_sylius_etl_plugin.ui.dashboard_subtitle'|trans
-        ) }}
-    </div>
-</div>
-
-<div class="ui grid">
-    <div class="column">
-        <div class="stats">
-            <div class="ui top attached action header">
-                {{ 'bout_de_code_sylius_etl_plugin.ui.stat_summary'|trans }}
-                <div class="ui buttons">
-                    <button class="ui basic button" data-period="2weeks">
-                        {{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_2weeks'|trans }}
-                    </button>
-                    <button class="ui basic button" data-period="month">
-                        {{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_month'|trans }}
-                    </button>
-                    <button class="ui basic button active" data-period="year">
-                        {{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_year'|trans }}
-                    </button>
-                </div>
+<div class="d-flex flex-column gap-3">
+    <div class="card stats">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_summary'|trans }}</h3>
+            <div class="card-actions btn-group">
+                <button type="button" class="btn btn-sm" data-period="2weeks">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_2weeks'|trans }}</button>
+                <button type="button" class="btn btn-sm" data-period="month">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_month'|trans }}</button>
+                <button type="button" class="btn btn-sm active" data-period="year">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_period_year'|trans }}</button>
             </div>
-            <div class="ui attached segment spaceless">
-                <div class="stats-grid">
-                    <div class="stats-column">
-                        <div class="ui tiny statistic">
-                            <div id="stat-total" class="value">{{ totalCount }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_total'|trans }}</div>
+        </div>
+        <div class="card-body">
+            <div class="row row-cards mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="text-center">
+                            <div id="stat-total" class="h1 mb-0 ">{{ totalCount }}</div>
+                            <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_total'|trans }}</div>
                         </div>
                     </div>
-                    <div class="stats-column">
-                        <div class="ui green tiny statistic">
-                            <div id="stat-success" class="value">{{ totalSuccess }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_success'|trans }}</div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center">
+                            <div id="stat-success" class="h1 mb-0 text-green">{{ totalSuccess }}</div>
+                            <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_success'|trans }}</div>
                         </div>
                     </div>
-                    <div class="stats-column">
-                        <div class="ui red tiny statistic">
-                            <div id="stat-failure" class="value">{{ totalFailure }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_failure'|trans }}</div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center">
+                            <div id="stat-failure" class="h1 mb-0 text-red">{{ totalFailure }}</div>
+                            <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_failure'|trans }}</div>
                         </div>
                     </div>
-                    <div class="stats-column">
-                        <div class="ui tiny statistic">
-                            <div id="stat-rate" class="value">
-                                {{ totalCount > 0 ? ((totalSuccess / totalCount) * 100)|round(1) : 0 }}%
-                            </div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_success_rate'|trans }}</div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center">
+                            <div id="stat-rate" class="h1 mb-0 ">{{ totalCount > 0 ? ((totalSuccess / totalCount) * 100)|round(1) : 0 }}%</div>
+                            <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_success_rate'|trans }}</div>
                         </div>
                     </div>
-                </div>
             </div>
-            <div class="ui bottom attached segment stats-graph" style="min-height: 300px;">
+            <div class="stats-graph" style="height: 300px;">
                 <canvas id="barChart"></canvas>
-            </div>
-            <div class="ui inverted dimmer stats-loader">
-                <div class="ui loader"></div>
             </div>
         </div>
     </div>
-</div>
 
-{% if byWorkflow|length > 0 %}
-<div class="ui grid">
-    <div class="column">
-        <div class="stats">
-            <h3 class="ui top attached header">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_avg_duration_workflow'|trans }}</h3>
-            <div class="ui attached segment spaceless">
-                <div class="stats-grid">
-                    <div class="stats-column">
-                        <div class="ui tiny statistic">
-                            <div class="value" style="padding-bottom: 10px;">{{ avgDuration is not null ? avgDuration ~ ' s' : '-' }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_avg_time'|trans }}</div>
-                        </div>
+    {% if byWorkflow|length > 0 %}
+    <div class="card">
+        <div class="card-header"><h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_avg_duration_workflow'|trans }}</h3></div>
+        <div class="card-body">
+            <div class="row row-cards mb-4">
+                <div class="col-12 col-md-4">
+                    <div class="text-center">
+                        <div class="h2 mb-0">{{ avgDuration is not null ? avgDuration ~ ' s' : '-' }}</div>
+                        <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_avg_time'|trans }}</div>
                     </div>
-                    <div class="stats-column">
-                        <div class="ui tiny statistic">
-                            <div class="value" style="padding-bottom: 10px;">{{ minDuration is not null ? minDuration ~ ' s' : '-' }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_min_time'|trans }}</div>
-                        </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="text-center">
+                        <div class="h2 mb-0">{{ minDuration is not null ? minDuration ~ ' s' : '-' }}</div>
+                        <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_min_time'|trans }}</div>
                     </div>
-                    <div class="stats-column">
-                        <div class="ui tiny statistic">
-                            <div class="value" style="padding-bottom: 10px;">{{ maxDuration is not null ? maxDuration ~ ' s' : '-' }}</div>
-                            <div class="label">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_max_time'|trans }}</div>
-                        </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="text-center">
+                        <div class="h2 mb-0">{{ maxDuration is not null ? maxDuration ~ ' s' : '-' }}</div>
+                        <div class="text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.stat_max_time'|trans }}</div>
                     </div>
                 </div>
             </div>
-            <div class="ui bottom attached segment" style="height: 280px;">
+            <div style="height: 280px;">
                 <canvas id="durationChart"></canvas>
             </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-<div class="ui grid">
-    <div class="center aligned doubling three column row">
-        <div class="column">
-            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_index') }}" class="ui basic big fluid button">
-                <i class="sitemap icon"></i>
+    <div class="row row-cards">
+        <div class="col-12 col-md-4">
+            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_index') }}" class="btn btn-lg w-100">
+                {{ ux_icon('tabler:arrows-split') }}
                 {{ 'bout_de_code_sylius_etl_plugin.ui.workflows'|trans }}
             </a>
         </div>
-        <div class="column">
-            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_index') }}" class="ui basic big fluid button">
-                <i class="tasks icon"></i>
+        <div class="col-12 col-md-4">
+            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_index') }}" class="btn btn-lg w-100">
+                {{ ux_icon('tabler:layout-list') }}
                 {{ 'bout_de_code_sylius_etl_plugin.ui.pipelines'|trans }}
             </a>
         </div>
-        <div class="column">
-            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_planned_task_index') }}" class="ui basic big fluid button">
-                <i class="calendar alternate outline icon"></i>
+        <div class="col-12 col-md-4">
+            <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_planned_task_index') }}" class="btn btn-lg w-100">
+                {{ ux_icon('tabler:history') }}
                 {{ 'bout_de_code_sylius_etl_plugin.ui.planned_tasks'|trans }}
             </a>
         </div>
     </div>
-</div>
 
-<div class="ui two column stackable grid">
-    <div class="column">
-        <h3 class="ui top attached header">{{ 'bout_de_code_sylius_etl_plugin.ui.latest_workflows'|trans }}</h3>
-        <div class="ui attached segment">
-            {% if latestWorkflows|length > 0 %}
-            <table class="ui stackable very basic table">
-                <thead>
-                    <tr>
-                        <th style="color: #ababab;">{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
-                        <th style="color: #ababab;">{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for workflow in latestWorkflows %}
-                    <tr>
-                        <td><strong>{{ workflow.name }}</strong></td>
-                        <td style="color: #ababab;">{{ workflow.createdAt|date('d/m/Y') }}</td>
-                        <td>
-                            <div class="ui right floated buttons">
-                                <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_show', {'id': workflow.id}) }}" class="ui labeled icon button">
-                                    <i class="search icon"></i>
-                                    {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p class="ui disabled text">{{ 'bout_de_code_sylius_etl_plugin.ui.no_results'|trans }}</p>
-            {% endif %}
+    <div class="row row-cards">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.latest_workflows'|trans }}</h3></div>
+                {% if latestWorkflows|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
+                                <th>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for workflow in latestWorkflows %}
+                            <tr>
+                                <td><strong>{{ workflow.name }}</strong></td>
+                                <td class="text-muted">{{ workflow.createdAt|date('d/m/Y') }}</td>
+                                <td class="text-end">
+                                    <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_show', {'id': workflow.id}) }}" class="btn btn-sm">
+                                        {{ ux_icon('tabler:eye') }}
+                                        {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="card-body text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.no_results'|trans }}</div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-    <div class="column">
-        <h3 class="ui top attached header">{{ 'bout_de_code_sylius_etl_plugin.ui.latest_planned_tasks'|trans }}</h3>
-        <div class="ui attached segment">
-            {% if latestPlannedTasks|length > 0 %}
-            <table class="ui stackable very basic table">
-                <thead>
-                    <tr>
-                        <th style="color: #ababab;">{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
-                        <th style="color: #ababab;">{{ 'bout_de_code_sylius_etl_plugin.grid.enabled'|trans }}</th>
-                        <th style="color: #ababab;">{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for task in latestPlannedTasks %}
-                    <tr>
-                        <td><strong>{{ task.name }}</strong></td>
-                        <td>
-                            {% if task.enabled %}
-                                <span class="ui green label">{{ 'bout_de_code_sylius_etl_plugin.ui.enabled.true'|trans }}</span>
-                            {% else %}
-                                <span class="ui grey label">{{ 'bout_de_code_sylius_etl_plugin.ui.enabled.false'|trans }}</span>
-                            {% endif %}
-                        </td>
-                        <td style="color: #ababab;">{{ task.createdAt|date('d/m/Y') }}</td>
-                        <td>
-                            <div class="ui right floated buttons">
-                                <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_planned_task_show', {'id': task.id}) }}" class="ui labeled icon button">
-                                    <i class="search icon"></i>
-                                    {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p class="ui disabled text">{{ 'bout_de_code_sylius_etl_plugin.ui.no_results'|trans }}</p>
-            {% endif %}
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.latest_planned_tasks'|trans }}</h3></div>
+                {% if latestPlannedTasks|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
+                                <th>{{ 'bout_de_code_sylius_etl_plugin.grid.enabled'|trans }}</th>
+                                <th>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for task in latestPlannedTasks %}
+                            <tr>
+                                <td><strong>{{ task.name }}</strong></td>
+                                <td>{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/enabled.html.twig' with { data: task.enabled } %}</td>
+                                <td class="text-muted">{{ task.createdAt|date('d/m/Y') }}</td>
+                                <td class="text-end">
+                                    <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_planned_task_show', {'id': task.id}) }}" class="btn btn-sm">
+                                        {{ ux_icon('tabler:eye') }}
+                                        {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="card-body text-muted">{{ 'bout_de_code_sylius_etl_plugin.ui.no_results'|trans }}</div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
