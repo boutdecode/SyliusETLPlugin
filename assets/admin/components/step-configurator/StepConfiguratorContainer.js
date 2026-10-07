@@ -78,15 +78,15 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
     };
 
     return html`
-        <section className="configurator-container ui grid">
-            <div className="configurator-step-config-container five wide column" style=${{ overflowY: 'auto' }}>
+        <section className="configurator-container row g-3">
+            <div className="configurator-step-config-container col-12 col-lg-5" style=${{ overflowY: 'auto' }}>
                 <${StepLib}
                     stepConfiguration=${stepConfiguration}
                     onDragStart=${() => setIsDragging(true)}
                     onDragEnd=${() => setIsDragging(false)}
                 />
             </div>
-            <div className="configurator-steps-container eleven wide column" style=${{ overflowY: 'auto' }}>
+            <div className="configurator-steps-container col-12 col-lg-7" style=${{ overflowY: 'auto' }}>
                 <${StepConfiguration}
                     steps=${steps}
                     stepConfiguration=${stepConfiguration}

@@ -12,7 +12,7 @@ function DragItem({ config, onDragStart, onDragEnd }) {
 
     return html`
         <div
-            className="item drag-item${dragging ? ' dragging' : ''}"
+            className="list-group-item list-group-item-action drag-item${dragging ? ' dragging' : ''}"
             draggable="true"
             onDragStart=${(e) => {
                 e.dataTransfer.setData('text/plain', config.code);
@@ -24,10 +24,10 @@ function DragItem({ config, onDragStart, onDragEnd }) {
                 onDragEnd();
             }}
         >
-            <div className="content">
-                <div className="header">${config.name}</div>
-                <div className="italic text">${config.code}</div>
-                <div className="description">${config.description}</div>
+            <div>
+                <div className="fw-bold">${config.name}</div>
+                <div className="text-muted fst-italic small">${config.code}</div>
+                <div className="small">${config.description}</div>
             </div>
         </div>
     `;
@@ -40,24 +40,26 @@ export default function StepLib({ stepConfiguration, onDragStart, onDragEnd }) {
 
     return html`
         <div>
-            <div className="ui top attached tabular menu">
+            <ul className="nav nav-tabs">
                 ${CATEGORIES.map((category) => html`
-                    <a
-                        key=${category}
-                        className="item${activeCategory === category ? ' active' : ''}"
-                        onClick=${() => setActiveCategory(category)}
-                    >
-                        ${capitalize(category)}
-                    </a>
+                    <li key=${category} className="nav-item">
+                        <a
+                            href="#"
+                            className="nav-link${activeCategory === category ? ' active' : ''}"
+                            onClick=${(e) => { e.preventDefault(); setActiveCategory(category); }}
+                        >
+                            ${capitalize(category)}
+                        </a>
+                    </li>
                 `)}
-            </div>
+            </ul>
 
             ${CATEGORIES.map((category) => html`
                 <div
                     key=${category}
-                    className="ui bottom attached tab segment${activeCategory === category ? ' active' : ''}"
+                    className="border border-top-0 rounded-bottom${activeCategory === category ? '' : ' d-none'}"
                 >
-                    <div className="ui divided selection list">
+                    <div className="list-group list-group-flush">
                         ${stepsByCategory(category).map((config) => html`
                             <${DragItem}
                                 key=${config.code}

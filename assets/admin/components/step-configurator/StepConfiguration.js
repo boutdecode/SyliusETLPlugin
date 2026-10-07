@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import { PlusIcon, ChevronUpIcon, ChevronDownIcon, ChevronRightIcon, TrashIcon } from '../../icons.js';
 import { getStepFields, SchemaField } from './schema-fields.js';
 
 function DropZone({ order, onDrop }) {
@@ -7,7 +8,7 @@ function DropZone({ order, onDrop }) {
 
     return html`
         <div
-            className="drop-zone ui segment center aligned${dragOver ? ' drag-over' : ''}"
+            className="drop-zone text-center text-muted border rounded p-2 my-2${dragOver ? ' drag-over' : ''}"
             onDragOver=${(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave=${() => setDragOver(false)}
             onDrop=${(e) => {
@@ -17,9 +18,7 @@ function DropZone({ order, onDrop }) {
                 if (code) onDrop(order, code);
             }}
         >
-            <small className="ui text disabled">
-                <i className="icon plus"></i>
-            </small>
+            <small><${PlusIcon} /></small>
         </div>
     `;
 }
@@ -29,50 +28,50 @@ function StepCard({ step, index, stepsCount, stepConfiguration, onMoveUp, onMove
     const fields = getStepFields(step, stepConfiguration);
 
     return html`
-        <div className="ui card fluid">
-            <div className="content">
-                <div className="ui grid">
-                    <div className="twelve wide column middle aligned">
+        <div className="card mb-2">
+            <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center">
+                    <div>
                         #${index + 1} - <strong>${step.name ?? step.code}</strong>
                     </div>
-                    <div className="four wide column right aligned">
-                        <div className="configurator-steps-buttons ui icon buttons mini">
+                    <div>
+                        <div className="configurator-steps-buttons btn-group btn-group-sm">
                             <button
                                 type="button"
-                                className="ui button"
+                                className="btn btn-icon"
                                 disabled=${index === 0}
                                 title="Monter"
                                 onClick=${() => onMoveUp(index)}
                             >
-                                <i className="icon angle up"></i>
+                                <${ChevronUpIcon} />
                             </button>
                             <button
                                 type="button"
-                                className="ui button"
+                                className="btn btn-icon"
                                 disabled=${index === stepsCount - 1}
                                 title="Descendre"
                                 onClick=${() => onMoveDown(index)}
                             >
-                                <i className="icon angle down"></i>
+                                <${ChevronDownIcon} />
                             </button>
                             <button
                                 type="button"
-                                className="ui red button"
+                                className="btn btn-icon btn-outline-danger"
                                 title="Supprimer"
                                 onClick=${() => onRemove(index)}
                             >
-                                <i className="icon trash alternate" style=${{ strokeColor: 'white' }}></i>
+                                <${TrashIcon} />
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="ui accordion">
-                    <div className="title${open ? ' active' : ''}" onClick=${() => setOpen(!open)}>
-                        <i className="dropdown icon"></i>
+                <div className="mt-2">
+                    <div className="d-flex align-items-center gap-1 text-muted" style=${{ cursor: 'pointer' }} onClick=${() => setOpen(!open)}>
+                        ${open ? html`<${ChevronDownIcon} />` : html`<${ChevronRightIcon} />`}
                         <small>Configuration</small>
                     </div>
-                    <div className="content step-configuration-inputs${open ? ' active' : ''}" style=${{ display: open ? 'block' : 'none' }}>
+                    <div className="step-configuration-inputs mt-2" style=${{ display: open ? 'block' : 'none' }}>
                         ${fields.map((field) => html`
                             <${SchemaField}
                                 key=${field.key}
