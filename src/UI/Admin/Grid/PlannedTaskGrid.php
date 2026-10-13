@@ -6,6 +6,7 @@ namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\PlannedTask;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Grid\Filter\WorkflowFilter;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
 use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
@@ -17,7 +18,7 @@ use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Field\TwigField;
 use Sylius\Bundle\GridBundle\Builder\Filter\BooleanFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\DateFilter;
-use Sylius\Bundle\GridBundle\Builder\Filter\EntityFilter;
+use Sylius\Bundle\GridBundle\Builder\Filter\Filter;
 use Sylius\Bundle\GridBundle\Builder\Filter\StringFilter;
 use Sylius\Bundle\GridBundle\Builder\GridBuilderInterface;
 use Sylius\Bundle\GridBundle\Grid\AbstractGrid;
@@ -64,7 +65,8 @@ final class PlannedTaskGrid extends AbstractGrid implements ResourceAwareGridInt
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.name'),
             )
             ->addFilter(
-                EntityFilter::create('workflow', Workflow::class)
+                Filter::create('workflow', WorkflowFilter::TYPE)
+                    ->setFormOptions(['class' => Workflow::class])
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.workflow'),
             )
             ->addFilter(
