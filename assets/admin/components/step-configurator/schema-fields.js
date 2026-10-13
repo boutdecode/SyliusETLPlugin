@@ -175,6 +175,9 @@ function NestedObjectField({ idPrefix, field, onChange }) {
     `;
 }
 
+// Above this many rows, a second "Ajouter" button is shown at the top of the list.
+const ADD_BUTTON_TOP_THRESHOLD = 3;
+
 function RepeatableArrayField({ idPrefix, field, onChange }) {
     const items = Array.isArray(field.value) ? field.value : [];
     const properties = field.fieldSchema.properties ?? {};
@@ -200,8 +203,30 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
         onChange(nextItems);
     };
 
+    // The top button appends far from where it is clicked, so bring the new row into view.
+    const containerRef = React.useRef(null);
+    const scrollToNewRow = React.useRef(false);
+    React.useEffect(() => {
+        if (!scrollToNewRow.current) return;
+        scrollToNewRow.current = false;
+        const rows = containerRef.current?.querySelectorAll(':scope > .ui.segment');
+        rows?.[rows.length - 1]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, [items.length]);
+
+    const addItem = (scroll) => {
+        scrollToNewRow.current = scroll;
+        onChange([...items, {}]);
+    };
+
+    const renderAddButton = (scroll) => html`
+        <button type="button" className="ui mini button" onClick=${() => addItem(scroll)}>
+            <i className="icon plus"></i> Ajouter
+        </button>
+    `;
+
     return html`
-        <div className="repeatable-schema-fields">
+        <div className="repeatable-schema-fields" ref=${containerRef}>
+            ${items.length > ADD_BUTTON_TOP_THRESHOLD ? html`<div style=${{ marginBottom: '1em' }}>${renderAddButton(true)}</div>` : ''}
             ${items.map((item, index) => html`
                 <div key=${rowIds.current[index]}className="ui segment" style=${{ position: 'relative' }}>
                     <button
@@ -226,9 +251,7 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
                     `)}
                 </div>
             `)}
-            <button type="button" className="ui mini button" onClick=${() => onChange([...items, {}])}>
-                <i className="icon plus"></i> Ajouter
-            </button>
+            ${renderAddButton(false)}
         </div>
     `;
 }
