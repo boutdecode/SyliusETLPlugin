@@ -13,11 +13,11 @@
 <p align="center">Integrate a full ETL (Extract, Transform, Load) pipeline system into the Sylius admin panel.</p>
 
 <p align="center">
-    <a href="https://packagist.org/packages/boutdecode/sylius-etlplugin" title="License">
-        <img src="https://img.shields.io/packagist/l/boutdecode/sylius-etlplugin.svg" />
+    <a href="https://packagist.org/packages/boutdecode/sylius-etl-plugin" title="License">
+        <img src="https://img.shields.io/packagist/l/boutdecode/sylius-etl-plugin.svg" />
     </a>
-    <a href="https://packagist.org/packages/boutdecode/sylius-etlplugin" title="PHP Version">
-        <img src="https://img.shields.io/packagist/php-v/boutdecode/sylius-etlplugin.svg" />
+    <a href="https://packagist.org/packages/boutdecode/sylius-etl-plugin" title="PHP Version">
+        <img src="https://img.shields.io/packagist/php-v/boutdecode/sylius-etl-plugin.svg" />
     </a>
 </p>
 

@@ -88,12 +88,12 @@ function StepCard({ step, index, stepsCount, stepConfiguration, onMoveUp, onMove
     `;
 }
 
-export default function StepConfiguration({ steps, stepConfiguration, isDragging, onDrop, onMoveUp, onMoveDown, onRemove, onConfigChange }) {
+export default function StepConfiguration({ steps, stepIds, stepConfiguration, isDragging, onDrop, onMoveUp, onMoveDown, onRemove, onConfigChange }) {
     return html`
         <div className="step-configuration-steps${isDragging ? ' dragging' : ''}">
             <${DropZone} order=${0} onDrop=${onDrop} />
             ${steps.map((step, index) => html`
-                <${React.Fragment} key=${`${step.code}-${index}`}>
+                <${React.Fragment} key=${stepIds[index]}>
                     <${StepCard}
                         step=${step}
                         index=${index}
