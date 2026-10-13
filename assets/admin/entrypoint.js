@@ -35,6 +35,10 @@ function mountStepConfigurator(element) {
         <${StepConfiguratorContainer}
             initialSteps=${initialSteps}
             stepConfiguration=${stepConfiguration}
+            labels=${{
+                fullscreen: element.dataset.fullscreenLabel,
+                exitFullscreen: element.dataset.exitFullscreenLabel,
+            }}
             onChange=${(steps) => { element.textContent = JSON.stringify(steps); }}
         />
     `);

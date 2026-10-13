@@ -60,6 +60,8 @@ class WorkflowType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'data-controller' => 'step-configurator',
+                    'data-fullscreen-label' => $translator->trans('bout_de_code_sylius_etl_plugin.form.fullscreen'),
+                    'data-exit-fullscreen-label' => $translator->trans('bout_de_code_sylius_etl_plugin.form.exit_fullscreen'),
                     'data-configuration' => json_encode(array_map(
                         static function (ExecutableStep $step) use ($translator) {
                             return [
