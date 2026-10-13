@@ -104,6 +104,8 @@ bout_de_code_sylius_etl_plugin:
     name: "Nom"
     description: "Description"
     step_configuration: "Configuration des étapes"
+    fullscreen: "Plein écran"
+    exit_fullscreen: "Quitter le plein écran"
     configuration: "Configuration"
     override_configuration: "Surcharger de la configuration"
     input: "Entrée"

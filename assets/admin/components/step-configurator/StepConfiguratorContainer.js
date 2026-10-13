@@ -18,9 +18,26 @@ function applyDuplicateNames(steps) {
     });
 }
 
-export default function StepConfiguratorContainer({ initialSteps, stepConfiguration, onChange }) {
+export default function StepConfiguratorContainer({ initialSteps, stepConfiguration, onChange, labels }) {
     const [steps, setSteps] = React.useState(initialSteps);
     const [isDragging, setIsDragging] = React.useState(false);
+    const [isFullscreen, setIsFullscreen] = React.useState(false);
+
+    React.useEffect(() => {
+        if (!isFullscreen) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') setIsFullscreen(false);
+        };
+        document.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [isFullscreen]);
     const isFirstRender = React.useRef(true);
     // Stable per-step keys: step inputs are uncontrolled, so cards must not be matched by position.
     const nextStepId = React.useRef(initialSteps.length);
@@ -84,28 +101,39 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
         commit(nextSteps);
     };
 
+    const fullscreenLabel = labels?.fullscreen || 'Fullscreen';
+    const exitFullscreenLabel = labels?.exitFullscreen || 'Exit fullscreen';
+
     return html`
-        <section className="configurator-container ui grid">
-            <div className="configurator-step-config-container five wide column" style=${{ overflowY: 'auto' }}>
-                <${StepLib}
-                    stepConfiguration=${stepConfiguration}
-                    onDragStart=${() => setIsDragging(true)}
-                    onDragEnd=${() => setIsDragging(false)}
-                />
+        <div className=${'configurator-wrapper' + (isFullscreen ? ' is-fullscreen' : '')}>
+            <div className="configurator-toolbar">
+                <button type="button" className="ui small button" onClick=${() => setIsFullscreen((v) => !v)}>
+                    <i className=${'icon ' + (isFullscreen ? 'compress' : 'expand')}></i>
+                    ${isFullscreen ? exitFullscreenLabel : fullscreenLabel}
+                </button>
             </div>
-            <div className="configurator-steps-container eleven wide column" style=${{ overflowY: 'auto' }}>
-                <${StepConfiguration}
-                    steps=${steps}
-                    stepIds=${stepIds.current}
-                    stepConfiguration=${stepConfiguration}
-                    isDragging=${isDragging}
-                    onDrop=${handleDrop}
-                    onMoveUp=${handleMoveUp}
-                    onMoveDown=${handleMoveDown}
-                    onRemove=${handleRemove}
-                    onConfigChange=${handleConfigChange}
-                />
-            </div>
-        </section>
+            <section className="configurator-container ui grid">
+                <div className="configurator-step-config-container five wide column" style=${{ overflowY: 'auto' }}>
+                    <${StepLib}
+                        stepConfiguration=${stepConfiguration}
+                        onDragStart=${() => setIsDragging(true)}
+                        onDragEnd=${() => setIsDragging(false)}
+                    />
+                </div>
+                <div className="configurator-steps-container eleven wide column" style=${{ overflowY: 'auto' }}>
+                    <${StepConfiguration}
+                        steps=${steps}
+                        stepIds=${stepIds.current}
+                        stepConfiguration=${stepConfiguration}
+                        isDragging=${isDragging}
+                        onDrop=${handleDrop}
+                        onMoveUp=${handleMoveUp}
+                        onMoveDown=${handleMoveDown}
+                        onRemove=${handleRemove}
+                        onConfigChange=${handleConfigChange}
+                    />
+                </div>
+            </section>
+        </div>
     `;
 }

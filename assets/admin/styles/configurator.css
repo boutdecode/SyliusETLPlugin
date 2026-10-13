@@ -11,6 +11,41 @@
     background: url("../images/dot-grid.png") repeat;
 }
 
+.configurator-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.configurator-toolbar .ui.button {
+    margin-right: 0;
+}
+
+.configurator-wrapper.is-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: #fff;
+}
+
+.configurator-wrapper.is-fullscreen .configurator-container {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+}
+
+.configurator-wrapper.is-fullscreen .configurator-step-config-container,
+.configurator-wrapper.is-fullscreen .configurator-steps-container {
+    max-height: none;
+    height: 100%;
+}
+
 .step-configuration-steps.dragging .drop-zone {
     display: block;
 }
