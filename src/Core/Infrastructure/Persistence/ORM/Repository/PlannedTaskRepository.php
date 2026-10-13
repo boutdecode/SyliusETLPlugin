@@ -12,6 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceRepositoryTrait;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Webmozart\Assert\Assert;
 
 /**
@@ -22,6 +23,8 @@ use Webmozart\Assert\Assert;
  * @method PlannedTask[]    findAll()
  * @method PlannedTask[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
+#[AsAlias(PlannedTaskProvider::class)]
+#[AsAlias(PlannedTaskPersister::class)]
 class PlannedTaskRepository extends ServiceEntityRepository implements PlannedTaskProvider, PlannedTaskPersister, RepositoryInterface
 {
     use ResourceRepositoryTrait;

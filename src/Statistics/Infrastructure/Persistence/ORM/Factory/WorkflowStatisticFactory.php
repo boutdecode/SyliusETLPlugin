@@ -8,7 +8,9 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow;
 use BoutDeCode\ETLCoreBundle\Statistics\Domain\Factory\WorkflowStatisticFactory as CoreWorkflowStatisticFactory;
 use BoutDeCode\ETLCoreBundle\Statistics\Domain\Model\WorkflowStatistic as CoreWorkflowStatistic;
 use BoutDeCode\SyliusETLPlugin\Statistics\Infrastructure\Persistence\ORM\Entity\WorkflowStatistic;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CoreWorkflowStatisticFactory::class)]
 final class WorkflowStatisticFactory implements CoreWorkflowStatisticFactory
 {
     public function create(Workflow $workflow): CoreWorkflowStatistic

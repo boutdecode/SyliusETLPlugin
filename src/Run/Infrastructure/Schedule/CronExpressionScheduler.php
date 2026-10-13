@@ -6,7 +6,9 @@ namespace BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Schedule;
 
 use BoutDeCode\ETLCoreBundle\Run\Domain\Scheduler\ExpressionScheduler;
 use Cron\CronExpression;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(ExpressionScheduler::class)]
 class CronExpressionScheduler implements ExpressionScheduler
 {
     /** @throws \Exception */

@@ -8,7 +8,9 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Pipeline;
 use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\PipelineHistoryStatusEnum;
 use BoutDeCode\ETLCoreBundle\Run\Domain\Factory\PipelineHistoryFactory as CorePipelineHistoryFactory;
 use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CorePipelineHistoryFactory::class)]
 class PipelineHistoryFactory implements CorePipelineHistoryFactory
 {
     public function create(

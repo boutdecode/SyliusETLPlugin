@@ -13,6 +13,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceRepositoryTrait;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
 /**
  * @extends ServiceEntityRepository<Pipeline>
@@ -22,6 +23,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
  * @method Pipeline[]    findAll()
  * @method Pipeline[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
+#[AsAlias(PipelinePersister::class)]
+#[AsAlias(PipelineProvider::class)]
 class PipelineRepository extends ServiceEntityRepository implements PipelinePersister, PipelineProvider, RepositoryInterface
 {
     use ResourceRepositoryTrait;

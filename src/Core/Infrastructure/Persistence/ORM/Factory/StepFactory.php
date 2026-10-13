@@ -7,7 +7,9 @@ namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory
 use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\StepFactory as CoreStepFactory;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step as CoreStep;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CoreStepFactory::class)]
 class StepFactory implements CoreStepFactory
 {
     public function create(

@@ -9,7 +9,9 @@ use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\PipelineHistoryStatusEnum;
 use BoutDeCode\ETLCoreBundle\Statistics\Domain\Factory\WorkflowExecutionStatisticFactory as CoreWorkflowExecutionStatisticFactory;
 use BoutDeCode\ETLCoreBundle\Statistics\Domain\Model\WorkflowExecutionStatistic as CoreWorkflowExecutionStatistic;
 use BoutDeCode\SyliusETLPlugin\Statistics\Infrastructure\Persistence\ORM\Entity\WorkflowExecutionStatistic;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CoreWorkflowExecutionStatisticFactory::class)]
 final class WorkflowExecutionStatisticFactory implements CoreWorkflowExecutionStatisticFactory
 {
     public function create(

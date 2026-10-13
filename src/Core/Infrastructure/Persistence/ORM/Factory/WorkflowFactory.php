@@ -7,7 +7,9 @@ namespace BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Factory
 use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\WorkflowFactory as CoreWorkflowFactory;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow as CoreWorkflow;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CoreWorkflowFactory::class)]
 class WorkflowFactory implements CoreWorkflowFactory
 {
     public function create(

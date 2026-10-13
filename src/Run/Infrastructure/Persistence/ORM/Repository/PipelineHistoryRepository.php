@@ -11,6 +11,7 @@ use BoutDeCode\ETLCoreBundle\Run\Domain\Model\PipelineHistory as CorePipelineHis
 use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\PipelineHistory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
 /**
  * @extends ServiceEntityRepository<PipelineHistory>
@@ -20,6 +21,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method PipelineHistory[]    findAll()
  * @method PipelineHistory[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
+#[AsAlias(PipelineHistoryPersister::class)]
+#[AsAlias(PipelineHistoryProvider::class)]
 class PipelineHistoryRepository extends ServiceEntityRepository implements PipelineHistoryPersister, PipelineHistoryProvider
 {
     public function __construct(ManagerRegistry $registry)

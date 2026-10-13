@@ -11,10 +11,13 @@ use BoutDeCode\ETLCoreBundle\Statistics\Domain\Model\WorkflowStatistic as CoreWo
 use BoutDeCode\SyliusETLPlugin\Statistics\Infrastructure\Persistence\ORM\Entity\WorkflowStatistic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
 /**
  * @extends ServiceEntityRepository<WorkflowStatistic>
  */
+#[AsAlias(WorkflowStatisticPersister::class)]
+#[AsAlias(WorkflowStatisticProvider::class)]
 class WorkflowStatisticRepository extends ServiceEntityRepository implements WorkflowStatisticPersister, WorkflowStatisticProvider
 {
     public function __construct(ManagerRegistry $registry)

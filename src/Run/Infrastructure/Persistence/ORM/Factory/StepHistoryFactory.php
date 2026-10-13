@@ -9,8 +9,10 @@ use BoutDeCode\ETLCoreBundle\Run\Domain\Enum\StepHistoryStatusEnum;
 use BoutDeCode\ETLCoreBundle\Run\Domain\Factory\StepHistoryFactory as CoreStepHistoryFactory;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
 use BoutDeCode\SyliusETLPlugin\Run\Infrastructure\Persistence\ORM\Entity\StepHistory;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Webmozart\Assert\Assert;
 
+#[AsAlias(CoreStepHistoryFactory::class)]
 class StepHistoryFactory implements CoreStepHistoryFactory
 {
     public function create(

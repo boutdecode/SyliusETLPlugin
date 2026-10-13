@@ -9,6 +9,7 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step as CoreStep;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Step;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
 /**
  * @extends ServiceEntityRepository<Step>
@@ -18,6 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Step[]    findAll()
  * @method Step[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
+#[AsAlias(StepPersister::class)]
 class StepRepository extends ServiceEntityRepository implements StepPersister
 {
     public function __construct(ManagerRegistry $registry)

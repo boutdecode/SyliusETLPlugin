@@ -12,6 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\ResourceRepositoryTrait;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
 /**
  * @extends ServiceEntityRepository<Workflow>
@@ -21,6 +22,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
  * @method Workflow[]    findAll()
  * @method Workflow[]    findBy(array<string, mixed> $criteria, array<string, string>|null $orderBy = null, $limit = null, $offset = null)
  */
+#[AsAlias(WorkflowPersister::class)]
+#[AsAlias(WorkflowProvider::class)]
 class WorkflowRepository extends ServiceEntityRepository implements WorkflowPersister, WorkflowProvider, RepositoryInterface
 {
     use ResourceRepositoryTrait;

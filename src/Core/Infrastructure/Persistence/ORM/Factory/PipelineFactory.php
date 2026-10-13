@@ -11,8 +11,10 @@ use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Step;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Model\Workflow;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
 use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow as WorkflowEntity;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Webmozart\Assert\Assert;
 
+#[AsAlias(CorePipelineFactory::class)]
 class PipelineFactory implements CorePipelineFactory
 {
     public function __construct(
