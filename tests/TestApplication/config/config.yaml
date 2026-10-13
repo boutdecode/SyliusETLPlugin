@@ -3,6 +3,13 @@ imports:
     - { resource: "@BoutDeCodeSyliusETLPlugin/config/config.php" }
     - { resource: "services_test.php" }
 
+boutdecode_etl_core:
+    notifications:
+        email:
+            from: 'noreply@example.com'
+            to: ['admin@example.com']
+            subject_prefix: '[ETL]'
+
 twig:
     paths:
         '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
