@@ -22,6 +22,9 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
     const [steps, setSteps] = React.useState(initialSteps);
     const [isDragging, setIsDragging] = React.useState(false);
     const isFirstRender = React.useRef(true);
+    // Stable per-step keys: step inputs are uncontrolled, so cards must not be matched by position.
+    const nextStepId = React.useRef(initialSteps.length);
+    const stepIds = React.useRef(initialSteps.map((_, i) => i));
 
     React.useEffect(() => {
         if (isFirstRender.current) {
@@ -39,6 +42,7 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
 
         const nextSteps = [...steps];
         nextSteps.splice(order, 0, { code: stepConfig.code, configuration: {} });
+        stepIds.current.splice(order, 0, nextStepId.current++);
         commit(nextSteps);
     };
 
@@ -46,6 +50,7 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
         if (index <= 0) return;
         const nextSteps = [...steps];
         [nextSteps[index - 1], nextSteps[index]] = [nextSteps[index], nextSteps[index - 1]];
+        [stepIds.current[index - 1], stepIds.current[index]] = [stepIds.current[index], stepIds.current[index - 1]];
         commit(nextSteps);
     };
 
@@ -53,12 +58,14 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
         if (index >= steps.length - 1) return;
         const nextSteps = [...steps];
         [nextSteps[index + 1], nextSteps[index]] = [nextSteps[index], nextSteps[index + 1]];
+        [stepIds.current[index + 1], stepIds.current[index]] = [stepIds.current[index], stepIds.current[index + 1]];
         commit(nextSteps);
     };
 
     const handleRemove = (index) => {
         const nextSteps = [...steps];
         nextSteps.splice(index, 1);
+        stepIds.current.splice(index, 1);
         commit(nextSteps);
     };
 
@@ -89,6 +96,7 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
             <div className="configurator-steps-container eleven wide column" style=${{ overflowY: 'auto' }}>
                 <${StepConfiguration}
                     steps=${steps}
+                    stepIds=${stepIds.current}
                     stepConfiguration=${stepConfiguration}
                     isDragging=${isDragging}
                     onDrop=${handleDrop}

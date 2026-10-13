@@ -179,7 +179,15 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
     const items = Array.isArray(field.value) ? field.value : [];
     const properties = field.fieldSchema.properties ?? {};
 
-    const updateItem = (index, next) => {
+    // Stable per-row keys: inputs are uncontrolled, so rows must not be matched by index.
+    const rowIds = React.useRef([]);
+    const nextRowId = React.useRef(0);
+    while (rowIds.current.length < items.length) {
+        rowIds.current.push(nextRowId.current++);
+    }
+    rowIds.current.length = items.length;
+
+    const updateItem =(index, next) => {
         const nextItems = [...items];
         nextItems[index] = next;
         onChange(nextItems);
@@ -188,13 +196,14 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
     const removeItem = (index) => {
         const nextItems = [...items];
         nextItems.splice(index, 1);
+        rowIds.current.splice(index, 1);
         onChange(nextItems);
     };
 
     return html`
         <div className="repeatable-schema-fields">
             ${items.map((item, index) => html`
-                <div key=${index} className="ui segment" style=${{ position: 'relative' }}>
+                <div key=${rowIds.current[index]}className="ui segment" style=${{ position: 'relative' }}>
                     <button
                         type="button"
                         className="ui mini red icon button"
