@@ -14,7 +14,6 @@ use Sylius\Resource\Metadata\Create;
 use Sylius\Resource\Metadata\Delete;
 use Sylius\Resource\Metadata\Index;
 use BoutDeCode\SyliusETLPlugin\UI\Admin\State\Provider\EntityProvider;
-use Sylius\Resource\Doctrine\Common\State\PersistProcessor;
 use Sylius\Resource\Doctrine\Common\State\RemoveProcessor;
 use Sylius\Resource\Metadata\ResourceMetadata;
 use Sylius\Resource\Metadata\Show;
@@ -47,7 +46,6 @@ return new ResourceMetadata(
         ),
         new ApplyStateMachineTransition(
             provider: EntityProvider::class,
-            processor: PersistProcessor::class,
             stateMachineComponent: 'symfony',
             stateMachineTransition: 'reset',
             stateMachineGraph: 'pipeline_lifecycle',
