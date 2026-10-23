@@ -82,9 +82,9 @@ The persistence layer (Doctrine entities, repositories, factories, the `etl_*` t
 composer require boutdecode/sylius-etl-plugin
 ```
 
-### 2. Enable the plugin
+### 2. Enable the bundles
 
-Add the plugin to your `config/bundles.php`:
+The plugin pulls in `boutdecode/etl-core-bundle` (the ETL engine) and `boutdecode/etl-bundle` (the Doctrine persistence). Register the three bundles in your `config/bundles.php`:
 
 ```php
 return [
@@ -147,13 +147,17 @@ bout_de_code_sylius_etl_admin:
 
 ### 5. Configure Symfony Messenger
 
-Ensure an `async` transport is configured in `config/packages/messenger.yaml`:
+The ETL engine routes its messages through Messenger: it needs a default bus, an `async` transport (pipeline execution) and a `sync` transport (internal queries and commands). Configure them in `config/packages/messenger.yaml`:
 
 ```yaml
 framework:
     messenger:
+        default_bus: default
         transports:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            sync: 'sync://'
+        buses:
+            default: ~
 ```
 
 ### 6. Import the admin assets
