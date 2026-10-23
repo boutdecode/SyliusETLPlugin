@@ -1,0 +1,10 @@
+{% set plannedTask = hookable_metadata.context.resource %}
+
+<div class="col-12 col-md-auto ms-auto d-print-none">
+    <div class="btn-list">
+        <a class="btn" href="{{ path('bout_de_code_sylius_etl_plugin_admin_planned_task_update', { id: plannedTask.id }) }}">
+            {{ ux_icon('tabler:pencil') }}
+            {{ 'sylius.ui.edit'|trans }}
+        </a>
+    </div>
+</div>

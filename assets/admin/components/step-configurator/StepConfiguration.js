@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import Icon from '../../icons.js';
 import { getStepFields, SchemaField } from './schema-fields.js';
 
 function DropZone({ order, onDrop }) {
@@ -7,7 +8,7 @@ function DropZone({ order, onDrop }) {
 
     return html`
         <div
-            className="drop-zone ui segment center aligned${dragOver ? ' drag-over' : ''}"
+            className="drop-zone card card-body text-center${dragOver ? ' drag-over' : ''}"
             onDragOver=${(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave=${() => setDragOver(false)}
             onDrop=${(e) => {
@@ -17,8 +18,8 @@ function DropZone({ order, onDrop }) {
                 if (code) onDrop(order, code);
             }}
         >
-            <small className="ui text disabled">
-                <i className="icon plus"></i>
+            <small className="text-secondary">
+                <${Icon} name="plus" />
             </small>
         </div>
     `;
@@ -29,50 +30,50 @@ function StepCard({ step, index, stepsCount, stepConfiguration, onMoveUp, onMove
     const fields = getStepFields(step, stepConfiguration);
 
     return html`
-        <div className="ui card fluid">
-            <div className="content">
-                <div className="ui grid">
-                    <div className="twelve wide column middle aligned">
+        <div className="card mb-2">
+            <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between">
+                    <div>
                         #${index + 1} - <strong>${step.name ?? step.code}</strong>
                     </div>
-                    <div className="four wide column right aligned">
-                        <div className="configurator-steps-buttons ui icon buttons mini">
+                    <div>
+                        <div className="configurator-steps-buttons btn-group btn-group-sm">
                             <button
                                 type="button"
-                                className="ui button"
+                                className="btn btn-icon"
                                 disabled=${index === 0}
                                 title="Monter"
                                 onClick=${() => onMoveUp(index)}
                             >
-                                <i className="icon angle up"></i>
+                                <${Icon} name="up" />
                             </button>
                             <button
                                 type="button"
-                                className="ui button"
+                                className="btn btn-icon"
                                 disabled=${index === stepsCount - 1}
                                 title="Descendre"
                                 onClick=${() => onMoveDown(index)}
                             >
-                                <i className="icon angle down"></i>
+                                <${Icon} name="down" />
                             </button>
                             <button
                                 type="button"
-                                className="ui red button"
+                                className="btn btn-icon btn-danger"
                                 title="Supprimer"
                                 onClick=${() => onRemove(index)}
                             >
-                                <i className="icon trash alternate" style=${{ strokeColor: 'white' }}></i>
+                                <${Icon} name="trash" />
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="ui accordion">
-                    <div className="title${open ? ' active' : ''}" onClick=${() => setOpen(!open)}>
-                        <i className="dropdown icon"></i>
+                <div className="mt-2">
+                    <a href="#" className="text-secondary" onClick=${(e) => { e.preventDefault(); setOpen(!open); }}>
+                        <${Icon} name=${open ? 'down' : 'chevron'} />
                         <small>Configuration</small>
-                    </div>
-                    <div className="content step-configuration-inputs${open ? ' active' : ''}" style=${{ display: open ? 'block' : 'none' }}>
+                    </a>
+                    <div className="step-configuration-inputs mt-2" style=${{ display: open ? 'block' : 'none' }}>
                         ${fields.map((field) => html`
                             <${SchemaField}
                                 key=${field.key}

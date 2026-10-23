@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Form;
 
-use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Provider\WorkflowProvider;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\PlannedTask;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Dto\PlannedTaskData;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,26 +16,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlannedTaskType extends AbstractType
 {
-    public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly WorkflowProvider $workflowProvider,
-    ) {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $workflowId = $request?->query->get('workflowId');
-        $workflow = null;
-        if (is_string($workflowId) && $workflowId !== '') {
-            $workflow = $this->workflowProvider->findWorkflowByIdentifier($workflowId);
-        }
-
         $builder
             ->add('name', TextType::class, [
                 'label' => 'bout_de_code_sylius_etl_plugin.form.name',
@@ -49,7 +33,6 @@ class PlannedTaskType extends AbstractType
                 'label' => 'bout_de_code_sylius_etl_plugin.form.workflow',
                 'class' => Workflow::class,
                 'choice_label' => 'name',
-                'data' => $workflow,
             ])
             ->add('configuration', TextareaType::class, [
                 'mapped' => false,
@@ -79,21 +62,21 @@ class PlannedTaskType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
             $form = $event->getForm();
 
-            /** @var Pipeline $data */
+            /** @var PlannedTaskData $data */
             $data = $event->getData();
 
-            $form->get('configuration')->setData(json_encode($data->getConfiguration(), \JSON_PRETTY_PRINT));
-            $form->get('input')->setData(json_encode($data->getInput(), \JSON_PRETTY_PRINT));
+            $form->get('configuration')->setData(json_encode($data->configuration, \JSON_PRETTY_PRINT));
+            $form->get('input')->setData(json_encode($data->input, \JSON_PRETTY_PRINT));
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
 
-            /** @var Pipeline $data */
+            /** @var PlannedTaskData $data */
             $data = $event->getData();
 
             $rawConfiguration = $form->get('configuration')->getData();
-            $data->setConfiguration(is_string($rawConfiguration) ? (array) json_decode($rawConfiguration, true) : []);
+            $data->configuration = JsonArray::decode($rawConfiguration);
 
             /** @var UploadedFile|null $uploadedFile */
             $uploadedFile = $form->get('inputFile')->getData();
@@ -102,32 +85,31 @@ class PlannedTaskType extends AbstractType
                 $filename = uniqid('pipeline_input_', true) . '_' . $uploadedFile->getClientOriginalName();
                 $uploadedFile->move(sys_get_temp_dir(), $filename);
 
-                $data->setInput([
+                $data->input = [
                     'type' => 'file',
                     'source' => sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $filename,
                     'name' => $uploadedFile->getClientOriginalName(),
                     'mime_type' => $uploadedFile->getClientMimeType(),
-                ]);
+                ];
 
                 return;
             }
 
             $rawInput = $form->get('input')->getData();
             if (!is_string($rawInput)) {
-                $data->setInput([]);
+                $data->input = [];
 
                 return;
             }
 
-            $decoded = json_decode($rawInput, true);
-            $data->setInput(is_array($decoded) ? $decoded : ['_raw' => $rawInput]);
+            $data->input = is_array(json_decode($rawInput, true)) ? JsonArray::decode($rawInput) : ['_raw' => $rawInput];
         });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PlannedTask::class,
+            'data_class' => PlannedTaskData::class,
         ]);
     }
 }

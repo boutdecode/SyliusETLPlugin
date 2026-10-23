@@ -1,0 +1,42 @@
+{% set pipeline = hookable_metadata.context.resource %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.pipeline_history'|trans }}</h3>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for pipelineHistory in pipeline_histories(pipeline) %}
+                <details class="list-group-item">
+                    <summary class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
+                        {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipelineHistory.status } %}
+                        <span class="text-secondary">{{ pipelineHistory.createdAt|date }}</span>
+                    </summary>
+
+                    <div class="mt-3">
+                        {% for stepHistory in pipelineHistory.stepHistories %}
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0">{{ 'bout_de_code_sylius_etl_plugin.ui.step'|trans }} #{{ loop.index }} - {{ stepHistory.stepName }} [{{ stepHistory.stepCode }}]</h4>
+                                    <span>
+                                        {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: stepHistory.status } %}
+                                        <span class="ms-2 text-secondary">{{ stepHistory.createdAt|date('F j, Y H:i:s') }}</span>
+                                    </span>
+                                </div>
+
+                                {% set configuration = step_configuration(pipeline, stepHistory) %}
+                                <div class="mt-2">
+                                    {% if configuration is not empty %}
+                                        {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_accordion.html.twig' with { title: 'bout_de_code_sylius_etl_plugin.ui.step_configuration'|trans, value: configuration } only %}
+                                    {% endif %}
+                                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_accordion.html.twig' with { title: 'bout_de_code_sylius_etl_plugin.ui.input'|trans, value: stepHistory.input } only %}
+                                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_accordion.html.twig' with { title: 'bout_de_code_sylius_etl_plugin.ui.result'|trans, value: stepHistory.result } only %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </details>
+            {% endfor %}
+        </div>
+    </div>
+</div>

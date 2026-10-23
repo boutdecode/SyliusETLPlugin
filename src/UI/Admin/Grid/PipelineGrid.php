@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Grid;
 
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Enum\PipelineStatus;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
-use BoutDeCode\SyliusETLPlugin\UI\Admin\Grid\Filter\WorkflowFilter;
 use Sylius\Bundle\GridBundle\Builder\Action\Action;
 use Sylius\Bundle\GridBundle\Builder\Action\CreateAction;
 use Sylius\Bundle\GridBundle\Builder\Action\DeleteAction;
@@ -21,9 +20,9 @@ use Sylius\Bundle\GridBundle\Builder\Filter\DateFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\Filter;
 use Sylius\Bundle\GridBundle\Builder\Filter\SelectFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\StringFilter;
-use Sylius\Bundle\GridBundle\Builder\GridBuilderInterface;
 use Sylius\Bundle\GridBundle\Grid\AbstractGrid;
 use Sylius\Bundle\GridBundle\Grid\ResourceAwareGridInterface;
+use Sylius\Component\Grid\Builder\GridBuilderInterface;
 
 final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterface
 {
@@ -75,8 +74,8 @@ final class PipelineGrid extends AbstractGrid implements ResourceAwareGridInterf
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.name'),
             )
             ->addFilter(
-                Filter::create('workflow', WorkflowFilter::TYPE)
-                    ->setFormOptions(['class' => Workflow::class])
+                Filter::create('workflow', 'entity')
+                    ->setFormOptions(['class' => Workflow::class, 'choice_label' => 'name'])
                     ->setLabel('bout_de_code_sylius_etl_plugin.filter.workflow'),
             )
             ->addFilter(

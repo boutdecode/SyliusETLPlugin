@@ -1,0 +1,20 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.planned_task.show.content.header':
+            breadcrumbs:
+                template: '@SyliusAdmin/shared/crud/show/content/header/breadcrumbs.html.twig'
+                configuration:
+                    rendered_field: name
+
+        'sylius_admin.planned_task.show.content.header.title_block':
+            actions:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/planned_task/show/actions.html.twig'
+                priority: -10
+
+        'sylius_admin.planned_task.show.content':
+            details:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/planned_task/show/details.html.twig'
+                priority: 100
+            configurations:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/planned_task/show/configurations.html.twig'
+                priority: 90

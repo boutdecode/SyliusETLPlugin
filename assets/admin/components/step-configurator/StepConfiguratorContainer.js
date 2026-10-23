@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import Icon from '../../icons.js';
 import StepLib from './StepLib.js';
 import StepConfiguration from './StepConfiguration.js';
 
@@ -107,20 +108,20 @@ export default function StepConfiguratorContainer({ initialSteps, stepConfigurat
     return html`
         <div className=${'configurator-wrapper' + (isFullscreen ? ' is-fullscreen' : '')}>
             <div className="configurator-toolbar">
-                <button type="button" className="ui small button" onClick=${() => setIsFullscreen((v) => !v)}>
-                    <i className=${'icon ' + (isFullscreen ? 'compress' : 'expand')}></i>
+                <button type="button" className="btn btn-sm" onClick=${() => setIsFullscreen((v) => !v)}>
+                    <${Icon} name=${isFullscreen ? 'compress' : 'expand'} />
                     ${isFullscreen ? exitFullscreenLabel : fullscreenLabel}
                 </button>
             </div>
-            <section className="configurator-container ui grid">
-                <div className="configurator-step-config-container five wide column" style=${{ overflowY: 'auto' }}>
+            <section className="configurator-container row g-3">
+                <div className="configurator-step-config-container col-12 col-lg-4" style=${{ overflowY: 'auto' }}>
                     <${StepLib}
                         stepConfiguration=${stepConfiguration}
                         onDragStart=${() => setIsDragging(true)}
                         onDragEnd=${() => setIsDragging(false)}
                     />
                 </div>
-                <div className="configurator-steps-container eleven wide column" style=${{ overflowY: 'auto' }}>
+                <div className="configurator-steps-container col-12 col-lg-8" style=${{ overflowY: 'auto' }}>
                     <${StepConfiguration}
                         steps=${steps}
                         stepIds=${stepIds.current}

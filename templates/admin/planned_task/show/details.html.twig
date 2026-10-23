@@ -1,0 +1,32 @@
+{% set plannedTask = hookable_metadata.context.resource %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="datagrid">
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</div>
+                    <div class="datagrid-content">{{ plannedTask.name }}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.workflow'|trans }}</div>
+                    <div class="datagrid-content">
+                        <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_show', { id: plannedTask.workflow.id }) }}">{{ plannedTask.workflow.name }}</a>
+                    </div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.enabled'|trans }}</div>
+                    <div class="datagrid-content">{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/enabled.html.twig' with { data: plannedTask.enabled } %}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.schedule'|trans }}</div>
+                    <div class="datagrid-content"><code>{{ plannedTask.schedule }}</code></div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</div>
+                    <div class="datagrid-content">{{ plannedTask.createdAt|date }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

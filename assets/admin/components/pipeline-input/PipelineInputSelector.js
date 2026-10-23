@@ -18,23 +18,26 @@ export default function PipelineInputSelector({ initialType, textareaId, fileFie
         if (!textarea || !fileWrapper) return;
 
         const isFile = currentType === 'file';
-        const textareaRow = textarea.closest('.field') ?? textarea.parentElement;
+        const textareaRow = textarea.closest('.mb-3') ?? textarea.parentElement;
         if (textareaRow) textareaRow.style.display = isFile ? 'none' : '';
 
-        fileWrapper.style.display = isFile ? '' : 'none';
+        const fileRow = fileWrapper.closest('.mb-3') ?? fileWrapper;
+        fileRow.style.display = isFile ? '' : 'none';
     }, [currentType, textareaId, fileFieldId]);
 
     return html`
-        <div className="ui secondary pointing menu pipeline-input-tabs">
+        <ul className="nav nav-pills mb-3 pipeline-input-tabs">
             ${INPUT_TYPES.map((type) => html`
-                <a
-                    key=${type}
-                    className="item${currentType === type ? ' active' : ''}"
-                    onClick=${() => setCurrentType(type)}
-                >
-                    ${LABELS[type]}
-                </a>
+                <li key=${type} className="nav-item">
+                    <a
+                        href="#"
+                        className="nav-link${currentType === type ? ' active' : ''}"
+                        onClick=${(e) => { e.preventDefault(); setCurrentType(type); }}
+                    >
+                        ${LABELS[type]}
+                    </a>
+                </li>
             `)}
-        </div>
+        </ul>
     `;
 }

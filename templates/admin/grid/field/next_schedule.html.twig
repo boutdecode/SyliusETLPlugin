@@ -1,5 +1,3 @@
-<span class="ui">
-    {% if data %}
-        {{ data.scheduledAt|date('Y-m-d H:i:s') }}
-    {% endif %}
-</span>
+{% if data %}
+    <span>{{ data.scheduledAt|date('Y-m-d H:i:s') }}</span>
+{% endif %}

@@ -1,0 +1,44 @@
+{% set workflow = hookable_metadata.context.resource %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="datagrid">
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</div>
+                    <div class="datagrid-content">{{ workflow.name }}</div>
+                </div>
+                {% if workflow.description %}
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.description'|trans }}</div>
+                        <div class="datagrid-content">{{ workflow.description }}</div>
+                    </div>
+                {% endif %}
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</div>
+                    <div class="datagrid-content">{{ workflow.createdAt|date }}</div>
+                </div>
+                {% if workflow.updatedAt %}
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.updated_at'|trans }}</div>
+                        <div class="datagrid-content">{{ workflow.updatedAt|date }}</div>
+                    </div>
+                {% endif %}
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.notify_on_success'|trans }}</div>
+                    <div class="datagrid-content">{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/enabled.html.twig' with { data: workflow.notifyOnSuccess } %}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.notify_on_failure'|trans }}</div>
+                    <div class="datagrid-content">{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/enabled.html.twig' with { data: workflow.notifyOnFailure } %}</div>
+                </div>
+                {% if workflow.notificationProviders %}
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.notification_providers'|trans }}</div>
+                        <div class="datagrid-content">{{ workflow.notificationProviders|join(', ') }}</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

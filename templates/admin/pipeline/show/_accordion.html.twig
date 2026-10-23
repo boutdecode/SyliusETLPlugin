@@ -1,0 +1,7 @@
+{# Collapsible JSON block: `title` (translated label) and `value`. #}
+<details>
+    <summary class="px-3 py-2 fw-bold" style="cursor: pointer;">{{ title }}</summary>
+    <div class="p-3 pt-0">
+        {% include '@BoutDeCodeSyliusETLPlugin/admin/_json.html.twig' with { value: value } only %}
+    </div>
+</details>

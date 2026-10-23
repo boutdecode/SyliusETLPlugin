@@ -1,0 +1,26 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.pipeline.show.content.header':
+            breadcrumbs:
+                template: '@SyliusAdmin/shared/crud/show/content/header/breadcrumbs.html.twig'
+                configuration:
+                    rendered_field: name
+
+        'sylius_admin.pipeline.show.content.header.title_block':
+            actions:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/actions.html.twig'
+                priority: -10
+
+        'sylius_admin.pipeline.show.content':
+            details:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/details.html.twig'
+                priority: 100
+            last_execution:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/last_execution.html.twig'
+                priority: 90
+            configurations:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/configurations.html.twig'
+                priority: 80
+            history:
+                template: '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/history.html.twig'
+                priority: 70

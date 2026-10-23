@@ -4,37 +4,38 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\State\Processor;
 
+use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Persister\PipelinePersister;
 use BoutDeCode\ETLCoreBundle\Core\Domain\Factory\PipelineFactory;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Dto\PipelineData;
 use Sylius\Resource\Context\Context;
-use Sylius\Resource\Doctrine\Common\State\PersistProcessor;
 use Sylius\Resource\Metadata\Operation;
 use Sylius\Resource\State\ProcessorInterface;
 use Webmozart\Assert\Assert;
 
-final class CreatePipelineProcessor implements ProcessorInterface
+final readonly class CreatePipelineProcessor implements ProcessorInterface
 {
     public function __construct(
-        private readonly PersistProcessor $decorated,
-        private readonly PipelineFactory $pipelineFactory,
+        private PipelinePersister $pipelinePersister,
+        private PipelineFactory $pipelineFactory,
     ) {
     }
 
     public function process(mixed $data, Operation $operation, Context $context): mixed
     {
-        Assert::isInstanceOf($data, Pipeline::class);
-
-        $workflow = $data->getWorkflow();
-        Assert::isInstanceOf($workflow, Workflow::class);
+        Assert::isInstanceOf($data, PipelineData::class);
+        Assert::notNull($data->workflow);
 
         $pipeline = $this->pipelineFactory->createFromWorkflow(
-            workflow: $workflow,
-            name: $data->getName(),
-            overrideConfiguration: $data->getConfiguration(),
-            input: $data->getInput(),
+            workflow: $data->workflow,
+            name: $data->name,
+            overrideConfiguration: $data->configuration,
+            input: $data->input,
         );
 
-        return $this->decorated->process($pipeline, $operation, $context);
+        if (null !== $data->scheduledAt) {
+            $pipeline->plan($data->scheduledAt);
+        }
+
+        return $this->pipelinePersister->create($pipeline);
     }
 }

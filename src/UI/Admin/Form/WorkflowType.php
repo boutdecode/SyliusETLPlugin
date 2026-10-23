@@ -11,7 +11,7 @@ use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\TransformerStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Resolver\StepResolver;
 use BoutDeCode\ETLCoreBundle\Notifications\Domain\Model\NotificationProvider;
 use BoutDeCode\ETLCoreBundle\Notifications\Domain\Resolver\NotificationProviderResolver;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Dto\WorkflowData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -106,34 +106,34 @@ class WorkflowType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
-            /** @var Workflow $data */
+            /** @var WorkflowData $data */
             $data = $event->getData();
 
-            $form->get('stepConfiguration')->setData(json_encode($data->getStepConfiguration(), \JSON_PRETTY_PRINT));
-            $form->get('notificationProviders')->setData($data->getNotificationProviders() ?? []);
+            $form->get('stepConfiguration')->setData(json_encode($data->stepConfiguration, \JSON_PRETTY_PRINT));
+            $form->get('notificationProviders')->setData($data->notificationProviders ?? []);
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
 
-            /** @var Workflow $data */
+            /** @var WorkflowData $data */
             $data = $event->getData();
 
             $rawStepConfig = $form->get('stepConfiguration')->getData();
-            $data->setStepConfiguration(is_string($rawStepConfig) ? (array) json_decode($rawStepConfig, true) : []);
+            $data->stepConfiguration = JsonArray::decode($rawStepConfig);
 
             $rawNotificationProviders = $form->get('notificationProviders')->getData();
             $notificationProviders = is_array($rawNotificationProviders)
                 ? array_values(array_filter($rawNotificationProviders, 'is_string'))
                 : [];
-            $data->setNotificationProviders($notificationProviders !== [] ? $notificationProviders : null);
+            $data->notificationProviders = $notificationProviders !== [] ? $notificationProviders : null;
         });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Workflow::class,
+            'data_class' => WorkflowData::class,
         ]);
     }
 }

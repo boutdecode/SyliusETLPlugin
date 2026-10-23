@@ -68,10 +68,11 @@ The plugin provides the ETL infrastructure (workflow management, pipeline execut
 
 ## Requirements
 
-- PHP `^8.1`
-- Sylius `^1.14`
-- Symfony `^6.4`
+- PHP `^8.2`
+- Sylius `^2.0` (Symfony `^7.4`, Doctrine ORM `^3.6`)
 - Symfony Messenger with an `async` transport
+
+The persistence layer (Doctrine entities, repositories, factories, the `etl_*` tables) comes from [`boutdecode/etl-bundle`](https://github.com/boutdecode/etl-bundle); this plugin only adds the Sylius admin on top of it.
 
 ## Installation
 
@@ -88,9 +89,13 @@ Add the plugin to your `config/bundles.php`:
 ```php
 return [
     // ...
+    BoutDeCode\ETLCoreBundle\BoutDeCodeETLCoreBundle::class => ['all' => true],
+    BoutDeCode\ETLBundle\BoutDeCodeETLBundle::class => ['all' => true],
     BoutDeCode\SyliusETLPlugin\BoutDeCodeSyliusETLPlugin::class => ['all' => true],
 ];
 ```
+
+The plugin turns off the REST API of `etl-bundle` (`boutdecode_etl.api.enabled: false`), since the admin works on the repositories directly and that API is not secured. Enable it in your own configuration if you need it.
 
 ### 3. Import the plugin configuration
 
@@ -177,11 +182,25 @@ Encore
     )
 ```
 
-Then include the compiled entry in your admin layout (e.g. `templates/bundles/SyliusAdminBundle/layout.html.twig`):
+Then include the compiled entry in the admin layout with Twig hooks (`config/packages/boutdecode_etl_hooks.yaml`):
+
+```yaml
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.base#stylesheets':
+            boutdecode_etl:
+                template: 'admin/boutdecode_etl/stylesheets.html.twig'
+        'sylius_admin.base#javascripts':
+            boutdecode_etl:
+                template: 'admin/boutdecode_etl/javascripts.html.twig'
+```
 
 ```twig
-{{ encore_entry_script_tags('boutdecode-etl-plugin-admin-entry') }}
+{# templates/admin/boutdecode_etl/stylesheets.html.twig #}
 {{ encore_entry_link_tags('boutdecode-etl-plugin-admin-entry') }}
+
+{# templates/admin/boutdecode_etl/javascripts.html.twig #}
+{{ encore_entry_script_tags('boutdecode-etl-plugin-admin-entry') }}
 ```
 
 Then install and build the assets:
@@ -196,6 +215,8 @@ yarn encore dev
 ```bash
 bin/console doctrine:migrations:migrate
 ```
+
+The plugin ships one migration that creates the `etl_*` tables of `etl-bundle` on a fresh database and converts the data of the tables of previous plugin versions (MySQL/MariaDB and PostgreSQL). It is irreversible. Take a backup before upgrading an existing installation.
 
 ### 8. Start the Messenger worker
 

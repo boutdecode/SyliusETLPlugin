@@ -1,16 +1,16 @@
 {% if options.link.url is defined %}
     {% set path = options.link.url %}
 {% else %}
-    {% set default_route = options.link.route|default(grid.requestConfiguration is defined ? grid.requestConfiguration.getRouteName('show') : null) %}
-    {% set path = options.link.url|default(default_route ? path(default_route, options.link.parameters|default({'id': data.id})): null) %}
+    {% set default_route = options.link.route|default(null) %}
+    {% set path = default_route ? path(default_route, options.link.parameters|default({'id': data.id})) : null %}
 {% endif %}
 
 {% set message = action.label|default('sylius.ui.show') %}
-{% set disabled = path is empty %}
 
-<form action="{{ path }}" method="POST">
-    <button title="details" type="submit" class="ui labeled icon button {% if disabled %}disabled{% endif %}"  {{ sylius_test_html_attribute('show-action', message|trans ) }}>
-        <i class="icon play"></i>
+<form action="{{ path }}" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <button type="submit" class="btn {{ options.class|default('') }}" {% if path is empty %}disabled{% endif %} {{ sylius_test_html_attribute('execute-action', message|trans) }}>
+        {{ ux_icon('tabler:player-play') }}
         {{ message|trans }}
     </button>
 </form>

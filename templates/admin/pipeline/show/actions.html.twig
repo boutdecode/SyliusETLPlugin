@@ -1,0 +1,13 @@
+{% set pipeline = hookable_metadata.context.resource %}
+
+<div class="col-12 col-md-auto ms-auto d-print-none">
+    <div class="btn-list">
+        <form action="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_reset', { id: pipeline.id }) }}" method="post">
+            <input type="hidden" name="_method" value="PUT">
+            <button type="submit" class="btn btn-primary">
+                {{ ux_icon('tabler:player-play') }}
+                {{ 'bout_de_code_sylius_etl_plugin.action.execute'|trans }}
+            </button>
+        </form>
+    </div>
+</div>

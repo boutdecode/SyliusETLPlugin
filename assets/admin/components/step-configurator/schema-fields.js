@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import Icon from '../../icons.js';
 
 function normalizeTypes(fieldSchema) {
     if (!fieldSchema || typeof fieldSchema.type !== 'string') return [];
@@ -33,7 +34,7 @@ function HelpIcon({ text }) {
             onMouseEnter=${() => setVisible(true)}
             onMouseLeave=${() => setVisible(false)}
         >
-            <i className="question circle outline icon"></i>
+            <${Icon} name="help" />
             ${visible ? html`<span className="field-help-popover">${text}</span>` : ''}
         </span>
     `;
@@ -53,6 +54,7 @@ function FieldLabel({ id, text, help, required }) {
 function TextField({ id, field, onChange }) {
     return html`
         <input
+            className="form-control"
             type="text"
             form="none"
             name=${field.key}
@@ -66,6 +68,7 @@ function TextField({ id, field, onChange }) {
 function NumberField({ id, field, integer, onChange }) {
     return html`
         <input
+            className="form-control"
             type="number"
             form="none"
             step=${integer ? '1' : 'any'}
@@ -83,8 +86,9 @@ function NumberField({ id, field, integer, onChange }) {
 
 function BooleanField({ id, field, onChange }) {
     return html`
-        <div className="ui checkbox">
+        <div className="form-check">
             <input
+                className="form-check-input"
                 type="checkbox"
                 form="none"
                 name=${field.key}
@@ -92,7 +96,7 @@ function BooleanField({ id, field, onChange }) {
                 id=${id}
                 onChange=${(e) => onChange(e.target.checked)}
             />
-            <label htmlFor=${id}></label>
+            <label className="form-check-label" htmlFor=${id}></label>
         </div>
     `;
 }
@@ -102,6 +106,7 @@ function EnumField({ id, field, enumValues, onChange }) {
 
     return html`
         <select
+            className="form-select"
             name=${field.key}
             form="none"
             id=${id}
@@ -126,6 +131,7 @@ function JsonField({ id, field, onChange }) {
 
     return html`
         <textarea
+            className="form-control"
             name=${field.key}
             form="none"
             id=${id}
@@ -143,7 +149,7 @@ function JsonField({ id, field, onChange }) {
                 }
             }}
         ></textarea>
-        ${error ? html`<small className="ui red pointing label">${error}</small>` : ''}
+        ${error ? html`<small className="text-danger">${error}</small>` : ''}
     `;
 }
 
@@ -209,7 +215,7 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
     React.useEffect(() => {
         if (!scrollToNewRow.current) return;
         scrollToNewRow.current = false;
-        const rows = containerRef.current?.querySelectorAll(':scope > .ui.segment');
+        const rows = containerRef.current?.querySelectorAll(':scope > .repeatable-row');
         rows?.[rows.length - 1]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, [items.length]);
 
@@ -219,8 +225,8 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
     };
 
     const renderAddButton = (scroll) => html`
-        <button type="button" className="ui mini button" onClick=${() => addItem(scroll)}>
-            <i className="icon plus"></i> Ajouter
+        <button type="button" className="btn btn-sm" onClick=${() => addItem(scroll)}>
+            <${Icon} name="plus" /> Ajouter
         </button>
     `;
 
@@ -228,14 +234,14 @@ function RepeatableArrayField({ idPrefix, field, onChange }) {
         <div className="repeatable-schema-fields" ref=${containerRef}>
             ${items.length > ADD_BUTTON_TOP_THRESHOLD ? html`<div style=${{ marginBottom: '1em' }}>${renderAddButton(true)}</div>` : ''}
             ${items.map((item, index) => html`
-                <div key=${rowIds.current[index]}className="ui segment" style=${{ position: 'relative' }}>
+                <div key=${rowIds.current[index]} className="repeatable-row card card-body mb-2" style=${{ position: 'relative' }}>
                     <button
                         type="button"
-                        className="ui mini red icon button"
+                        className="btn btn-sm btn-icon btn-danger"
                         style=${{ position: 'absolute', top: '0.5em', right: '0.5em' }}
                         onClick=${() => removeItem(index)}
                     >
-                        <i className="icon trash alternate"></i>
+                        <${Icon} name="trash" />
                     </button>
                     ${Object.entries(properties).map(([key, childSchema]) => html`
                         <${SchemaField}
@@ -287,7 +293,7 @@ export function SchemaField({ idPrefix, field, onChange }) {
     }
 
     return html`
-        <div className="ui field" style=${{ marginBottom: '0.5em' }}>
+        <div className="mb-2" style=${{ marginBottom: '0.5em' }}>
             <${FieldLabel} id=${idPrefix} text=${field.key} help=${field.help} required=${required} />
             ${control}
         </div>

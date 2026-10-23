@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Controller;
 
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Repository\PlannedTaskRepository;
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Repository\WorkflowRepository;
+use BoutDeCode\ETLBundle\Statistics\Infrastructure\Persistence\ORM\Repository\WorkflowExecutionStatisticRepository;
 use BoutDeCode\ETLCoreBundle\Statistics\Domain\Data\Provider\WorkflowStatisticProvider;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\PlannedTaskRepository;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Repository\WorkflowRepository;
-use BoutDeCode\SyliusETLPlugin\Statistics\Infrastructure\Persistence\ORM\Repository\WorkflowExecutionStatisticRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -71,7 +73,35 @@ final class DashboardController extends AbstractController
             'maxDuration' => $globalMaxDurationMs !== null ? round($globalMaxDurationMs / 1000, 2) : null,
             'latestWorkflows' => $this->workflowRepository->findBy([], ['createdAt' => 'DESC'], 5),
             'latestPlannedTasks' => $this->plannedTaskRepository->findBy([], ['createdAt' => 'DESC'], 5),
-            'historiesPerDay' => $this->executionStatisticRepository->countPerDayAndStatus(365),
+            'historiesPerDay' => $this->countPerDayAndStatus(365),
         ]);
+    }
+
+    /**
+     * @return list<array{day: string, status: string, count: int}>
+     */
+    private function countPerDayAndStatus(int $days): array
+    {
+        $from = new \DateTimeImmutable(sprintf('-%d days', $days));
+
+        $executions = $this->executionStatisticRepository->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->gte('startedAt', $from))
+                ->orderBy(['startedAt' => Order::Ascending]),
+        );
+
+        $counts = [];
+        foreach ($executions as $execution) {
+            $key = $execution->getStartedAt()->format('Y-m-d') . '|' . $execution->getStatus()->value;
+            $counts[$key] = ($counts[$key] ?? 0) + 1;
+        }
+
+        $rows = [];
+        foreach ($counts as $key => $count) {
+            [$day, $status] = explode('|', $key);
+            $rows[] = ['day' => $day, 'status' => $status, 'count' => $count];
+        }
+
+        return $rows;
     }
 }

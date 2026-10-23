@@ -17,7 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->public(false);
 
     $services->load('BoutDeCode\\SyliusETLPlugin\\', '../src/')
-        ->exclude('../src/{Migrations,DependencyInjection,BoutDeCodeSyliusETLPlugin.php}');
+        ->exclude('../src/{Migrations,DependencyInjection,UI/Admin/Dto,BoutDeCodeSyliusETLPlugin.php}');
 
     $services->set(Logger::class)
         ->arg('$logger', service('monolog.logger.pipeline'));

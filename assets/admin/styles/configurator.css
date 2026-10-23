@@ -19,7 +19,7 @@
     z-index: 1;
 }
 
-.configurator-toolbar .ui.button {
+.configurator-toolbar .btn {
     margin-right: 0;
 }
 
@@ -30,7 +30,7 @@
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background: #fff;
+    background: var(--tblr-bg-surface, #fff);
 }
 
 .configurator-wrapper.is-fullscreen .configurator-container {
@@ -65,7 +65,7 @@
 }
 
 .drop-zone.drag-over {
-    background-color: #f8f9fa !important;
+    background-color: var(--tblr-bg-surface-secondary, #f8f9fa) !important;
 }
 
 .drop-zone.drag-over svg {
@@ -75,6 +75,10 @@
 
 .drag-item {
     cursor: grab !important;
+}
+
+.drag-item.dragging {
+    opacity: 0.5;
 }
 
 .configurator-steps-buttons svg {

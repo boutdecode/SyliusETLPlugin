@@ -1,0 +1,21 @@
+{% set plannedTask = hookable_metadata.context.resource %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.planned_task_configuration'|trans }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <h4>{{ 'bout_de_code_sylius_etl_plugin.ui.workflow_configuration'|trans }}</h4>
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/_json.html.twig' with { value: plannedTask.workflow.stepConfiguration } %}
+                </div>
+                <div class="col-md-6">
+                    <h4>{{ 'bout_de_code_sylius_etl_plugin.ui.override_configuration'|trans }}</h4>
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/_json.html.twig' with { value: plannedTask.configuration } %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

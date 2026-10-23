@@ -1,5 +1,6 @@
 import React from 'react';
 import html from '../../html.js';
+import Icon from '../../icons.js';
 import { getStepFields, SchemaField } from '../step-configurator/schema-fields.js';
 
 function StepCard({ step, index, stepConfiguration, onFieldChange }) {
@@ -7,18 +8,18 @@ function StepCard({ step, index, stepConfiguration, onFieldChange }) {
     const fields = getStepFields(step, stepConfiguration);
 
     return html`
-        <div className="ui card fluid">
-            <div className="content">
-                <header className="ui">
+        <div className="card mb-2">
+            <div className="card-body">
+                <header>
                     #${index + 1} - <strong>${step.name ?? step.code}</strong>
                 </header>
 
-                <div className="ui accordion">
-                    <div className="title${open ? ' active' : ''}" onClick=${() => setOpen(!open)}>
-                        <i className="dropdown icon"></i>
+                <div className="mt-2">
+                    <a href="#" className="text-secondary" onClick=${(e) => { e.preventDefault(); setOpen(!open); }}>
+                        <${Icon} name=${open ? 'down' : 'chevron'} />
                         <small>Configuration</small>
-                    </div>
-                    <div className="step-configuration-override-inputs content" style=${{ display: open ? 'block' : 'none' }}>
+                    </a>
+                    <div className="step-configuration-override-inputs mt-2" style=${{ display: open ? 'block' : 'none' }}>
                         ${fields.map((field) => html`
                             <${SchemaField}
                                 key=${field.key}

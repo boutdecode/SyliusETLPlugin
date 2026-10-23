@@ -1,0 +1,42 @@
+{% set pipeline = hookable_metadata.context.resource %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="datagrid">
+                {% if pipeline.name %}
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</div>
+                        <div class="datagrid-content">{{ pipeline.name }}</div>
+                    </div>
+                {% endif %}
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.workflow'|trans }}</div>
+                    <div class="datagrid-content">
+                        <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_show', { id: pipeline.workflow.id }) }}">{{ pipeline.workflow.name }}</a>
+                    </div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.status'|trans }}</div>
+                    <div class="datagrid-content">{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipeline.status } %}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</div>
+                    <div class="datagrid-content">{{ pipeline.createdAt|date }}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.scheduled_at'|trans }}</div>
+                    <div class="datagrid-content">{{ pipeline.scheduledAt ? pipeline.scheduledAt|date : '-' }}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.started_at'|trans }}</div>
+                    <div class="datagrid-content">{{ pipeline.startedAt ? pipeline.startedAt|date : '-' }}</div>
+                </div>
+                <div class="datagrid-item">
+                    <div class="datagrid-title">{{ 'bout_de_code_sylius_etl_plugin.grid.finished_at'|trans }}</div>
+                    <div class="datagrid-content">{{ pipeline.finishedAt ? pipeline.finishedAt|date : '-' }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

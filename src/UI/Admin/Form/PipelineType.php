@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace BoutDeCode\SyliusETLPlugin\UI\Admin\Form;
 
-use BoutDeCode\ETLCoreBundle\Core\Domain\Data\Provider\WorkflowProvider;
+use BoutDeCode\ETLBundle\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\ExecutableStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\ExtractorStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\LoaderStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Model\TransformerStep;
 use BoutDeCode\ETLCoreBundle\ETL\Domain\Resolver\StepResolver;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Pipeline;
-use BoutDeCode\SyliusETLPlugin\Core\Infrastructure\Persistence\ORM\Entity\Workflow;
+use BoutDeCode\SyliusETLPlugin\UI\Admin\Dto\PipelineData;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -22,15 +21,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PipelineType extends AbstractType
 {
     public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly WorkflowProvider $workflowProvider,
         private readonly StepResolver $stepResolver,
         private readonly TranslatorInterface $translator,
     ) {
@@ -38,13 +34,6 @@ class PipelineType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $workflowId = $request?->query->get('workflowId');
-        $workflow = null;
-        if (is_string($workflowId) && $workflowId !== '') {
-            $workflow = $this->workflowProvider->findWorkflowByIdentifier($workflowId);
-        }
-
         $translator = $this->translator;
 
         $builder
@@ -56,7 +45,6 @@ class PipelineType extends AbstractType
                 'label' => 'bout_de_code_sylius_etl_plugin.form.workflow',
                 'class' => Workflow::class,
                 'choice_label' => 'name',
-                'data' => $workflow,
             ])
             ->add('configuration', TextareaType::class, [
                 'mapped' => false,
@@ -83,7 +71,6 @@ class PipelineType extends AbstractType
                         $this->stepResolver->list(),
                     )),
                 ],
-                'data' => json_encode($workflow?->getStepConfiguration() ?? []),
             ])
             ->add('input', TextareaType::class, [
                 'mapped' => false,
@@ -105,28 +92,28 @@ class PipelineType extends AbstractType
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'with_seconds' => true,
-                'data' => new \DateTimeImmutable('+1 minute'),
+                'input' => 'datetime_immutable',
             ])
         ;
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
             $form = $event->getForm();
 
-            /** @var Pipeline $data */
+            /** @var PipelineData $data */
             $data = $event->getData();
 
-            $form->get('configuration')->setData(json_encode($data->getConfiguration(), \JSON_PRETTY_PRINT));
-            $form->get('input')->setData(json_encode($data->getInput(), \JSON_PRETTY_PRINT));
+            $form->get('configuration')->setData(json_encode($data->configuration, \JSON_PRETTY_PRINT));
+            $form->get('input')->setData(json_encode($data->input, \JSON_PRETTY_PRINT));
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
 
-            /** @var Pipeline $data */
+            /** @var PipelineData $data */
             $data = $event->getData();
 
             $rawConfiguration = $form->get('configuration')->getData();
-            $data->setConfiguration(is_string($rawConfiguration) ? (array) json_decode($rawConfiguration, true) : []);
+            $data->configuration = JsonArray::decode($rawConfiguration);
 
             /** @var UploadedFile|null $uploadedFile */
             $uploadedFile = $form->get('inputFile')->getData();
@@ -135,32 +122,31 @@ class PipelineType extends AbstractType
                 $filename = uniqid('pipeline_input_', true) . '_' . $uploadedFile->getClientOriginalName();
                 $uploadedFile->move(sys_get_temp_dir(), $filename);
 
-                $data->setInput([
+                $data->input = [
                     'type' => 'file',
                     'source' => sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $filename,
                     'name' => $uploadedFile->getClientOriginalName(),
                     'mime_type' => $uploadedFile->getClientMimeType(),
-                ]);
+                ];
 
                 return;
             }
 
             $rawInput = $form->get('input')->getData();
             if (!is_string($rawInput)) {
-                $data->setInput([]);
+                $data->input = [];
 
                 return;
             }
 
-            $decoded = json_decode($rawInput, true);
-            $data->setInput(is_array($decoded) ? $decoded : ['_raw' => $rawInput]);
+            $data->input = is_array(json_decode($rawInput, true)) ? JsonArray::decode($rawInput) : ['_raw' => $rawInput];
         });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pipeline::class,
+            'data_class' => PipelineData::class,
         ]);
     }
 }

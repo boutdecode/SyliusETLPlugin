@@ -1,0 +1,26 @@
+{% set pipeline = hookable_metadata.context.resource %}
+{% set lastHistory = pipeline_histories(pipeline, 1)|first %}
+
+{% if lastHistory %}
+    {% set failedStep = lastHistory.stepHistories|filter(s => s.status.value == 'failed')|first %}
+
+    <div class="container-xl mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.last_execution'|trans }}</h3>
+                <div class="card-actions">
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: lastHistory.status } %}
+                    <span class="ms-2 text-secondary">{{ lastHistory.createdAt|date }}</span>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if lastHistory.result %}
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_accordion.html.twig' with { title: 'bout_de_code_sylius_etl_plugin.ui.result'|trans, value: lastHistory.result } only %}
+                {% endif %}
+                {% if failedStep %}
+                    {% include '@BoutDeCodeSyliusETLPlugin/admin/pipeline/show/_accordion.html.twig' with { title: 'bout_de_code_sylius_etl_plugin.ui.error'|trans, value: failedStep.result } only %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

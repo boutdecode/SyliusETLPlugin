@@ -16,13 +16,14 @@ final class AdminMenuListener
 
         $subMenu = $menu->addChild('etl')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.etl')
+            ->setLabelAttribute('icon', 'tabler:transform')
         ;
 
         $subMenu
             ->addChild('dashboard', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_dashboard',
             ])
-            ->setLabelAttribute('icon', 'icon chart bar')
+            ->setLabelAttribute('icon', 'tabler:chart-bar')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.dashboard')
         ;
 
@@ -30,7 +31,7 @@ final class AdminMenuListener
             ->addChild('planned_task', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_planned_task_index',
             ])
-            ->setLabelAttribute('icon', 'icon calendar')
+            ->setLabelAttribute('icon', 'tabler:calendar')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.planned_tasks')
         ;
 
@@ -38,7 +39,7 @@ final class AdminMenuListener
             ->addChild('workflow', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_workflow_index',
             ])
-            ->setLabelAttribute('icon', 'icon sitemap')
+            ->setLabelAttribute('icon', 'tabler:topology-star-3')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.workflows')
         ;
 
@@ -46,7 +47,7 @@ final class AdminMenuListener
             ->addChild('pipeline', [
                 'route' => 'bout_de_code_sylius_etl_plugin_admin_pipeline_index',
             ])
-            ->setLabelAttribute('icon', 'icon tasks')
+            ->setLabelAttribute('icon', 'tabler:list-check')
             ->setLabel('bout_de_code_sylius_etl_plugin.ui.pipelines')
         ;
     }

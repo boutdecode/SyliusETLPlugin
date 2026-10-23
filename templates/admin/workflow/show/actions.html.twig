@@ -1,0 +1,14 @@
+{% set workflow = hookable_metadata.context.resource %}
+
+<div class="col-12 col-md-auto ms-auto d-print-none">
+    <div class="btn-list">
+        <a class="btn" href="{{ path('bout_de_code_sylius_etl_plugin_admin_workflow_update', { id: workflow.id }) }}">
+            {{ ux_icon('tabler:pencil') }}
+            {{ 'sylius.ui.edit'|trans }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_create', { workflowId: workflow.id }) }}">
+            {{ ux_icon('tabler:player-play') }}
+            {{ 'bout_de_code_sylius_etl_plugin.action.create_pipeline'|trans }}
+        </a>
+    </div>
+</div>

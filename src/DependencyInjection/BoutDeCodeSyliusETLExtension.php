@@ -26,6 +26,12 @@ final class BoutDeCodeSyliusETLExtension extends AbstractResourceExtension imple
     public function prepend(ContainerBuilder $container): void
     {
         $this->prependDoctrineMigrations($container);
+
+        // The admin works on the repositories directly: keep the unsecured REST API of etl-bundle off
+        // unless the application explicitly enables it.
+        $container->prependExtensionConfig('boutdecode_etl', [
+            'api' => ['enabled' => false],
+        ]);
     }
 
     protected function getMigrationsNamespace(): string

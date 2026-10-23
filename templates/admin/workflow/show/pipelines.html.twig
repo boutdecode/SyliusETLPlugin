@@ -1,0 +1,52 @@
+{% set workflow = hookable_metadata.context.resource %}
+{% set pipelines = workflow_pipelines(workflow) %}
+
+<div class="container-xl mb-3">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'bout_de_code_sylius_etl_plugin.ui.pipelines'|trans }}</h3>
+        </div>
+
+        {% if pipelines is empty %}
+            <div class="card-body text-secondary">{{ 'bout_de_code_sylius_etl_plugin.ui.no_pipelines'|trans }}</div>
+        {% else %}
+            {% if workflow_pipelines_count(workflow) > pipelines|length %}
+                <div class="card-body text-secondary">{{ 'bout_de_code_sylius_etl_plugin.ui.latest_pipelines_only'|trans({ '%count%': pipelines|length }) }}</div>
+            {% endif %}
+
+            <div class="table-responsive">
+                <table class="table table-vcenter card-table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.name'|trans }}</th>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.status'|trans }}</th>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.created_at'|trans }}</th>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.scheduled_at'|trans }}</th>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.started_at'|trans }}</th>
+                            <th>{{ 'bout_de_code_sylius_etl_plugin.grid.finished_at'|trans }}</th>
+                            <th class="w-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pipeline in pipelines %}
+                            <tr>
+                                <td>{{ pipeline.name ?? '-' }}</td>
+                                <td>{% include '@BoutDeCodeSyliusETLPlugin/admin/grid/field/status.html.twig' with { data: pipeline.status } %}</td>
+                                <td>{{ pipeline.createdAt|date }}</td>
+                                <td>{{ pipeline.scheduledAt ? pipeline.scheduledAt|date : '-' }}</td>
+                                <td>{{ pipeline.startedAt ? pipeline.startedAt|date : '-' }}</td>
+                                <td>{{ pipeline.finishedAt ? pipeline.finishedAt|date : '-' }}</td>
+                                <td>
+                                    <a href="{{ path('bout_de_code_sylius_etl_plugin_admin_pipeline_show', { id: pipeline.id }) }}" class="btn btn-sm">
+                                        {{ ux_icon('tabler:eye') }}
+                                        {{ 'bout_de_code_sylius_etl_plugin.action.show'|trans }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
