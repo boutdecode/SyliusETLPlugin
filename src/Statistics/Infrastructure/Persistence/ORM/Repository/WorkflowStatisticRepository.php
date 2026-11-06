@@ -44,4 +44,16 @@ class WorkflowStatisticRepository extends ServiceEntityRepository implements Wor
     {
         return $this->findOneBy(['workflow' => $workflow]);
     }
+
+    /**
+     * Doctrine's EntityRepository::findAll() is untyped in ORM 2, which is
+     * incompatible with the provider's `iterable` return type; `array` is
+     * valid for both ORM 2 and ORM 3 (whose parent returns `array`).
+     *
+     * @return WorkflowStatistic[]
+     */
+    public function findAll(): array
+    {
+        return parent::findAll();
+    }
 }
